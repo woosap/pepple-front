@@ -43,6 +43,7 @@ MainPage.defaultProps = {
 			subtitle: '수다 떨면서 함께해요',
 			birthTime: '1시간 전',
 			member: ['seomoon', 'wonchoi'],
+			categories: ['프로젝트', '개발'],
 		},
 		{
 			id: 2,
@@ -50,6 +51,7 @@ MainPage.defaultProps = {
 			subtitle: '수다 떨면서 함께해요',
 			birthTime: '1시간 전',
 			member: ['seomoon', 'wonchoi'],
+			categories: ['디자인', '스터디'],
 		},
 		{
 			id: 3,
@@ -57,6 +59,7 @@ MainPage.defaultProps = {
 			subtitle: '수다 떨면서 함께해요',
 			birthTime: '1시간 전',
 			member: ['seomoon', 'wonchoi'],
+			categories: ['프로젝트', '개발'],
 		},
 		{
 			id: 4,
@@ -64,6 +67,7 @@ MainPage.defaultProps = {
 			subtitle: '수다 떨면서 함께해요',
 			birthTime: '1시간 전',
 			member: ['seomoon', 'wonchoi'],
+			categories: ['디자인', '스터디'],
 		},
 		{
 			id: 5,
@@ -71,6 +75,7 @@ MainPage.defaultProps = {
 			subtitle: '수다 떨면서 함께해요',
 			birthTime: '1시간 전',
 			member: ['seomoon', 'wonchoi'],
+			categories: ['프로젝트', '개발'],
 		},
 		{
 			id: 6,
@@ -78,6 +83,7 @@ MainPage.defaultProps = {
 			subtitle: '수다 떨면서 함께해요',
 			birthTime: '1시간 전',
 			member: ['seomoon', 'wonchoi'],
+			categories: ['디자인', '스터디'],
 		},
 		{
 			id: 7,
@@ -85,6 +91,7 @@ MainPage.defaultProps = {
 			subtitle: '수다 떨면서 함께해요',
 			birthTime: '1시간 전',
 			member: ['seomoon', 'wonchoi'],
+			categories: ['프로젝트', '개발'],
 		},
 		{
 			id: 8,
@@ -92,6 +99,7 @@ MainPage.defaultProps = {
 			subtitle: '수다 떨면서 함께해요',
 			birthTime: '1시간 전',
 			member: ['seomoon', 'wonchoi'],
+			categories: ['디자인', '스터디'],
 		},
 		{
 			id: 9,
@@ -99,6 +107,7 @@ MainPage.defaultProps = {
 			subtitle: '수다 떨면서 함께해요',
 			birthTime: '1시간 전',
 			member: ['seomoon', 'wonchoi'],
+			categories: ['프로젝트', '개발'],
 		},
 	],
 };
