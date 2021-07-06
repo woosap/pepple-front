@@ -5,4 +5,7 @@ module.exports = {
 		node: true,
 	},
 	extends: ['airbnb', 'plugin:prettier/recommended'],
+	rules: {
+		'react/prop-types': 0,
+	},
 };
