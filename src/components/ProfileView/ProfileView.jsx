@@ -10,7 +10,7 @@ import ProfileImage from '../ProfileImage/ProfileImage';
 const ProfileView = ({ user }) => {
 	return (
 		<ProfileViewStyled>
-			<ProfileImage />
+			<ProfileImage size="big" />
 			<UserInfo>
 				<UserInfo.Name>{user.name}</UserInfo.Name>
 				<UserInfo.Job>{user.job}</UserInfo.Job>
