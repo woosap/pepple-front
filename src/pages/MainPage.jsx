@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import Header from '../components/Header/Header';
 import ProfileView from '../components/ProfileView/ProfileView';
+import RoomListView from '../components/RoomListView/RoomListView';
 
 const MainPage = ({ user }) => {
 	return (
@@ -11,7 +12,9 @@ const MainPage = ({ user }) => {
 				<MainContainer.Left>
 					<ProfileView user={user} />
 				</MainContainer.Left>
-				<MainContainer.Right />
+				<MainContainer.Right>
+					<RoomListView />
+				</MainContainer.Right>
 			</MainContainer>
 		</>
 	);
