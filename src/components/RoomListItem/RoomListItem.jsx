@@ -1,14 +1,23 @@
 import React from 'react';
-import { RoomListItemStyled, RoomListItemBox } from './RoomListItem.styles';
+import {
+	RoomListItemStyled,
+	RoomListItemBox,
+	MemberProfileImageList,
+} from './RoomListItem.styles';
+import ProfileImage from '../ProfileImage/ProfileImage';
 
-const RoomListItem = () => {
+const RoomListItem = ({ room }) => {
 	return (
 		<RoomListItemStyled>
 			<RoomListItemBox>
-				<RoomListItemBox.Title />
-				<RoomListItemBox.Subtitle />
-				<RoomListItemBox.BirthTime />
+				<RoomListItemBox.Title>{room.title}</RoomListItemBox.Title>
+				<RoomListItemBox.Subtitle>{room.subtitle}</RoomListItemBox.Subtitle>
+				<RoomListItemBox.BirthTime>{room.birthTime}</RoomListItemBox.BirthTime>
 			</RoomListItemBox>
+			<MemberProfileImageList>
+				<ProfileImage />
+				<ProfileImage />
+			</MemberProfileImageList>
 		</RoomListItemStyled>
 	);
 };
