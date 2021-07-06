@@ -1,11 +1,11 @@
 import React from 'react';
 import {
 	ProfileViewStyled,
-	ProfileImage,
 	UserInfo,
 	ModifyProfileButton,
 	SNSList,
 } from './ProfileView.styles';
+import ProfileImage from '../ProfileImage/ProfileImage';
 
 const ProfileView = ({ user }) => {
 	return (
