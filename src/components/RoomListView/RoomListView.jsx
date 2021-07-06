@@ -2,18 +2,12 @@ import React from 'react';
 import RoomListViewStyled from './RoomListView.styles';
 import RoomListItem from '../RoomListItem/RoomListItem';
 
-const RoomListView = () => {
+const RoomListView = ({ rooms }) => {
 	return (
 		<RoomListViewStyled>
-			<RoomListItem />
-			<RoomListItem />
-			<RoomListItem />
-			<RoomListItem />
-			<RoomListItem />
-			<RoomListItem />
-			<RoomListItem />
-			<RoomListItem />
-			<RoomListItem />
+			{rooms.map(room => (
+				<RoomListItem key={room.id} room={room} />
+			))}
 		</RoomListViewStyled>
 	);
 };
