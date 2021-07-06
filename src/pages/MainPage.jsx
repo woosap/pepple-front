@@ -1,4 +1,5 @@
 import React from 'react';
+import styled from 'styled-components';
 import Header from '../components/Header/Header';
 import ProfileView from '../components/ProfileView/ProfileView';
 
@@ -6,7 +7,12 @@ const MainPage = ({ user }) => {
 	return (
 		<>
 			<Header />
-			<ProfileView user={user} />
+			<MainContainer>
+				<MainContainer.Left>
+					<ProfileView user={user} />
+				</MainContainer.Left>
+				<MainContainer.Right />
+			</MainContainer>
 		</>
 	);
 };
@@ -28,3 +34,13 @@ MainPage.defaultProps = {
 		],
 	},
 };
+
+export const MainContainer = styled.div`
+	display: flex;
+	overflow: auto;
+	margin: 44px 0 0 0;
+`;
+
+MainContainer.Left = styled.div``;
+
+MainContainer.Right = styled.div``;
