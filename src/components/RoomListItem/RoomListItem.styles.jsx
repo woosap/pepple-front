@@ -1,5 +1,5 @@
 import styled from 'styled-components';
 
-const RoomListItemStyled = styled.div``;
+export const RoomListItemStyled = styled.div``;
 
-export default RoomListItemStyled;
+export const RoomListItemBox = styled.div``;
