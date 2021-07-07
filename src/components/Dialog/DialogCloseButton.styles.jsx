@@ -1,10 +1,14 @@
 import styled from 'styled-components';
 
 const CloseButton = styled.button`
+	width: 17px;
+	height: 17px;
 	position: absolute;
-	top: 16px;
+	top: 20px;
 	right: 25px;
 	cursor: pointer;
+	background-color: #fff;
+	outline: none;
 
 	svg {
 		width: 100%;
