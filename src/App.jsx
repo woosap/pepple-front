@@ -16,6 +16,11 @@ const GlobalStyle = createGlobalStyle`
 		font-family: Apple SD Gothic Neo;
 		font-weight: normal;
 	}
+
+	button {
+		border: none;
+		padding: 0;
+	}
 `;
 
 function App() {
