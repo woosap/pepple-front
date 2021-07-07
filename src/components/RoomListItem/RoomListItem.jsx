@@ -21,8 +21,8 @@ const RoomListItem = ({ room }) => {
 				<RoomListItemBox.BirthTime>{room.birthTime}</RoomListItemBox.BirthTime>
 			</RoomListItemBox>
 			<MemberProfileImageList>
-				<ProfileImage />
-				<ProfileImage />
+				<ProfileImage order={1} />
+				<ProfileImage order={2} />
 			</MemberProfileImageList>
 		</RoomListItemStyled>
 	);

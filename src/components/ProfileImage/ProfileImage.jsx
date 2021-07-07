@@ -1,6 +1,8 @@
 import React from 'react';
 import ProfileImageStyled from './ProfileImage.styles';
 
-const ProfileImage = ({ size }) => <ProfileImageStyled size={size} />;
+const ProfileImage = ({ size, order }) => (
+	<ProfileImageStyled size={size} order={order} />
+);
 
 export default ProfileImage;

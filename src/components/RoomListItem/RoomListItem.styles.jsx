@@ -65,5 +65,5 @@ export const MemberProfileImageList = styled.div`
 	justify-content: flex-end;
 	position: absolute;
 	bottom: 21px;
-	right: 26px;
+	right: 63px;
 `;
