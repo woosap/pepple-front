@@ -25,4 +25,12 @@ export const CreateNewRoomButton = styled.button`
 	line-height: 30px;
 	letter-spacing: -0.05em;
 	color: #452d79;
+
+	:hover {
+		background: #eff0ff;
+		border: 1px solid #b4baff;
+		box-sizing: border-box;
+		box-shadow: 0px 0px 15px rgba(40, 40, 40, 0.1);
+		border-radius: 40px;
+	}
 `;
