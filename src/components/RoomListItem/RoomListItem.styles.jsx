@@ -23,6 +23,10 @@ export const RoomListItemStyled = styled.div`
 
 export const RoomListItemBox = styled.div``;
 
+RoomListItemBox.CategoryList = styled.div`
+	display: flex;
+`;
+
 RoomListItemBox.Title = styled.div`
 	font-family: DIN Alternate;
 	font-style: normal;
