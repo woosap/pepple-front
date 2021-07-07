@@ -5,7 +5,12 @@ const RoomCategoryStyled = styled.div`
 	height: 19px;
 	left: 473px;
 	top: 201px;
-	background: #6138b9;
+	background: ${({ category }) => {
+		if (category === '디자인') return '#6138B9';
+		if (category === '스터디') return '#FFDB80';
+		if (category === '개발') return '#00C1B6';
+		return '#FC80FF';
+	}};
 	border-radius: 50px;
 	margin-right: 5px;
 	font-family: Apple SD Gothic Neo;
