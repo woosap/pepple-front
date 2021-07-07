@@ -7,7 +7,7 @@ import {
 } from './RoomListView.styles';
 import useToggleDialog from '../../hooks/useToggleDialog';
 import Dialog from '../Dialog/Dialog';
-
+import DialogCloseButton from '../Dialog/DialogCloseButton';
 import RoomListItem from '../RoomListItem/RoomListItem';
 
 const RoomListView = ({ rooms }) => {
@@ -27,7 +27,9 @@ const RoomListView = ({ rooms }) => {
 			</RoomListViewStyled>
 			{state.isOpen && (
 				<OverlayContainer>
-					<Dialog />
+					<Dialog onClose={state.close}>
+						<DialogCloseButton onCloseButton={state.close} />
+					</Dialog>
 				</OverlayContainer>
 			)}
 		</>
