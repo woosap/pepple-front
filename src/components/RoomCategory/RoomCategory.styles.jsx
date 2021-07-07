@@ -18,7 +18,7 @@ const RoomCategoryStyled = styled.div`
 	font-weight: 500;
 	font-size: 12px;
 	line-height: 14px;
-	color: #ffffff;
+	color: ${({ category }) => (category === '스터디' ? '#000' : '#fff')};
 	text-align: center;
 	line-height: 19px;
 `;
