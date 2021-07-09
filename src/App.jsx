@@ -1,7 +1,8 @@
 import React from 'react';
 import resetCss from 'reset-css';
 import { createGlobalStyle } from 'styled-components';
-import MainPage from './pages/MainPage';
+// import MainPage from './pages/MainPage';
+import DetailPage from './pages/DetailPage';
 
 const GlobalStyle = createGlobalStyle`
 	${resetCss};  
@@ -26,7 +27,7 @@ const GlobalStyle = createGlobalStyle`
 function App() {
 	return (
 		<>
-			<MainPage />
+			<DetailPage />
 			<GlobalStyle />
 		</>
 	);
