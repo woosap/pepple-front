@@ -9,6 +9,7 @@ import useToggleDialog from '../../hooks/useToggleDialog';
 import Dialog from '../Dialog/Dialog';
 import DialogCloseButton from '../Dialog/DialogCloseButton';
 import RoomListItem from '../RoomListItem/RoomListItem';
+import CreateRoomForm from '../CreateRoomForm/CreateRoomForm';
 
 const RoomListView = ({ rooms }) => {
 	const { state, openButtonProps, openButtonRef } = useToggleDialog();
@@ -28,6 +29,7 @@ const RoomListView = ({ rooms }) => {
 			{state.isOpen && (
 				<OverlayContainer>
 					<Dialog onClose={state.close}>
+						<CreateRoomForm />
 						<DialogCloseButton onCloseButton={state.close} />
 					</Dialog>
 				</OverlayContainer>
