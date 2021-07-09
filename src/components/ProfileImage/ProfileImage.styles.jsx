@@ -1,9 +1,17 @@
 import styled from 'styled-components';
 
 const ProfileImageStyled = styled.div`
-	width: ${props => (props.size === 'big' ? '140px' : '76px')};
-	height: ${props => (props.size === 'big' ? '140px' : '76px')};
-	margin: ${props => props.size === 'big' && '32px 0 23px 0'};
+	width: ${({ size }) => {
+		if (size === 'big') return '140px';
+		if (size === 'medium') return '86px';
+		return '76px';
+	}};
+	height: ${({ size }) => {
+		if (size === 'big') return '140px';
+		if (size === 'medium') return '86px';
+		return '76px';
+	}};
+	margin: ${props => (props.size === 'big' ? '32px 0 23px 0' : '0')};
 	border: 1px solid #dadcf3;
 	box-sizing: border-box;
 	border-radius: 100%;
