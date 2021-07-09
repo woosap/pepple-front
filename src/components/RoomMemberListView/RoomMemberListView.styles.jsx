@@ -4,20 +4,21 @@ export const RoomMemberListViewStyled = styled.div`
 	display: grid;
 	grid-template-columns: repeat(3, 1fr);
 	gap: 24px;
-	height: 500px;
+	height: calc(70vh - 205px);
 `;
 
 export const MemberWrapper = styled.div`
 	display: flex;
+	justify-content: space-around;
 	background-color: #fff;
 	border: 1px solid #d0d4ff;
 	box-sizing: border-box;
 	border-radius: 35px;
+	padding: 10px;
 `;
 
 MemberWrapper.Left = styled.div`
 	display: flex;
-	margin: 30px;
 	align-items: center;
 `;
 

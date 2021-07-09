@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 const RoomCloudViewStyled = styled.div`
 	width: 100%;
-	height: 700px;
+	height: 70vh;
 	background-color: #fff;
 	border: 1px solid #dadcf3;
 	box-sizing: border-box;
