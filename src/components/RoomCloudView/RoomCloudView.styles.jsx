@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-const RoomCloudViewStyled = styled.div`
+export const RoomCloudViewStyled = styled.div`
 	width: 100%;
 	height: 70vh;
 	background-color: #fff;
@@ -10,4 +10,23 @@ const RoomCloudViewStyled = styled.div`
 	margin: 40px 0 0 30px;
 `;
 
-export default RoomCloudViewStyled;
+export const RoomCloudViewHeader = styled.div`
+	height: 7%;
+	margin: 25px 25px 0 25px;
+`;
+
+RoomCloudViewHeader.Title = styled.div`
+	font-size: 15px;
+	font-weight: 500;
+	color: #3e217e;
+	float: left;
+`;
+
+export const UploadButton = styled.button`
+	background-color: #fff;
+	float: right;
+`;
+
+export const ContentList = styled.ul``;
+
+ContentList.Item = styled.li``;
