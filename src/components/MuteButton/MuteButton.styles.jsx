@@ -12,6 +12,7 @@ const MuteButtonStyled = styled.button`
 	position: absolute;
 	bottom: 0;
 	right: 0;
+	cursor: pointer;
 `;
 
 export default MuteButtonStyled;
