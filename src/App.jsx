@@ -1,7 +1,8 @@
 import React from 'react';
 import resetCss from 'reset-css';
+import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import { createGlobalStyle } from 'styled-components';
-// import MainPage from './pages/MainPage';
+import MainPage from './pages/MainPage';
 import DetailPage from './pages/DetailPage';
 
 const GlobalStyle = createGlobalStyle`
@@ -27,7 +28,16 @@ const GlobalStyle = createGlobalStyle`
 function App() {
 	return (
 		<>
-			<DetailPage />
+			<BrowserRouter>
+				<Switch>
+					<Route path="/" exact>
+						<MainPage />
+					</Route>
+					<Route path="/room">
+						<DetailPage />
+					</Route>
+				</Switch>
+			</BrowserRouter>
 			<GlobalStyle />
 		</>
 	);
