@@ -77,6 +77,7 @@ FormItem.CategoryItem = styled.span`
 	line-height: 19px;
 	text-align: center;
 	color: #6138b9;
+	cursor: pointer;
 `;
 
 FormItem.Input = styled.input`
