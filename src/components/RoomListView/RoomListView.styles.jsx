@@ -25,6 +25,7 @@ export const CreateNewRoomButton = styled.button`
 	line-height: 30px;
 	letter-spacing: -0.05em;
 	color: #452d79;
+	cursor: pointer;
 
 	:hover {
 		background: #eff0ff;

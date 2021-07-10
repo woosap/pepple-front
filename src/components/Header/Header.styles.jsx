@@ -18,6 +18,7 @@ const HeaderStyled = styled.header`
 		line-height: 18px;
 		letter-spacing: -0.05em;
 		color: #111862;
+		cursor: pointer;
 	}
 `;
 
