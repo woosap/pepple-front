@@ -25,6 +25,7 @@ RoomCloudViewHeader.Title = styled.div`
 export const UploadButton = styled.button`
 	background-color: #fff;
 	float: right;
+	cursor: pointer;
 `;
 
 export const ContentList = styled.ul``;
