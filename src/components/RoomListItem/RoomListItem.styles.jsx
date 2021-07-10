@@ -11,6 +11,7 @@ export const RoomListItemStyled = styled.div`
 	margin: 0 43px 60px 0;
 	padding: 16px 26px 21px 26px;
 	position: relative;
+	cursor: pointer;
 
 	:hover {
 		background: #fbfcff;
