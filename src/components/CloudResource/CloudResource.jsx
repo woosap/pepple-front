@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
 	CloudResourceStyled,
 	CloudResourceWrapper,
@@ -10,8 +10,14 @@ import { ReactComponent as DownloadIcon } from '../../assets/icon/icon-clipboard
 import { ReactComponent as RemoveIcon } from '../../assets/icon/icon-remove.svg';
 
 const CloudResource = ({ resource }) => {
+	const [clicked, setClicked] = useState(false);
+
+	const handleClick = () => {
+		setClicked(prev => !prev);
+	};
+
 	return (
-		<CloudResourceStyled>
+		<CloudResourceStyled clicked={clicked} onClick={handleClick}>
 			<CloudResourceWrapper>
 				<UploadInfo>
 					<UploadInfo.Path>{resource.path}</UploadInfo.Path>

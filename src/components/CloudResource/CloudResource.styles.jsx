@@ -3,7 +3,7 @@ import styled from 'styled-components';
 export const CloudResourceStyled = styled.div`
 	width: 90%;
 	background: #fff;
-	border: 0.5px solid #b7b9c8;
+	border: 0.5px solid ${({ clicked }) => (clicked ? '#6138B9' : '#b7b9c8')};
 	box-sizing: border-box;
 	border-radius: 10px;
 	margin: 0 auto 12px;
