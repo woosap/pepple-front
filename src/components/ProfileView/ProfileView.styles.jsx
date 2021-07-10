@@ -67,6 +67,7 @@ export const ModifyProfileButton = styled.button`
 	font-size: 14px;
 	line-height: 18px;
 	color: #000000;
+	cursor: pointer;
 
 	:hover {
 		background: rgba(218, 220, 243, 0.25);
@@ -91,4 +92,5 @@ SNSList.Item = styled.li`
 	box-sizing: border-box;
 	border-radius: 6px;
 	margin: 0 11px 0 11px;
+	cursor: pointer;
 `;
