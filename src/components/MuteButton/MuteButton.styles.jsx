@@ -13,6 +13,11 @@ const MuteButtonStyled = styled.button`
 	bottom: 0;
 	right: 0;
 	cursor: pointer;
+
+	:hover {
+		border: 1px solid #9ea6fe;
+		background-color: #f5f6ff;
+	}
 `;
 
 export default MuteButtonStyled;
