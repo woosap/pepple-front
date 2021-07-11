@@ -1,15 +1,6 @@
 import styled from 'styled-components';
 
-export const CreateRoomFormStyled = styled.div`
-	.spreadIcon {
-		position: relative;
-		right: 23px;
-		svg {
-			width: 100%;
-			height: 100%;
-		}
-	}
-`;
+export const CreateRoomFormStyled = styled.div``;
 
 export const FormHeader = styled.div`
 	display: flex;
@@ -40,6 +31,7 @@ export const FormItem = styled.div`
 	display: flex;
 	margin-bottom: 24px;
 	align-items: center;
+	position: relative;
 `;
 
 FormItem.Box = styled.div`
@@ -101,24 +93,39 @@ FormItem.Input = styled.input`
 	}
 `;
 
-FormItem.Select = styled.select`
-	-webkit-appearance: none;
-	-moz-appearance: none;
-	appearance: none;
+FormItem.Select = styled.div``;
+
+export const DropdownButton = styled.div`
 	width: 175px;
 	height: 30px;
 	border: 0.5px solid #c9c9c9;
 	box-sizing: border-box;
 	border-radius: 5px;
-	padding-left: 12px;
+	padding: 2.5px 12px 0 12px;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
 	color: #525252;
 	font-size: 12px;
-	:focus {
-		outline: none;
+	.spreadIcon {
+		svg {
+			width: 100%;
+			height: 100%;
+		}
 	}
-	option {
-		outline: none;
-	}
+`;
+
+export const DropdownBox = styled.ul`
+	display: ${({ isActive }) => (isActive ? 'block' : 'none')};
+	width: 175px;
+	background: #ffffff;
+	border: 0.5px solid #c9c9c9;
+	box-sizing: border-box;
+	border-radius: 5px;
+	padding: 8px 0 5px 0;
+	position: absolute;
+	top: 30px;
+	left: 95px;
 `;
 
 export const SubmitButton = styled.button`
