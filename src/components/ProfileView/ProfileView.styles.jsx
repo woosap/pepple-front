@@ -56,22 +56,24 @@ UserInfo.Description = styled.div`
 `;
 
 export const ModifyProfileButton = styled.button`
-	background: #ffffff;
 	width: 214px;
 	height: 48px;
-	border: 0.5px solid #b9b9b9;
+	color: ${({ clicked }) => (clicked ? '#6138B9' : '#35294e')};
+	background: ${({ clicked }) =>
+		clicked ? 'rgba(245, 246, 255, 0.25)' : '#fff'};
+	border: 0.5px solid ${({ clicked }) => (clicked ? '#6138B9' : '#b9b9b9')};
 	box-sizing: border-box;
 	border-radius: 50px;
 	font-style: normal;
 	font-weight: 200;
 	font-size: 14px;
 	line-height: 18px;
-	color: #000000;
 	cursor: pointer;
 
 	:hover {
-		background: rgba(218, 220, 243, 0.25);
-		border: 0.5px solid #dadcf3;
+		background: ${({ clicked }) =>
+			clicked ? 'rgba(245, 246, 255, 0.25)' : 'rgba(218, 220, 243, 0.25)'};
+		border: 0.5px solid ${({ clicked }) => (clicked ? '#6138B9' : '#dadcf3')};
 		box-sizing: border-box;
 		border-radius: 50px;
 	}
