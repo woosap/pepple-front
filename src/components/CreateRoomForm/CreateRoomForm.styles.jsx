@@ -66,7 +66,7 @@ FormItem.CategoryItem = styled.span`
 	width: 50px;
 	height: 19px;
 	background: #ffffff;
-	border: 1px solid #6138b9;
+	border: 1px solid ${({ clicked }) => (clicked ? '#6138B9' : '#dadcf3')};
 	box-sizing: border-box;
 	border-radius: 50px;
 	margin-right: 8px;
@@ -76,7 +76,7 @@ FormItem.CategoryItem = styled.span`
 	font-size: 12px;
 	line-height: 19px;
 	text-align: center;
-	color: #6138b9;
+	color: ${({ clicked }) => (clicked ? '#6138B9' : '#cbcfff')};
 	cursor: pointer;
 `;
 
