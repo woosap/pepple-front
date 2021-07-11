@@ -19,7 +19,12 @@ const RoomListView = ({ rooms, categories }) => {
 			<RoomListViewStyled>
 				<RoomList>
 					{rooms.map(room => (
-						<RoomListItem key={room.id} room={room} categories={categories} />
+						<RoomListItem
+							key={room.id}
+							room={room}
+							categories={room.categories}
+							categoriesObj={categories}
+						/>
 					))}
 				</RoomList>
 				<CreateNewRoomButton {...openButtonProps} ref={openButtonRef}>
@@ -29,7 +34,7 @@ const RoomListView = ({ rooms, categories }) => {
 			{state.isOpen && (
 				<OverlayContainer>
 					<Dialog onClose={state.close}>
-						<CreateRoomForm />
+						<CreateRoomForm categories={categories} />
 						<DialogCloseButton onCloseButton={state.close} />
 					</Dialog>
 				</OverlayContainer>
