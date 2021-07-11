@@ -15,7 +15,7 @@ export const CreateNewRoomButton = styled.button`
 	width: 234px;
 	height: 67px;
 	background: #ffffff;
-	border: 1px solid #c9cdfa;
+	border: 1px solid ${({ clicked }) => (clicked ? '#6138B9' : '#C9CDFA')};
 	box-sizing: border-box;
 	box-shadow: 0px 0px 15px rgba(40, 40, 40, 0.1);
 	border-radius: 40px;
@@ -24,14 +24,19 @@ export const CreateNewRoomButton = styled.button`
 	font-size: 25px;
 	line-height: 30px;
 	letter-spacing: -0.05em;
-	color: #452d79;
+	color: ${({ clicked }) => (clicked ? '#6138B9' : '#452d79')};
 	cursor: pointer;
 
 	:hover {
-		background: #eff0ff;
-		border: 1px solid #b4baff;
+		color: #8289ca;
+		background: #f8f8ff;
+		border: 1px solid #e6e8ff;
 		box-sizing: border-box;
 		box-shadow: 0px 0px 15px rgba(40, 40, 40, 0.1);
 		border-radius: 40px;
+	}
+
+	:focus {
+		outline: none;
 	}
 `;
