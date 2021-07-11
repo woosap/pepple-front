@@ -95,6 +95,15 @@ FormItem.Input = styled.input`
 
 FormItem.Select = styled.div``;
 
+FormItem.Description = styled.div`
+	color: #8f8f8f;
+	font-size: 8px;
+	font-weight: 300;
+	position: absolute;
+	top: 34px;
+	left: 108px;
+`;
+
 export const DropdownButton = styled.div`
 	width: 175px;
 	height: 30px;
