@@ -19,6 +19,10 @@ const GlobalStyle = createGlobalStyle`
 		font-weight: normal;
 	}
 
+	a {
+		text-decoration: none;
+	}
+
 	button {
 		border: none;
 		padding: 0;
@@ -28,7 +32,7 @@ const GlobalStyle = createGlobalStyle`
 function App() {
 	return (
 		<>
-			<BrowserRouter>
+			<BrowserRouter basename="/pepple-front">
 				<Switch>
 					<Route path="/" exact>
 						<MainPage />
