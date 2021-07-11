@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
 	RoomListItemStyled,
 	RoomListItemBox,
@@ -8,8 +8,14 @@ import ProfileImage from '../ProfileImage/ProfileImage';
 import RoomCategory from '../RoomCategory/RoomCategory';
 
 const RoomListItem = ({ room, categories, categoriesObj }) => {
+	const [clicked, setClicked] = useState(false);
+
+	const handleClick = () => {
+		setClicked(prev => !prev);
+	};
+
 	return (
-		<RoomListItemStyled>
+		<RoomListItemStyled clicked={clicked} onClick={handleClick}>
 			<RoomListItemBox>
 				<RoomListItemBox.CategoryList>
 					{categories.map(category => (
