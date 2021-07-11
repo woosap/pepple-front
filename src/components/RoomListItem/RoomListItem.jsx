@@ -13,7 +13,11 @@ const RoomListItem = ({ room, categories }) => {
 			<RoomListItemBox>
 				<RoomListItemBox.CategoryList>
 					{room.categories.map(category => (
-						<RoomCategory category={category} categories={categories} />
+						<RoomCategory
+							key={categories[category].id}
+							category={category}
+							categories={categories}
+						/>
 					))}
 				</RoomListItemBox.CategoryList>
 				<RoomListItemBox.Title>{room.title}</RoomListItemBox.Title>
