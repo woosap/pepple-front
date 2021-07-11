@@ -88,8 +88,16 @@ FormItem.Input = styled.input`
 	box-sizing: border-box;
 	border-radius: 5px;
 	outline: none;
+	color: #525252;
 	::placeholder {
 		color: #d7d7d7;
+	}
+	:hover {
+		background: #f8f8f8;
+		border: 0.5px solid #c9cdfa;
+	}
+	:focus {
+		border: 1.5px solid #6138b9;
 	}
 `;
 
@@ -119,7 +127,7 @@ export const SubmitButton = styled.button`
 	justify-content: center;
 	width: 156px;
 	height: 44px;
-	background: #651eff;
+	background: #fff;
 	border-radius: 40px;
 	margin-bottom: 43px;
 	font-family: Apple SD Gothic Neo;
@@ -127,7 +135,13 @@ export const SubmitButton = styled.button`
 	font-weight: 350;
 	font-size: 20px;
 	line-height: 24px;
-	color: #ffffff;
-	border: none;
+	color: #6138b9;
+	border: 1px solid #6138b9;
 	cursor: pointer;
+
+	:hover {
+		color: #bcc1fd;
+		background: #f9f9ff;
+		border: 1px solid #dadcf3;
+	}
 `;
