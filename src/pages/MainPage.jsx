@@ -4,7 +4,7 @@ import Header from '../components/Header/Header';
 import ProfileView from '../components/ProfileView/ProfileView';
 import RoomListView from '../components/RoomListView/RoomListView';
 
-const MainPage = ({ user, rooms }) => {
+const MainPage = ({ user, rooms, categories }) => {
 	return (
 		<>
 			<Header />
@@ -13,7 +13,7 @@ const MainPage = ({ user, rooms }) => {
 					<ProfileView user={user} />
 				</MainContainer.Left>
 				<MainContainer.Right>
-					<RoomListView rooms={rooms} />
+					<RoomListView rooms={rooms} categories={categories} />
 				</MainContainer.Right>
 			</MainContainer>
 		</>
@@ -43,7 +43,7 @@ MainPage.defaultProps = {
 			subtitle: '수다 떨면서 함께해요',
 			birthTime: '1시간 전',
 			member: ['seomoon', 'wonchoi'],
-			categories: ['프로젝트', '개발'],
+			categories: ['PROJECT', 'DEVELOPMENT'],
 		},
 		{
 			id: 2,
@@ -51,7 +51,7 @@ MainPage.defaultProps = {
 			subtitle: '수다 떨면서 함께해요',
 			birthTime: '1시간 전',
 			member: ['seomoon', 'wonchoi'],
-			categories: ['디자인', '스터디'],
+			categories: ['DESIGN', 'STUDY'],
 		},
 		{
 			id: 3,
@@ -59,7 +59,7 @@ MainPage.defaultProps = {
 			subtitle: '수다 떨면서 함께해요',
 			birthTime: '1시간 전',
 			member: ['seomoon', 'wonchoi'],
-			categories: ['프로젝트', '개발'],
+			categories: ['PROJECT', 'DEVELOPMENT'],
 		},
 		{
 			id: 4,
@@ -67,7 +67,7 @@ MainPage.defaultProps = {
 			subtitle: '수다 떨면서 함께해요',
 			birthTime: '1시간 전',
 			member: ['seomoon', 'wonchoi'],
-			categories: ['디자인', '스터디'],
+			categories: ['DESIGN', 'STUDY'],
 		},
 		{
 			id: 5,
@@ -75,7 +75,7 @@ MainPage.defaultProps = {
 			subtitle: '수다 떨면서 함께해요',
 			birthTime: '1시간 전',
 			member: ['seomoon', 'wonchoi'],
-			categories: ['프로젝트', '개발'],
+			categories: ['PROJECT', 'DEVELOPMENT'],
 		},
 		{
 			id: 6,
@@ -83,7 +83,7 @@ MainPage.defaultProps = {
 			subtitle: '수다 떨면서 함께해요',
 			birthTime: '1시간 전',
 			member: ['seomoon', 'wonchoi'],
-			categories: ['디자인', '스터디'],
+			categories: ['DESIGN', 'STUDY'],
 		},
 		{
 			id: 7,
@@ -91,7 +91,7 @@ MainPage.defaultProps = {
 			subtitle: '수다 떨면서 함께해요',
 			birthTime: '1시간 전',
 			member: ['seomoon', 'wonchoi'],
-			categories: ['프로젝트', '개발'],
+			categories: ['PROJECT', 'DEVELOPMENT'],
 		},
 		{
 			id: 8,
@@ -99,7 +99,7 @@ MainPage.defaultProps = {
 			subtitle: '수다 떨면서 함께해요',
 			birthTime: '1시간 전',
 			member: ['seomoon', 'wonchoi'],
-			categories: ['디자인', '스터디'],
+			categories: ['DESIGN', 'STUDY'],
 		},
 		{
 			id: 9,
@@ -107,9 +107,15 @@ MainPage.defaultProps = {
 			subtitle: '수다 떨면서 함께해요',
 			birthTime: '1시간 전',
 			member: ['seomoon', 'wonchoi'],
-			categories: ['프로젝트', '개발'],
+			categories: ['PROJECT', 'DEVELOPMENT'],
 		},
 	],
+	categories: {
+		DESIGN: { id: 1, ko: '디자인' },
+		DEVELOPMENT: { id: 2, ko: '개발' },
+		PROJECT: { id: 3, ko: '프로젝트' },
+		STUDY: { id: 4, ko: '스터디' },
+	},
 };
 
 export const MainContainer = styled.div`

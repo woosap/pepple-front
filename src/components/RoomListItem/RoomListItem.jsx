@@ -7,13 +7,13 @@ import {
 import ProfileImage from '../ProfileImage/ProfileImage';
 import RoomCategory from '../RoomCategory/RoomCategory';
 
-const RoomListItem = ({ room }) => {
+const RoomListItem = ({ room, categories }) => {
 	return (
 		<RoomListItemStyled>
 			<RoomListItemBox>
 				<RoomListItemBox.CategoryList>
 					{room.categories.map(category => (
-						<RoomCategory category={category} />
+						<RoomCategory category={category} categories={categories} />
 					))}
 				</RoomListItemBox.CategoryList>
 				<RoomListItemBox.Title>{room.title}</RoomListItemBox.Title>
