@@ -64,6 +64,9 @@ const CreateRoomForm = ({ categories }) => {
 								</span>
 							</DropdownButton>
 						</FormItem.Select>
+						<FormItem.Description>
+							최대 다섯명까지 함께할 수 있습니다.
+						</FormItem.Description>
 						<DropdownBox isActive={isActive}>
 							{numberOfMembers.map(number => (
 								<DropdownBoxItem
