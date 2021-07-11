@@ -6,13 +6,13 @@ import RoomMemberListView from '../components/RoomMemberListView/RoomMemberListV
 import RoomCloudView from '../components/RoomCloudView/RoomCloudView';
 import MuteButton from '../components/MuteButton/MuteButton';
 
-const DetailPage = ({ members, resources }) => {
+const DetailPage = ({ members, resources, categories }) => {
 	return (
 		<>
 			<Header />
 			<DetailContainer>
 				<DetailContainer.Left>
-					<RoomProfileView />
+					<RoomProfileView categories={categories} />
 					<RoomMemberListView members={members} />
 					<MuteButton />
 				</DetailContainer.Left>
@@ -67,6 +67,12 @@ DetailPage.defaultProps = {
 			uploadedTime: '55분',
 		},
 	],
+	categories: {
+		DESIGN: { id: 1, ko: '디자인' },
+		DEVELOPMENT: { id: 2, ko: '개발' },
+		PROJECT: { id: 3, ko: '프로젝트' },
+		STUDY: { id: 4, ko: '스터디' },
+	},
 };
 
 export const DetailContainer = styled.div`
