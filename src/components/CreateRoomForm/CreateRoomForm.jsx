@@ -9,30 +9,8 @@ import {
 import FormCategoryItem from './FormCategoryItem';
 import { ReactComponent as SpreadIcon } from '../../assets/icon/icon-arrow-bottom.svg';
 
-const CreateRoomForm = () => {
-	const categories = [
-		{
-			id: 1,
-			eg: 'DESIGN',
-			ko: '디자인',
-		},
-		{
-			id: 2,
-			eg: 'DEVELOPMENT',
-			ko: '개발',
-		},
-		{
-			id: 3,
-			eg: 'PROJECT',
-			ko: '프로젝트',
-		},
-		{
-			id: 4,
-			eg: 'STUDY',
-			ko: '스터디',
-		},
-	];
-
+const CreateRoomForm = ({ categories }) => {
+	const categoryNames = ['DESIGN', 'DEVELOPMENT', 'PROJECT', 'STUDY'];
 	return (
 		<CreateRoomFormStyled>
 			<FormHeader>방 새로 만들기</FormHeader>
@@ -41,8 +19,11 @@ const CreateRoomForm = () => {
 					<FormItem>
 						<FormItem.Title>카테고리</FormItem.Title>
 						<FormItem.CategoryList>
-							{categories.map(category => (
-								<FormCategoryItem key={category.id} category={category} />
+							{categoryNames.map(name => (
+								<FormCategoryItem
+									key={categories[name].id}
+									category={categories[name]}
+								/>
 							))}
 						</FormItem.CategoryList>
 					</FormItem>

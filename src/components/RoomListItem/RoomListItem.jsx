@@ -7,16 +7,16 @@ import {
 import ProfileImage from '../ProfileImage/ProfileImage';
 import RoomCategory from '../RoomCategory/RoomCategory';
 
-const RoomListItem = ({ room, categories }) => {
+const RoomListItem = ({ room, categories, categoriesObj }) => {
 	return (
 		<RoomListItemStyled>
 			<RoomListItemBox>
 				<RoomListItemBox.CategoryList>
-					{room.categories.map(category => (
+					{categories.map(category => (
 						<RoomCategory
-							key={categories[category].id}
+							key={categoriesObj[category].id}
 							category={category}
-							categories={categories}
+							categories={categoriesObj}
 						/>
 					))}
 				</RoomListItemBox.CategoryList>
