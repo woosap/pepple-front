@@ -5,16 +5,27 @@ import {
 	FormContainer,
 	FormItem,
 	SubmitButton,
+	DropdownButton,
+	DropdownBox,
 } from './CreateRoomForm.styles';
 import FormCategoryItem from './FormCategoryItem';
 import { ReactComponent as SpreadIcon } from '../../assets/icon/icon-arrow-bottom.svg';
+import DropdownBoxItem from './DropdownBoxItem';
 
 const CreateRoomForm = ({ categories }) => {
 	const categoryNames = ['DESIGN', 'DEVELOPMENT', 'PROJECT', 'STUDY'];
+	const numberOfMembers = [2, 3, 4, 5];
 	const [clicked, setClicked] = useState(false);
+	const [isActive, setIsActive] = useState(false);
+	const [selectedNumber, setSelectedNumber] =
+		useState('인원 수를 선택해 주세요.');
 
-	const handleClick = () => {
+	const handleSubmitButtonClick = () => {
 		setClicked(prev => !prev);
+	};
+
+	const handleDropdownButtonClick = () => {
+		setIsActive(prev => !prev);
 	};
 	return (
 		<CreateRoomFormStyled>
@@ -43,19 +54,31 @@ const CreateRoomForm = ({ categories }) => {
 					<FormItem>
 						<FormItem.Title>참여 인원</FormItem.Title>
 						<FormItem.Select>
-							<option>인원 수를 선택해 주세요.</option>
-							<option>1:1</option>
-							<option>2명</option>
-							<option>3명</option>
-							<option>4명</option>
-							<option>5명</option>
+							<DropdownButton
+								isActive={isActive}
+								onClick={handleDropdownButtonClick}
+							>
+								{selectedNumber}
+								<span className="spreadIcon">
+									<SpreadIcon />
+								</span>
+							</DropdownButton>
 						</FormItem.Select>
-						<span className="spreadIcon">
-							<SpreadIcon />
-						</span>
+						<DropdownBox isActive={isActive}>
+							{numberOfMembers.map(number => (
+								<DropdownBoxItem
+									key={number}
+									number={number}
+									selectedNumber={selectedNumber}
+									setSelectedNumber={setSelectedNumber}
+									setIsActive={setIsActive}
+								/>
+							))}
+						</DropdownBox>
 					</FormItem>
 				</FormItem.Box>
-				<SubmitButton clicked={clicked} onClick={handleClick}>
+
+				<SubmitButton clicked={clicked} onClick={handleSubmitButtonClick}>
 					완료
 				</SubmitButton>
 			</FormContainer>
