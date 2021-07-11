@@ -10,7 +10,7 @@ const MuteButtonStyled = styled.button`
 	color: ${({ isMute }) => (isMute ? '#9ea6fe' : '#6138B9')};
 	margin-top: 18px;
 	position: absolute;
-	bottom: 0;
+	bottom: 65px;
 	right: 0;
 	cursor: pointer;
 
