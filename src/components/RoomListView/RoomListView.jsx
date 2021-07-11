@@ -11,7 +11,7 @@ import DialogCloseButton from '../Dialog/DialogCloseButton';
 import RoomListItem from '../RoomListItem/RoomListItem';
 import CreateRoomForm from '../CreateRoomForm/CreateRoomForm';
 
-const RoomListView = ({ rooms }) => {
+const RoomListView = ({ rooms, categories }) => {
 	const { state, openButtonProps, openButtonRef } = useToggleDialog();
 
 	return (
@@ -19,7 +19,7 @@ const RoomListView = ({ rooms }) => {
 			<RoomListViewStyled>
 				<RoomList>
 					{rooms.map(room => (
-						<RoomListItem key={room.id} room={room} />
+						<RoomListItem key={room.id} room={room} categories={categories} />
 					))}
 				</RoomList>
 				<CreateNewRoomButton {...openButtonProps} ref={openButtonRef}>
