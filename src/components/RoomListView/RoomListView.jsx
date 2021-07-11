@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { OverlayContainer } from '@react-aria/overlays';
 import {
 	RoomListViewStyled,
@@ -13,6 +13,16 @@ import CreateRoomForm from '../CreateRoomForm/CreateRoomForm';
 
 const RoomListView = ({ rooms, categories }) => {
 	const { state, openButtonProps, openButtonRef } = useToggleDialog();
+	const [clicked, setClicked] = useState(false);
+
+	const handleClose = () => {
+		state.close();
+		setClicked(false);
+	};
+
+	const handleClick = () => {
+		setClicked(prev => !prev);
+	};
 
 	return (
 		<>
@@ -27,15 +37,20 @@ const RoomListView = ({ rooms, categories }) => {
 						/>
 					))}
 				</RoomList>
-				<CreateNewRoomButton {...openButtonProps} ref={openButtonRef}>
+				<CreateNewRoomButton
+					{...openButtonProps}
+					ref={openButtonRef}
+					onClick={handleClick}
+					clicked={clicked}
+				>
 					방 새로 만들기
 				</CreateNewRoomButton>
 			</RoomListViewStyled>
 			{state.isOpen && (
 				<OverlayContainer>
-					<Dialog onClose={state.close}>
+					<Dialog onClose={handleClose}>
 						<CreateRoomForm categories={categories} />
-						<DialogCloseButton onCloseButton={state.close} />
+						<DialogCloseButton onCloseButton={handleClose} />
 					</Dialog>
 				</OverlayContainer>
 			)}
