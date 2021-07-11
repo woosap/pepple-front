@@ -7,6 +7,7 @@ import {
 } from './RoomCloudView.styles';
 import { ReactComponent as UploadIcon } from '../../assets/icon/icon-add.svg';
 import CloudResource from '../CloudResource/CloudResource';
+import UploadResourceForm from '../UploadResourceForm/UploadResourceForm';
 
 const RoomCloudView = ({ resources }) => (
 	<RoomCloudViewStyled>
@@ -16,6 +17,7 @@ const RoomCloudView = ({ resources }) => (
 				<UploadIcon />
 			</UploadButton>
 		</RoomCloudViewHeader>
+		<UploadResourceForm />
 		<ContentList>
 			{resources.map(res => (
 				<CloudResource key={res.id} resource={res} />

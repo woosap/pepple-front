@@ -7,6 +7,7 @@ export const RoomCloudViewStyled = styled.div`
 	border: 1px solid #dadcf3;
 	box-sizing: border-box;
 	border-radius: 20px;
+	position: relative;
 `;
 
 export const RoomCloudViewHeader = styled.div`
