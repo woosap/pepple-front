@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
 	CreateRoomFormStyled,
 	FormHeader,
@@ -11,6 +11,11 @@ import { ReactComponent as SpreadIcon } from '../../assets/icon/icon-arrow-botto
 
 const CreateRoomForm = ({ categories }) => {
 	const categoryNames = ['DESIGN', 'DEVELOPMENT', 'PROJECT', 'STUDY'];
+	const [clicked, setClicked] = useState(false);
+
+	const handleClick = () => {
+		setClicked(prev => !prev);
+	};
 	return (
 		<CreateRoomFormStyled>
 			<FormHeader>방 새로 만들기</FormHeader>
@@ -50,7 +55,9 @@ const CreateRoomForm = ({ categories }) => {
 						</span>
 					</FormItem>
 				</FormItem.Box>
-				<SubmitButton>완료</SubmitButton>
+				<SubmitButton clicked={clicked} onClick={handleClick}>
+					완료
+				</SubmitButton>
 			</FormContainer>
 		</CreateRoomFormStyled>
 	);
