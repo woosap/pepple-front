@@ -6,9 +6,9 @@ const RoomCategoryStyled = styled.div`
 	left: 473px;
 	top: 201px;
 	background: ${({ category }) => {
-		if (category === '디자인') return '#6138B9';
-		if (category === '스터디') return '#FFDB80';
-		if (category === '개발') return '#00C1B6';
+		if (category === 'DESIGN') return '#6138B9';
+		if (category === 'STUDY') return '#FFDB80';
+		if (category === 'DEVELOPMENT') return '#00C1B6';
 		return '#FC80FF';
 	}};
 	border-radius: 50px;
@@ -18,7 +18,7 @@ const RoomCategoryStyled = styled.div`
 	font-weight: 500;
 	font-size: 12px;
 	line-height: 14px;
-	color: ${({ category }) => (category === '스터디' ? '#000' : '#fff')};
+	color: ${({ category }) => (category === 'STUDY' ? '#000' : '#fff')};
 	text-align: center;
 	line-height: 19px;
 `;

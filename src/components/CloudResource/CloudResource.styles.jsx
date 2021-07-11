@@ -2,16 +2,28 @@ import styled from 'styled-components';
 
 export const CloudResourceStyled = styled.div`
 	width: 90%;
-	background: #fcfcff;
-	border: 0.5px solid #b7b9c8;
+	background: #fff;
+	border: 0.5px solid ${({ clicked }) => (clicked ? '#6138B9' : '#b7b9c8')};
 	box-sizing: border-box;
 	border-radius: 10px;
 	margin: 0 auto 12px;
 	font-size: 14px;
+	position: relative;
+	padding: 15px;
+
+	:hover {
+		background-color: #fcfcff;
+
+		.removeButton {
+			display: block;
+		}
+	}
+`;
+
+export const CloudResourceWrapper = styled.div`
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
-	padding: 15px;
 `;
 
 export const UploadInfo = styled.div`
@@ -53,4 +65,13 @@ export const DownloadButton = styled.button`
 		width: 16px;
 		height: 16px;
 	}
+`;
+
+export const RemoveButton = styled.button`
+	display: none;
+	background: none;
+	position: absolute;
+	top: -7px;
+	left: -4px;
+	cursor: pointer;
 `;

@@ -4,7 +4,7 @@ export const RoomListItemStyled = styled.div`
 	width: 312px;
 	height: 242px;
 	background: #ffffff;
-	border: 1px solid #dadcf3;
+	border: solid ${({ clicked }) => (clicked ? '2px #6138b9' : '1px #dadcf3')};
 	box-sizing: border-box;
 	box-shadow: 0px 4px 30px 2px rgba(0, 0, 0, 0.02);
 	border-radius: 30px;
@@ -14,11 +14,8 @@ export const RoomListItemStyled = styled.div`
 	cursor: pointer;
 
 	:hover {
-		background: #fbfcff;
+		background: ${({ clicked }) => (clicked ? '#fff' : '1px #fbfcff')};
 		border: 2px solid #6138b9;
-		box-sizing: border-box;
-		box-shadow: 0px 4px 30px 2px rgba(0, 0, 0, 0.02);
-		border-radius: 30px;
 	}
 `;
 

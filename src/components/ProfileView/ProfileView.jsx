@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
 	ProfileViewStyled,
 	UserInfo,
@@ -8,6 +8,12 @@ import {
 import ProfileImage from '../ProfileImage/ProfileImage';
 
 const ProfileView = ({ user }) => {
+	const [clicked, setClicked] = useState(false);
+
+	const handleClick = () => {
+		setClicked(prev => !prev);
+	};
+
 	return (
 		<ProfileViewStyled>
 			<ProfileImage size="big" />
@@ -16,7 +22,9 @@ const ProfileView = ({ user }) => {
 				<UserInfo.Job>{user.job}</UserInfo.Job>
 				<UserInfo.Description>{user.description}</UserInfo.Description>
 			</UserInfo>
-			<ModifyProfileButton>개인정보 수정</ModifyProfileButton>
+			<ModifyProfileButton clicked={clicked} onClick={handleClick}>
+				개인정보 수정
+			</ModifyProfileButton>
 			<SNSList>
 				{user.sns.map(item => (
 					<SNSList.Item key={item.id} sort={item.sort} href={item.link} />
