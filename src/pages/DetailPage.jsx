@@ -5,6 +5,7 @@ import RoomProfileView from '../components/RoomProfileView/RoomProfileView';
 import RoomMemberListView from '../components/RoomMemberListView/RoomMemberListView';
 import RoomCloudView from '../components/RoomCloudView/RoomCloudView';
 import MuteButton from '../components/MuteButton/MuteButton';
+import RoomCloseButton from '../components/RoomCloseButton/RoomCloseButton';
 
 const DetailPage = ({ members, resources, categories }) => {
 	return (
@@ -18,6 +19,7 @@ const DetailPage = ({ members, resources, categories }) => {
 				</DetailContainer.Left>
 				<DetailContainer.Right>
 					<RoomCloudView resources={resources} />
+					<RoomCloseButton />
 				</DetailContainer.Right>
 			</DetailContainer>
 		</>
@@ -88,5 +90,9 @@ DetailContainer.Left = styled.div`
 `;
 
 DetailContainer.Right = styled.div`
+	display: flex;
+	flex-direction: column;
+	align-items: flex-end;
+	margin: 40px 0 0 30px;
 	width: 15%;
 `;
