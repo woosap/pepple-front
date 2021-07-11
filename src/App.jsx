@@ -19,6 +19,10 @@ const GlobalStyle = createGlobalStyle`
 		font-weight: normal;
 	}
 
+	a {
+		text-decoration: none;
+	}
+
 	button {
 		border: none;
 		padding: 0;
