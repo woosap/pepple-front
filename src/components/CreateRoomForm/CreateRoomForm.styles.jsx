@@ -127,7 +127,7 @@ export const SubmitButton = styled.button`
 	justify-content: center;
 	width: 156px;
 	height: 44px;
-	background: #fff;
+	background: ${({ clicked }) => (clicked ? '#651EFF' : '#fff')};
 	border-radius: 40px;
 	margin-bottom: 43px;
 	font-family: Apple SD Gothic Neo;
@@ -135,13 +135,13 @@ export const SubmitButton = styled.button`
 	font-weight: 350;
 	font-size: 20px;
 	line-height: 24px;
-	color: #6138b9;
-	border: 1px solid #6138b9;
+	color: ${({ clicked }) => (clicked ? '#fff' : '#6138b9')};
+	border: ${({ clicked }) => (clicked ? 'none' : '1px solid #6138b9')};
 	cursor: pointer;
 
 	:hover {
-		color: #bcc1fd;
-		background: #f9f9ff;
-		border: 1px solid #dadcf3;
+		color: ${({ clicked }) => (clicked ? '#fff' : '#bcc1fd')};
+		background: ${({ clicked }) => (clicked ? '#651EFF' : '#f9f9ff')};
+		border: ${({ clicked }) => (clicked ? 'none' : '1px solid #dadcf3')};
 	}
 `;
