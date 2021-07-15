@@ -6,15 +6,15 @@ import {
 } from './RoomProfileView.styles';
 import RoomCategory from '../RoomCategory/RoomCategory';
 
-const RoomProfileView = ({ categories }) => (
+const RoomProfileView = ({ room, categories }) => (
 	<RoomProfileViewStyled>
-		<RoomTitle>여기는 방 제목을 입력해주세요. </RoomTitle>
+		<RoomTitle>{room.title}</RoomTitle>
 		<RoomInfo>
 			<RoomInfo.CategoryList>
 				<RoomCategory category="DEVELOPMENT" categories={categories} />
-				<RoomCategory category="DEVELOPMENT" categories={categories} />
+				<RoomCategory category="STUDY" categories={categories} />
 			</RoomInfo.CategoryList>
-			<RoomInfo.BirthTime>17시간 전</RoomInfo.BirthTime>
+			<RoomInfo.BirthTime>{room.birthTime}</RoomInfo.BirthTime>
 		</RoomInfo>
 	</RoomProfileViewStyled>
 );
