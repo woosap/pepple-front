@@ -8,15 +8,19 @@ import {
 
 const UploadResourceForm = () => {
 	const [type, setType] = useState('file');
-
+	const [selectedFile, setSelectedFile] = useState('');
 	const handleHeaderClick = e => {
 		setType(e.target.className);
+	};
+
+	const handleFileInputChange = e => {
+		setSelectedFile(e.target.value);
 	};
 
 	return (
 		<UploadResourceFormStyled>
 			<UploadForm>
-				<UploadForm.Header>
+				<UploadForm.Header type={type}>
 					<button type="button" className="file" onClick={handleHeaderClick}>
 						파일 업로드하기
 					</button>
@@ -26,8 +30,12 @@ const UploadResourceForm = () => {
 				</UploadForm.Header>
 				{type === 'file' ? (
 					<>
-						<UploadForm.TextInput disabled />
-						<UploadForm.Input type="file" id="file" />
+						<UploadForm.TextInput disabled value={selectedFile} />
+						<UploadForm.Input
+							type="file"
+							id="file"
+							onChange={handleFileInputChange}
+						/>
 						<SearchFileButton htmlFor="file">파일 찾기</SearchFileButton>
 					</>
 				) : (
