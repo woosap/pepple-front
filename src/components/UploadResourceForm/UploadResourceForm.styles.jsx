@@ -39,6 +39,9 @@ UploadForm.Header = styled.div`
 	.file {
 		margin-right: 13px;
 	}
+
+	${({ type }) =>
+		type === 'file' ? '.file {color: #6138B9;}' : '.url {color: #6138B9;}'}
 `;
 
 UploadForm.Input = styled.input`
@@ -48,11 +51,16 @@ UploadForm.Input = styled.input`
 UploadForm.TextInput = styled.input`
 	width: 280px;
 	height: 19px;
+	padding-right: 55px;
 	background: #fff;
 	border: 0.5px solid #b7b9c8;
 	box-sizing: border-box;
 	border-radius: 5px;
 	margin: 20px 0 27px 0;
+
+	:focus {
+		outline: none;
+	}
 `;
 
 export const SearchFileButton = styled.label`
@@ -64,6 +72,7 @@ export const SearchFileButton = styled.label`
 	line-height: 18px;
 	letter-spacing: -0.05em;
 	color: #9ea6fe;
+	cursor: pointer;
 `;
 
 export const UploadButton = styled.button`
@@ -77,4 +86,5 @@ export const UploadButton = styled.button`
 	font-weight: 500;
 	line-height: 18px;
 	letter-spacing: -0.05em;
+	cursor: pointer;
 `;
