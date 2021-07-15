@@ -4,6 +4,7 @@ import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import { createGlobalStyle } from 'styled-components';
 import MainPage from './pages/MainPage';
 import DetailPage from './pages/DetailPage';
+import Agora from './Agora';
 
 const GlobalStyle = createGlobalStyle`
 	${resetCss};  
@@ -39,6 +40,9 @@ function App() {
 					</Route>
 					<Route path="/room">
 						<DetailPage />
+					</Route>
+					<Route path="/agora">
+						<Agora />
 					</Route>
 				</Switch>
 			</BrowserRouter>
