@@ -7,13 +7,13 @@ import RoomCloudView from '../components/RoomCloudView/RoomCloudView';
 import MuteButton from '../components/MuteButton/MuteButton';
 import RoomCloseButton from '../components/RoomCloseButton/RoomCloseButton';
 
-const DetailPage = ({ members, resources, categories }) => {
+const DetailPage = ({ room, members, resources, categories }) => {
 	return (
 		<>
 			<Header />
 			<DetailContainer>
 				<DetailContainer.Left>
-					<RoomProfileView categories={categories} />
+					<RoomProfileView room={room} categories={categories} />
 					<RoomMemberListView members={members} />
 					<MuteButton />
 				</DetailContainer.Left>
@@ -29,6 +29,13 @@ const DetailPage = ({ members, resources, categories }) => {
 export default DetailPage;
 
 DetailPage.defaultProps = {
+	room: {
+		id: 1,
+		title: '+사이드 프로젝트+',
+		subtitle: '수다 떨면서 함께해요',
+		birthTime: '17시간 전',
+		categories: ['PROJECT', 'DEVELOPMENT'],
+	},
 	members: [
 		{ id: 1, name: '쭈꾸미 개발자', job: '프론트엔드 개발자' },
 		{ id: 2, name: '쭈꾸미 개발자', job: '프론트엔드 개발자' },
