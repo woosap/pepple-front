@@ -19,7 +19,9 @@ const ProfileView = ({ user }) => {
 			<ProfileImage size="big" />
 			<UserInfo>
 				<UserInfo.Name>{user.name}</UserInfo.Name>
-				<UserInfo.Job>{user.job}</UserInfo.Job>
+				<UserInfo.Job>
+					{user.job === 'FRONTEND' ? '프론트엔드 개발자' : '기획자'}
+				</UserInfo.Job>
 				<UserInfo.Description>{user.description}</UserInfo.Description>
 			</UserInfo>
 			<ModifyProfileButton clicked={clicked} onClick={handleClick}>
