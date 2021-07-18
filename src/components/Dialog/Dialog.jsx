@@ -15,9 +15,14 @@ const Dialog = props => {
 	const { dialogProps } = useDialog(props, ref);
 
 	return (
-		<DialogStyled {...underlayProps} type={type}>
+		<DialogStyled {...underlayProps}>
 			<FocusScope>
-				<DialogStyled.Box {...overlayProps} {...dialogProps} {...modalProps}>
+				<DialogStyled.Box
+					type={type}
+					{...overlayProps}
+					{...dialogProps}
+					{...modalProps}
+				>
 					{children}
 				</DialogStyled.Box>
 			</FocusScope>
