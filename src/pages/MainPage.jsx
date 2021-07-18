@@ -1,10 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
+import { OverlayContainer } from '@react-aria/overlays';
 import Header from '../components/Header/Header';
 import ProfileView from '../components/ProfileView/ProfileView';
 import RoomListView from '../components/RoomListView/RoomListView';
+import Dialog from '../components/Dialog/Dialog';
+import LoginForm from '../components/LoginForm/LoginForm';
 
 const MainPage = ({ user, rooms, categories }) => {
+	const [isLoginRequired, SetIsLoginRequired] = useState(true);
+
 	return (
 		<>
 			<Header />
@@ -16,6 +21,13 @@ const MainPage = ({ user, rooms, categories }) => {
 					<RoomListView rooms={rooms} categories={categories} />
 				</MainContainer.Right>
 			</MainContainer>
+			{isLoginRequired && (
+				<OverlayContainer>
+					<Dialog type="login">
+						<LoginForm onSubmit={SetIsLoginRequired} />
+					</Dialog>
+				</OverlayContainer>
+			)}
 		</>
 	);
 };
