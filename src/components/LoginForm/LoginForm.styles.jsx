@@ -12,13 +12,15 @@ export const LoginFormBox = styled.div`
 
 LoginFormBox.Logo = styled.div``;
 
-LoginFormBox.Title = styled.h1`
+LoginFormBox.Title = styled.p`
 	color: #213184;
-	font-size: 30px;
+	font-size: 32px;
 	line-height: 40px;
 	width: 279px;
 	text-align: center;
 	margin: 77px 0 108px 0;
+	font-weight: normal;
+	font-family: Noto Sans;
 `;
 
 LoginFormBox.Description = styled.div`
