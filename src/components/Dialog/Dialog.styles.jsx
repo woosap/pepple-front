@@ -15,13 +15,13 @@ const DialogStyled = styled.div`
 `;
 
 DialogStyled.Box = styled.div`
-	width: 713px;
-	height: 437px;
+	width: ${({ type }) => (type === 'login' ? '567px' : '713px')};
+	height: ${({ type }) => (type === 'login' ? '617px' : '437px')};
 	position: relative;
 	display: flex;
 	flex-direction: column;
 	background: #fff;
-	border-radius: 20px;
+	border-radius: ${({ type }) => (type === 'login' ? '50px' : '20px')};
 	box-sizing: border-box;
 `;
 
