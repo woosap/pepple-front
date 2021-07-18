@@ -21,7 +21,7 @@ DialogStyled.Box = styled.div`
 	display: flex;
 	flex-direction: column;
 	background: #fff;
-	border-radius: 20px;
+	border-radius: ${({ type }) => (type === 'login' ? '50px' : '20px')};
 	box-sizing: border-box;
 `;
 
