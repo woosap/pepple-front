@@ -8,7 +8,7 @@ import Dialog from '../components/Dialog/Dialog';
 import LoginForm from '../components/LoginForm/LoginForm';
 
 const MainPage = ({ user, rooms, categories }) => {
-	const [isLoginRequired, SetIsLoginRequired] = useState(true);
+	const [isLoginRequired, setIsLoginRequired] = useState(true);
 
 	return (
 		<>
@@ -24,7 +24,7 @@ const MainPage = ({ user, rooms, categories }) => {
 			{isLoginRequired && (
 				<OverlayContainer>
 					<Dialog type="login">
-						<LoginForm onSubmit={SetIsLoginRequired} />
+						<LoginForm onSubmit={setIsLoginRequired} />
 					</Dialog>
 				</OverlayContainer>
 			)}
