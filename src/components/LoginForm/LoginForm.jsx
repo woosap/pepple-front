@@ -6,6 +6,7 @@ import {
 } from './LoginForm.styles';
 import { ReactComponent as LogoIcon } from '../../assets/icon/icon-logo.svg';
 import Google from './Google';
+import KakaoLogin from './Kakao';
 
 const LoginForm = () => {
 	return (
@@ -22,7 +23,9 @@ const LoginForm = () => {
 						<Google />
 					</SNSLoginList.Item>
 					<SNSLoginList.Item className="github">Github</SNSLoginList.Item>
-					<SNSLoginList.Item className="kakao">KAKAO TALK</SNSLoginList.Item>
+					<SNSLoginList.Item className="kakao">
+						<KakaoLogin />
+					</SNSLoginList.Item>
 				</SNSLoginList>
 				<LoginFormBox.Description>
 					로그인 해야만 접속이 가능합니다.
