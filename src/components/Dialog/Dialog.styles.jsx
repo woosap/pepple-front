@@ -15,13 +15,8 @@ const DialogStyled = styled.div`
 `;
 
 DialogStyled.Box = styled.div`
-	width: ${({ type }) =>
-		type === 'login' || type === 'join' ? '567px' : '713px'};
-	height: ${({ type }) => {
-		if (type === 'login') return '617px';
-		if (type === 'join') return '678px';
-		return '437px';
-	}};
+	width: ${({ type }) => (type === 'login' ? '567px' : '713px')};
+	height: ${({ type }) => (type === 'login' ? '617px' : '437px')};
 	position: relative;
 	display: flex;
 	flex-direction: column;

@@ -4,10 +4,9 @@ import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import { createGlobalStyle } from 'styled-components';
 import MainPage from './pages/MainPage';
 import DetailPage from './pages/DetailPage';
-import LoginRedirect from './components/LoginForm/LoginRedirect';
 
 const GlobalStyle = createGlobalStyle`
-	${resetCss};
+	${resetCss};  
 	html, body {
 		height: 100%;
 		background-color: #F5F7FE;
@@ -41,7 +40,6 @@ function App() {
 					<Route path="/room">
 						<DetailPage />
 					</Route>
-					<Route path="/redirect" component={LoginRedirect} />
 				</Switch>
 			</BrowserRouter>
 			<GlobalStyle />
