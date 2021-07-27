@@ -7,8 +7,9 @@ import {
 import { ReactComponent as LogoIcon } from '../../assets/icon/icon-logo.svg';
 import Google from './Google';
 import KakaoLogin from './Kakao';
+import GithubLogin from './Github';
 
-const LoginForm = () => {
+const LoginForm = ({ handleLoginButtonClick }) => {
 	return (
 		<LoginFormStyled>
 			<LoginFormBox>
@@ -19,11 +20,19 @@ const LoginForm = () => {
 					페플과 함께 공부하고 신나게 성장하세요
 				</LoginFormBox.Title>
 				<SNSLoginList>
-					<SNSLoginList.Item className="google">
+					<SNSLoginList.Item
+						className="google"
+						onClick={handleLoginButtonClick}
+					>
 						<Google />
 					</SNSLoginList.Item>
-					<SNSLoginList.Item className="github">Github</SNSLoginList.Item>
-					<SNSLoginList.Item className="kakao">
+					<SNSLoginList.Item
+						className="github"
+						onClick={handleLoginButtonClick}
+					>
+						<GithubLogin />
+					</SNSLoginList.Item>
+					<SNSLoginList.Item className="kakao" onClick={handleLoginButtonClick}>
 						<KakaoLogin />
 					</SNSLoginList.Item>
 				</SNSLoginList>
