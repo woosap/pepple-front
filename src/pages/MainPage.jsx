@@ -10,6 +10,10 @@ import LoginForm from '../components/LoginForm/LoginForm';
 const MainPage = ({ user, rooms, categories }) => {
 	const [isLoginRequired, setIsLoginRequired] = useState(true);
 
+	const onLoginButtonClick = () => {
+		setIsLoginRequired(false);
+	};
+
 	return (
 		<>
 			<Header />
@@ -24,7 +28,7 @@ const MainPage = ({ user, rooms, categories }) => {
 			{isLoginRequired && (
 				<OverlayContainer>
 					<Dialog type="login">
-						<LoginForm onSubmit={setIsLoginRequired} />
+						<LoginForm handleLoginButtonClick={onLoginButtonClick} />
 					</Dialog>
 				</OverlayContainer>
 			)}
