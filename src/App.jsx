@@ -7,7 +7,7 @@ import DetailPage from './pages/DetailPage';
 import LoginRedirect from './components/LoginForm/LoginRedirect';
 
 const GlobalStyle = createGlobalStyle`
-	${resetCss};  
+	${resetCss};
 	html, body {
 		height: 100%;
 		background-color: #F5F7FE;
