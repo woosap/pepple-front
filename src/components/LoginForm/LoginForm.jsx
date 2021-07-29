@@ -7,6 +7,7 @@ import {
 import { ReactComponent as LogoIcon } from '../../assets/icon/icon-logo.svg';
 import Google from './Google';
 import KakaoLogin from './Kakao';
+import GithubLogin from './Github';
 
 const LoginForm = () => {
 	return (
@@ -22,7 +23,9 @@ const LoginForm = () => {
 					<SNSLoginList.Item className="google">
 						<Google />
 					</SNSLoginList.Item>
-					<SNSLoginList.Item className="github">Github</SNSLoginList.Item>
+					<SNSLoginList.Item className="github">
+						<GithubLogin />
+					</SNSLoginList.Item>
 					<SNSLoginList.Item className="kakao">
 						<KakaoLogin />
 					</SNSLoginList.Item>
