@@ -5,8 +5,13 @@ import {
 	FormContainer,
 	FormItem,
 } from './JoinForm.styles';
+import useInput from '../../hooks/useInput';
 
 const JoinForm = ({ handleJoinButtonClick }) => {
+	const email = useInput('');
+	const nickname = useInput('');
+	const description = useInput('');
+
 	return (
 		<JoinFormStyled>
 			<JoinFormBox>
@@ -14,7 +19,7 @@ const JoinForm = ({ handleJoinButtonClick }) => {
 				<FormContainer>
 					<FormItem>
 						<FormItem.Title>이메일</FormItem.Title>
-						<FormItem.Input />
+						<FormItem.Input placeholder="이메일을 입력해주세요. " {...email} />
 					</FormItem>
 					<FormItem>
 						<FormItem.Title>프로필 사진</FormItem.Title>
@@ -22,7 +27,10 @@ const JoinForm = ({ handleJoinButtonClick }) => {
 					</FormItem>
 					<FormItem>
 						<FormItem.Title>닉네임</FormItem.Title>
-						<FormItem.Input placeholder="총 여섯글자까지 가능합니다 (띄어쓰기 제외)" />
+						<FormItem.Input
+							placeholder="총 여섯글자까지 가능합니다 (띄어쓰기 제외)"
+							{...nickname}
+						/>
 					</FormItem>
 					<FormItem>
 						<FormItem.Title>타이틀</FormItem.Title>
@@ -30,7 +38,10 @@ const JoinForm = ({ handleJoinButtonClick }) => {
 					</FormItem>
 					<FormItem>
 						<FormItem.Title>프로필 작성</FormItem.Title>
-						<FormItem.TextArea placeholder="프로필을 자유롭게 작성해주세요." />
+						<FormItem.TextArea
+							placeholder="프로필을 자유롭게 작성해주세요."
+							{...description}
+						/>
 					</FormItem>
 					<FormItem>
 						<FormItem.Title>SNS 연결하기</FormItem.Title>
