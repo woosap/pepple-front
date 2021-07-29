@@ -6,7 +6,7 @@ import {
 	FormItem,
 } from './JoinForm.styles';
 
-const JoinForm = () => {
+const JoinForm = ({ handleJoinButtonClick }) => {
 	return (
 		<JoinFormStyled>
 			<JoinFormBox>
@@ -42,8 +42,12 @@ const JoinForm = () => {
 						</FormItem.InputList>
 					</FormItem>
 				</FormContainer>
-				<JoinFormBox.SubmitButton>프로필 설정 완료</JoinFormBox.SubmitButton>
-				<JoinFormBox.SkipButton>다음에 입력하기</JoinFormBox.SkipButton>
+				<JoinFormBox.SubmitButton onClick={handleJoinButtonClick}>
+					프로필 설정 완료
+				</JoinFormBox.SubmitButton>
+				<JoinFormBox.SkipButton onClick={handleJoinButtonClick}>
+					다음에 입력하기
+				</JoinFormBox.SkipButton>
 			</JoinFormBox>
 		</JoinFormStyled>
 	);
