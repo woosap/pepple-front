@@ -6,11 +6,20 @@ import ProfileView from '../components/ProfileView/ProfileView';
 import RoomListView from '../components/RoomListView/RoomListView';
 import Dialog from '../components/Dialog/Dialog';
 import LoginForm from '../components/LoginForm/LoginForm';
+import JoinForm from '../components/JoinForm/JoinForm';
 
 const MainPage = ({ user, rooms, categories }) => {
 	const [isLoginRequired, setIsLoginRequired] = useState(true);
+	const [isAdditionalInfoRequired, setIsAdditionalInfoRequired] =
+		useState(false);
+
 	const onLoginButtonClick = () => {
 		setIsLoginRequired(false);
+		setIsAdditionalInfoRequired(true);
+	};
+
+	const onJoinButtonClick = () => {
+		setIsAdditionalInfoRequired(false);
 	};
 
 	return (
@@ -28,6 +37,13 @@ const MainPage = ({ user, rooms, categories }) => {
 				<OverlayContainer>
 					<Dialog type="login">
 						<LoginForm handleLoginButtonClick={onLoginButtonClick} />
+					</Dialog>
+				</OverlayContainer>
+			)}
+			{isAdditionalInfoRequired && (
+				<OverlayContainer>
+					<Dialog type="join">
+						<JoinForm handleJoinButtonClick={onJoinButtonClick} />
 					</Dialog>
 				</OverlayContainer>
 			)}
