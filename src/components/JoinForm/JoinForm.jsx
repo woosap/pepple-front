@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
 	JoinFormStyled,
 	JoinFormBox,
 	FormContainer,
 	FormItem,
+	DropdownBox,
+	DropdownItem,
 } from './JoinForm.styles';
 import useInput from '../../hooks/useInput';
 
@@ -11,6 +13,26 @@ const JoinForm = ({ handleJoinButtonClick }) => {
 	const email = useInput('');
 	const nickname = useInput('');
 	const description = useInput('');
+	const jobs = [
+		{ id: 1, title: '기획자' },
+		{ id: 2, title: 'GUI 디자이너' },
+		{ id: 3, title: 'UX 디자이너' },
+		{ id: 4, title: '프로덕트 디자이너' },
+		{ id: 5, title: '프론트엔드 개발자' },
+		{ id: 6, title: '백엔드 개발자' },
+		{ id: 7, title: '마케터' },
+	];
+	const [isActive, setIsActive] = useState(false);
+	const [selectedValue, setSelectedValue] = useState('');
+
+	const handleTitleInputClick = () => {
+		setIsActive(!isActive);
+	};
+
+	const handleDropdownItemClick = e => {
+		setSelectedValue(e.target.innerText);
+		setIsActive(false);
+	};
 
 	return (
 		<JoinFormStyled>
@@ -34,7 +56,25 @@ const JoinForm = ({ handleJoinButtonClick }) => {
 					</FormItem>
 					<FormItem>
 						<FormItem.Title>타이틀</FormItem.Title>
-						<FormItem.Input placeholder="나를 나타내는 타이틀을 선택해주세요." />
+						<FormItem.Select
+							disabled
+							placeholder="나를 나타내는 타이틀을 선택해주세요."
+							onClick={handleTitleInputClick}
+						>
+							{selectedValue}
+						</FormItem.Select>
+						<DropdownBox active={isActive}>
+							{jobs.map(job => (
+								<DropdownItem
+									key={job.id}
+									value={job.title}
+									selectedValue={selectedValue}
+									onClick={handleDropdownItemClick}
+								>
+									{job.title}
+								</DropdownItem>
+							))}
+						</DropdownBox>
 					</FormItem>
 					<FormItem>
 						<FormItem.Title>프로필 작성</FormItem.Title>

@@ -42,8 +42,10 @@ export const FormContainer = styled.div`
 
 export const FormItem = styled.div`
 	width: 100%;
+	height: 100%;
 	margin-bottom: 12px;
 	display: flex;
+	position: relative;
 
 	:nth-child(5) {
 		margin: 18px 0;
@@ -123,6 +125,19 @@ FormItem.Input = styled.input`
 	}
 `;
 
+FormItem.Select = styled.div`
+	display: flex;
+	align-items: center;
+	width: 75%;
+	height: 28px;
+	background: #fcfcfc;
+	border: 0.5px solid #c4c4c4;
+	box-sizing: border-box;
+	border-radius: 5px;
+	padding: 2px 0 0 13px;
+	font-size: 12px;
+`;
+
 FormItem.TextArea = styled.textarea`
 	appearance: none;
 	width: 75%;
@@ -151,4 +166,32 @@ FormItem.TextArea = styled.textarea`
 		letter-spacing: -0.03em;
 		color: #7d5dc1;
 	}
+`;
+
+export const DropdownBox = styled.ul`
+	position: absolute;
+	top: 26px;
+	left: 25%;
+	display: ${({ active }) => (active ? 'block' : 'none')};
+	width: 75%;
+	height: 178px;
+	padding: 15px 0 10px 15px;
+	background: #ffffff;
+	border: 0.5px solid #c4c4c4;
+	box-sizing: border-box;
+	border-radius: 5px;
+	z-index: 100;
+`;
+
+export const DropdownItem = styled.li`
+	font-family: Noto Sans KR;
+	font-style: normal;
+	font-weight: ${({ value, selectedValue }) =>
+		value === selectedValue ? '500' : '300'};
+	font-size: 11px;
+	letter-spacing: -0.03em;
+	color: ${({ value, selectedValue }) =>
+		value === selectedValue ? '#6138b9' : '#A3A3A3'};
+	margin-bottom: 10px;
+	cursor: pointer;
 `;
