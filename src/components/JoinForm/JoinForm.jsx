@@ -6,6 +6,7 @@ import {
 	FormItem,
 	DropdownBox,
 	DropdownItem,
+	UploadForm,
 } from './JoinForm.styles';
 import useInput from '../../hooks/useInput';
 
@@ -24,6 +25,11 @@ const JoinForm = ({ handleJoinButtonClick }) => {
 	];
 	const [isActive, setIsActive] = useState(false);
 	const [selectedValue, setSelectedValue] = useState('');
+	const [selectedFile, setSelectedFile] = useState('');
+
+	const handleFileInputChange = e => {
+		setSelectedFile(e.target.value);
+	};
 
 	const handleTitleInputClick = () => {
 		setIsActive(!isActive);
@@ -45,7 +51,19 @@ const JoinForm = ({ handleJoinButtonClick }) => {
 					</FormItem>
 					<FormItem>
 						<FormItem.Title>프로필 사진</FormItem.Title>
-						<FormItem.Input placeholder="400 x 400 사이즈를 권장합니다" />
+						<UploadForm>
+							<UploadForm.TextInput
+								disabled
+								value={selectedFile}
+								placeholder="400 x 400 사이즈를 권장합니다"
+							/>
+							<UploadForm.Input
+								type="file"
+								id="file"
+								onChange={handleFileInputChange}
+							/>
+							<UploadForm.Button htmlFor="file">파일 찾기</UploadForm.Button>
+						</UploadForm>
 					</FormItem>
 					<FormItem>
 						<FormItem.Title>닉네임</FormItem.Title>

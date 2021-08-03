@@ -106,6 +106,13 @@ FormItem.Input = styled.input`
 	border-radius: 5px;
 	padding-left: 13px;
 	font-size: 12px;
+	font-family: Noto Sans KR;
+	font-style: normal;
+	font-weight: 500;
+	font-size: 12px;
+	line-height: 18px;
+	letter-spacing: -0.03em;
+	color: #8e8585;
 
 	::placeholder {
 		color: #cecece;
@@ -120,6 +127,7 @@ FormItem.Input = styled.input`
 		font-style: normal;
 		font-weight: 500;
 		font-size: 12px;
+		line-height: 18px;
 		letter-spacing: -0.03em;
 		color: #7d5dc1;
 	}
@@ -166,6 +174,53 @@ FormItem.TextArea = styled.textarea`
 		letter-spacing: -0.03em;
 		color: #7d5dc1;
 	}
+`;
+
+export const UploadForm = styled.div`
+	width: 75%;
+	position: relative;
+`;
+
+UploadForm.Input = styled.input`
+	display: none;
+`;
+
+UploadForm.TextInput = styled.input`
+	display: inline-block;
+	width: 100%;
+	height: 28px;
+	background: #fcfcfc;
+	border: 0.5px solid #c4c4c4;
+	box-sizing: border-box;
+	border-radius: 5px;
+	padding-left: 13px;
+	font-size: 12px;
+	font-family: Noto Sans KR;
+	font-style: normal;
+	font-weight: 500;
+	font-size: 12px;
+	line-height: 18px;
+	letter-spacing: -0.03em;
+	color: #8e8585;
+
+	:focus {
+		outline: none;
+	}
+
+	::placeholder {
+		color: #cecece;
+		font-size: 12.5px;
+		letter-spacing: -0.03em;
+	}
+`;
+
+UploadForm.Button = styled.button`
+	color: #cecece;
+	cursor: pointer;
+	position: absolute;
+	top: 6px;
+	right: 8px;
+	background: none;
 `;
 
 export const DropdownBox = styled.ul`
