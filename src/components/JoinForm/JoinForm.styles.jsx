@@ -1,8 +1,13 @@
 import styled from 'styled-components';
 
 export const JoinFormStyled = styled.div`
-	font-family: Noto Sans KR;
 	margin: 30px auto;
+	font-family: Noto Sans KR;
+	font-style: normal;
+	font-weight: 500;
+	font-size: 12px;
+	line-height: 18px;
+	letter-spacing: -0.03em;
 `;
 
 export const JoinFormBox = styled.form``;
@@ -58,7 +63,7 @@ FormItem.Title = styled.label`
 	color: #413757;
 	font-size: 13px;
 	font-weight: 500;
-	margin-top: 7px;
+	line-height: 28px;
 `;
 
 FormItem.InputList = styled.div`
@@ -104,7 +109,7 @@ FormItem.Input = styled.input`
 	border: 0.5px solid #c4c4c4;
 	box-sizing: border-box;
 	border-radius: 5px;
-	padding-left: 13px;
+	padding: 2px 0 0 13px;
 	font-size: 12px;
 	font-family: Noto Sans KR;
 	font-style: normal;
@@ -143,11 +148,30 @@ FormItem.Select = styled.div`
 	box-sizing: border-box;
 	border-radius: 5px;
 	padding: 2px 0 0 13px;
+	position: relative;
 	font-size: 12px;
+	font-family: Noto Sans KR;
+	font-style: normal;
+	font-weight: 500;
+	font-size: 12px;
+	line-height: 18px;
+	letter-spacing: -0.03em;
+	color: ${props => (props.isSelected ? '#8e8585' : '#cecece')};
+
+	.spreadIcon {
+		svg {
+			width: 100%;
+			height: 100%;
+		}
+		position: absolute;
+		right: 8px;
+		cursor: pointer;
+	}
 `;
 
 FormItem.TextArea = styled.textarea`
 	appearance: none;
+	resize: none;
 	width: 75%;
 	height: 94px;
 	padding-left: 13px;
@@ -155,23 +179,23 @@ FormItem.TextArea = styled.textarea`
 	border: 0.5px solid #c4c4c4;
 	box-sizing: border-box;
 	border-radius: 5px;
-	resize: none;
 	padding-top: 9px;
+	font-family: Noto Sans KR;
+	font-style: normal;
+	font-weight: 500;
+	font-size: 12px;
+	line-height: 18px;
+	letter-spacing: -0.03em;
+	color: #8e8585;
 
 	::placeholder {
 		color: #cecece;
-		font-size: 12.5px;
-		letter-spacing: -0.03em;
 	}
 
 	:focus {
 		background: #fcfcfc;
 		border: 1px solid #6138b9;
 		outline: none;
-		font-style: normal;
-		font-weight: 500;
-		font-size: 12px;
-		letter-spacing: -0.03em;
 		color: #7d5dc1;
 	}
 `;
@@ -193,7 +217,7 @@ UploadForm.TextInput = styled.input`
 	border: 0.5px solid #c4c4c4;
 	box-sizing: border-box;
 	border-radius: 5px;
-	padding-left: 13px;
+	padding: 2px 0 0 13px;
 	font-size: 12px;
 	font-family: Noto Sans KR;
 	font-style: normal;
@@ -214,13 +238,20 @@ UploadForm.TextInput = styled.input`
 	}
 `;
 
-UploadForm.Button = styled.button`
+UploadForm.Button = styled.label`
 	color: #cecece;
 	cursor: pointer;
 	position: absolute;
 	top: 6px;
 	right: 8px;
 	background: none;
+	font-size: 12px;
+	font-family: Noto Sans KR;
+	font-style: normal;
+	font-weight: 500;
+	font-size: 12px;
+	line-height: 18px;
+	letter-spacing: -0.03em;
 `;
 
 export const DropdownBox = styled.ul`
@@ -230,7 +261,7 @@ export const DropdownBox = styled.ul`
 	display: ${({ active }) => (active ? 'block' : 'none')};
 	width: 75%;
 	height: 178px;
-	padding: 15px 0 10px 15px;
+	padding: 7px 0 10px 15px;
 	background: #ffffff;
 	border: 0.5px solid #c4c4c4;
 	box-sizing: border-box;
@@ -245,8 +276,8 @@ export const DropdownItem = styled.li`
 		value === selectedValue ? '500' : '300'};
 	font-size: 11px;
 	letter-spacing: -0.03em;
+	line-height: 23px;
 	color: ${({ value, selectedValue }) =>
 		value === selectedValue ? '#6138b9' : '#A3A3A3'};
-	margin-bottom: 10px;
 	cursor: pointer;
 `;

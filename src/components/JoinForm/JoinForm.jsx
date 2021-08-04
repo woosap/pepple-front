@@ -9,6 +9,7 @@ import {
 	UploadForm,
 } from './JoinForm.styles';
 import useInput from '../../hooks/useInput';
+import { ReactComponent as SpreadIcon } from '../../assets/icon/icon-arrow-bottom2.svg';
 
 const JoinForm = ({ handleJoinButtonClick }) => {
 	const email = useInput('');
@@ -24,7 +25,10 @@ const JoinForm = ({ handleJoinButtonClick }) => {
 		{ id: 7, title: '마케터' },
 	];
 	const [isActive, setIsActive] = useState(false);
-	const [selectedValue, setSelectedValue] = useState('');
+	const [selectedJob, setSelectedJob] = useState(
+		'나를 나타내는 타이틀을 선택해주세요.',
+	);
+	const [isJobSelected, setIsJobSelected] = useState(false);
 	const [selectedFile, setSelectedFile] = useState('');
 
 	const handleFileInputChange = e => {
@@ -36,7 +40,8 @@ const JoinForm = ({ handleJoinButtonClick }) => {
 	};
 
 	const handleDropdownItemClick = e => {
-		setSelectedValue(e.target.innerText);
+		setSelectedJob(e.target.innerText);
+		setIsJobSelected(true);
 		setIsActive(false);
 	};
 
@@ -75,18 +80,20 @@ const JoinForm = ({ handleJoinButtonClick }) => {
 					<FormItem>
 						<FormItem.Title>타이틀</FormItem.Title>
 						<FormItem.Select
-							disabled
-							placeholder="나를 나타내는 타이틀을 선택해주세요."
+							isSelected={isJobSelected}
 							onClick={handleTitleInputClick}
 						>
-							{selectedValue}
+							{selectedJob}
+							<span className="spreadIcon">
+								<SpreadIcon />
+							</span>
 						</FormItem.Select>
 						<DropdownBox active={isActive}>
 							{jobs.map(job => (
 								<DropdownItem
 									key={job.id}
 									value={job.title}
-									selectedValue={selectedValue}
+									selectedValue={selectedJob}
 									onClick={handleDropdownItemClick}
 								>
 									{job.title}
