@@ -3,7 +3,14 @@ import styled from 'styled-components';
 
 const GithubLogin = () => {
 	const uri = `https://github.com/login/oauth/authorize?client_id=c626d47b6711b219e86c&redirect_uri=http://localhost:3000/redirect`;
-	return <GithubLoginStyled href={uri}>Github</GithubLoginStyled>;
+	const handleLinkClick = e => {
+		e.preventDefault();
+	};
+	return (
+		<GithubLoginStyled href={uri} onClick={handleLinkClick}>
+			Github
+		</GithubLoginStyled>
+	);
 };
 
 const GithubLoginStyled = styled.a`

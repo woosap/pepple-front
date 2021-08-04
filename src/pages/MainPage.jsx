@@ -19,6 +19,7 @@ const MainPage = ({ user, rooms, categories }) => {
 	};
 
 	const onJoinButtonClick = () => {
+		setIsLoginRequired(false);
 		setIsAdditionalInfoRequired(false);
 	};
 
