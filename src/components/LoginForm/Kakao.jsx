@@ -1,9 +1,22 @@
-import React from 'react';
+import { React, useEffect } from 'react';
 import styled from 'styled-components';
+import dotenv from 'dotenv';
 
-const { Kakao } = window;
+dotenv.config();
 
 const KakaoLogin = () => {
+	const { Kakao } = window;
+
+	const KakaoInit = () => {
+		if (!Kakao.isInitialized()) {
+			Kakao.init(process.env.REACT_APP_KAKAO_JS_KEY);
+		}
+	};
+
+	useEffect(() => {
+		KakaoInit();
+	}, []);
+
 	const getAccessToken = authObj => {
 		console.log(authObj);
 	};
