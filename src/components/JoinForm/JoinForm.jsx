@@ -45,6 +45,16 @@ const JoinForm = ({ handleJoinButtonClick }) => {
 		setIsActive(false);
 	};
 
+	const handleSubmitButtonClick = () => {
+		handleJoinButtonClick(
+			email.value,
+			nickname.value,
+			description.value,
+			selectedJob,
+			selectedFile,
+		);
+	};
+
 	return (
 		<JoinFormStyled>
 			<JoinFormBox>
@@ -118,10 +128,10 @@ const JoinForm = ({ handleJoinButtonClick }) => {
 						</FormItem.InputList>
 					</FormItem>
 				</FormContainer>
-				<JoinFormBox.SubmitButton onClick={handleJoinButtonClick}>
+				<JoinFormBox.SubmitButton onClick={handleSubmitButtonClick}>
 					프로필 설정 완료
 				</JoinFormBox.SubmitButton>
-				<JoinFormBox.SkipButton onClick={handleJoinButtonClick}>
+				<JoinFormBox.SkipButton onClick={handleSubmitButtonClick}>
 					다음에 입력하기
 				</JoinFormBox.SkipButton>
 			</JoinFormBox>

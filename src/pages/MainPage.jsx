@@ -7,8 +7,11 @@ import RoomListView from '../components/RoomListView/RoomListView';
 import Dialog from '../components/Dialog/Dialog';
 import LoginForm from '../components/LoginForm/LoginForm';
 import JoinForm from '../components/JoinForm/JoinForm';
+import useToggleDialog from '../hooks/useToggleDialog';
+import api from '../api';
 
 const MainPage = ({ user, rooms, categories }) => {
+	const { state } = useToggleDialog();
 	const [isLoginRequired, setIsLoginRequired] = useState(true);
 	const [isAdditionalInfoRequired, setIsAdditionalInfoRequired] =
 		useState(false);
@@ -18,7 +21,25 @@ const MainPage = ({ user, rooms, categories }) => {
 		setIsAdditionalInfoRequired(true);
 	};
 
-	const onJoinButtonClick = () => {
+	const onJoinButtonClick = async (
+		email,
+		_nickname,
+		description,
+		selectedJob,
+		selectedFile,
+	) => {
+		await api
+			.post('/api/user', {
+				imageUrl: selectedFile,
+				job: selectedJob,
+				nickname: _nickname,
+				profile: description,
+				snsList: ['github', 'blog'],
+				userId: email,
+			})
+			.then(res => console.log(res))
+			.catch(err => console.warn(err));
+
 		setIsLoginRequired(false);
 		setIsAdditionalInfoRequired(false);
 	};
@@ -36,15 +57,18 @@ const MainPage = ({ user, rooms, categories }) => {
 			</MainContainer>
 			{isLoginRequired && (
 				<OverlayContainer>
-					<Dialog type="login">
+					<Dialog type="login" onClose={state.close}>
 						<LoginForm handleLoginButtonClick={onLoginButtonClick} />
 					</Dialog>
 				</OverlayContainer>
 			)}
 			{isAdditionalInfoRequired && (
 				<OverlayContainer>
-					<Dialog type="join">
-						<JoinForm handleJoinButtonClick={onJoinButtonClick} />
+					<Dialog type="join" onClose={state.close}>
+						<JoinForm
+							handleJoinButtonClick={onJoinButtonClick}
+							onClose={state.close}
+						/>
 					</Dialog>
 				</OverlayContainer>
 			)}
