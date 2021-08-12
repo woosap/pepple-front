@@ -4,6 +4,8 @@ import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import { createGlobalStyle } from 'styled-components';
 import MainPage from './pages/MainPage';
 import DetailPage from './pages/DetailPage';
+import RegisterRedirect from './components/LoginForm/RegisterRedirect';
+import LoginRedirect from './components/LoginForm/LoginRedirect';
 
 const GlobalStyle = createGlobalStyle`
 	${resetCss};  
@@ -34,12 +36,10 @@ function App() {
 		<>
 			<BrowserRouter basename="/pepple-front">
 				<Switch>
-					<Route path="/" exact>
-						<MainPage />
-					</Route>
-					<Route path="/room">
-						<DetailPage />
-					</Route>
+					<Route path="/" exact component={MainPage} />
+					<Route path="/room" component={DetailPage} />
+					<Route path="/redirect/register" component={RegisterRedirect} />
+					<Route path="/redirect" component={LoginRedirect} />
 				</Switch>
 			</BrowserRouter>
 			<GlobalStyle />
