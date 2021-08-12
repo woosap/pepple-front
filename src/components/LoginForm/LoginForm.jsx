@@ -5,9 +5,9 @@ import {
 	SNSLoginList,
 } from './LoginForm.styles';
 import { ReactComponent as LogoIcon } from '../../assets/icon/icon-logo.svg';
-import Google from './Google';
-import KakaoLogin from './Kakao';
-import GithubLogin from './Github';
+import GoogleLogin from './GoogleLogin';
+import KakaoLogin from './KakaoLogin';
+import GithubLogin from './GithubLogin';
 
 const LoginForm = ({ handleLoginButtonClick }) => {
 	return (
@@ -24,7 +24,7 @@ const LoginForm = ({ handleLoginButtonClick }) => {
 						className="google"
 						onClick={handleLoginButtonClick}
 					>
-						<Google />
+						<GoogleLogin />
 					</SNSLoginList.Item>
 					<SNSLoginList.Item
 						className="github"
