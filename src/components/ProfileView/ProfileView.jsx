@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { OverlayContainer } from '@react-aria/overlays';
 import Dialog from '../Dialog/Dialog';
-import ModifyProfileForm from './ModifyProfileForm';
 import {
 	ProfileViewStyled,
 	UserInfo,
@@ -11,6 +10,7 @@ import {
 import ProfileImage from '../ProfileImage/ProfileImage';
 import DialogCloseButton from '../Dialog/DialogCloseButton';
 import useToggleDialog from '../../hooks/useToggleDialog';
+import ProfileForm from '../ProfileForm/ProfileForm';
 
 const ProfileView = ({ user }) => {
 	const { state, openButtonProps, openButtonRef } = useToggleDialog();
@@ -52,8 +52,8 @@ const ProfileView = ({ user }) => {
 			</ProfileViewStyled>
 			{state.isOpen && (
 				<OverlayContainer>
-					<Dialog onClose={handleClose}>
-						<ModifyProfileForm />
+					<Dialog type="profile_edit" onClose={handleClose}>
+						<ProfileForm />
 						<DialogCloseButton onCloseButton={handleClose} />
 					</Dialog>
 				</OverlayContainer>

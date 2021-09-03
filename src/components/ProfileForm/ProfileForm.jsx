@@ -7,11 +7,11 @@ import {
 	DropdownBox,
 	DropdownItem,
 	UploadForm,
-} from './JoinForm.styles';
+} from './ProfileForm.styles';
 import useInput from '../../hooks/useInput';
 import { ReactComponent as SpreadIcon } from '../../assets/icon/icon-arrow-bottom2.svg';
 
-const JoinForm = ({ handleJoinButtonClick }) => {
+const JoinForm = ({ type, handleJoinButtonClick }) => {
 	const email = useInput('');
 	const nickname = useInput('');
 	const description = useInput('');
@@ -48,8 +48,10 @@ const JoinForm = ({ handleJoinButtonClick }) => {
 	return (
 		<JoinFormStyled>
 			<JoinFormBox>
-				<JoinFormBox.Title>추가 정보 입력하기</JoinFormBox.Title>
-				<FormContainer>
+				<JoinFormBox.Title>
+					{type === 'join' ? '추가 정보 입력하기' : '프로필 수정하기'}
+				</JoinFormBox.Title>
+				<FormContainer type={type}>
 					<FormItem>
 						<FormItem.Title>이메일</FormItem.Title>
 						<FormItem.Input placeholder="이메일을 입력해주세요. " {...email} />
@@ -118,12 +120,14 @@ const JoinForm = ({ handleJoinButtonClick }) => {
 						</FormItem.InputList>
 					</FormItem>
 				</FormContainer>
-				<JoinFormBox.SubmitButton onClick={handleJoinButtonClick}>
-					프로필 설정 완료
+				<JoinFormBox.SubmitButton type={type} onClick={handleJoinButtonClick}>
+					{type === 'join' ? '프로필 설정 완료' : '프로필 수정'}
 				</JoinFormBox.SubmitButton>
-				<JoinFormBox.SkipButton onClick={handleJoinButtonClick}>
-					다음에 입력하기
-				</JoinFormBox.SkipButton>
+				{type === 'join' && (
+					<JoinFormBox.SkipButton onClick={handleJoinButtonClick}>
+						다음에 입력하기
+					</JoinFormBox.SkipButton>
+				)}
 			</JoinFormBox>
 		</JoinFormStyled>
 	);
