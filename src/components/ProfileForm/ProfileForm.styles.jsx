@@ -22,7 +22,7 @@ JoinFormBox.Title = styled.h3`
 
 JoinFormBox.SubmitButton = styled.button`
 	display: block;
-	margin: 0 auto 20px;
+	margin: ${({ type }) => (type === 'join' ? '0 auto 20px' : 'auto')};
 	width: 136px;
 	height: 42px;
 	background: #651eff;
@@ -41,7 +41,7 @@ JoinFormBox.SkipButton = styled.button`
 `;
 
 export const FormContainer = styled.div`
-	margin: 46px auto 37px;
+	margin: 47px auto ${({ type }) => (type === 'join' ? '33px' : '43px')};
 	width: 80%;
 `;
 

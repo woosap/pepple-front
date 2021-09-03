@@ -16,10 +16,12 @@ const DialogStyled = styled.div`
 
 DialogStyled.Box = styled.div`
 	width: ${({ type }) =>
-		type === 'login' || type === 'join' ? '567px' : '713px'};
+		type === 'login' || type === 'profile_join' || type === 'profile_edit'
+			? '567px'
+			: '713px'};
 	height: ${({ type }) => {
 		if (type === 'login') return '617px';
-		if (type === 'join') return '678px';
+		if (type === 'profile_join' || type === 'profile_edit') return '678px';
 		return '437px';
 	}};
 	position: relative;
