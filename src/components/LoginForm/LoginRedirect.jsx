@@ -1,40 +1,27 @@
-import React, { useEffect } from 'react';
+import React, { useContext, useLayoutEffect } from 'react';
 import qs from 'qs';
-import axios from 'axios';
+import AuthContext from '../../store/auth';
 
-const LoginRedirect = ({ location, history }) => {
-	useEffect(() => {
-		async function getToken() {
-			const { code } = qs.parse(location.search, {
-				ignoreQueryPrefix: true,
+const LoginRedirect = ({ history }) => {
+	const { actions } = useContext(AuthContext);
+	const { setToken, setConfig } = actions;
+
+	useLayoutEffect(() => {
+		const query = qs.parse(window.location.search, {
+			ignoreQueryPrefix: true,
+		});
+		const getToken = query.token;
+		if (getToken) {
+			localStorage.setItem('token', getToken);
+			setToken(getToken);
+			setConfig({
+				header: {
+					Authorization: `Bearer ${getToken}`,
+				},
 			});
-
-			const clientID = 'c626d47b6711b219e86c';
-			const clientSecret = '';
-
-			const response = await axios.post(
-				'https://github.com/login/oauth/access_token',
-				{
-					code,
-					clientID,
-					clientSecret,
-				},
-				{
-					headers: {
-						accept: 'application/json',
-					},
-				},
-			);
-
-			const token = response.data.access_token;
-
-			console.log(`github token: ${token}`);
-			console.log(location);
+			history.push('/');
 		}
-
-		getToken();
-		history.push('/');
-	}, [location]);
+	}, []);
 	return <div />;
 };
 

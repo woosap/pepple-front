@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import axios from 'axios';
 import styled from 'styled-components';
 import { OverlayContainer } from '@react-aria/overlays';
@@ -8,24 +8,35 @@ import RoomListView from '../components/RoomListView/RoomListView';
 import Dialog from '../components/Dialog/Dialog';
 import LoginForm from '../components/LoginForm/LoginForm';
 import ProfileForm from '../components/ProfileForm/ProfileForm';
+import AuthContext from '../store/auth';
 
-const MainPage = ({ user, categories }) => {
-	const [isLoginRequired, setIsLoginRequired] = useState(false);
+const MainPage = ({ categories }) => {
+	const [isLoginRequired, setIsLoginRequired] = useState(true);
 	const [isAdditionalInfoRequired, setIsAdditionalInfoRequired] =
 		useState(false);
+	const { state } = useContext(AuthContext);
+	const { token } = state;
 
 	const rooms = [];
 
-	axios
-		.get(`http://3.36.118.216:8080/room?pageNumber=${0}&pageSize=${10}`)
-		.then(res => {
-			rooms.push(...res.data);
-		})
-		.catch(err => console.log(err));
+	useEffect(() => {
+		axios
+			.get(`http://3.36.118.216:8080/room?pageNumber=${0}&pageSize=${10}`)
+			.then(res => {
+				rooms.push(...res.data);
+			})
+			.catch(err => console.log(err));
 
-	const onLoginButtonClick = () => {
-		setIsLoginRequired(false);
-		setIsAdditionalInfoRequired(true);
+		if (token) {
+			setIsLoginRequired(false);
+			setIsAdditionalInfoRequired(false);
+		}
+	});
+
+	const onLoginButtonClick = service => {
+		window.location.replace(
+			`http://3.36.118.216:8080/oauth2/authorize/${service}`,
+		);
 	};
 
 	const onJoinButtonClick = () => {
@@ -38,7 +49,7 @@ const MainPage = ({ user, categories }) => {
 			<Header />
 			<MainContainer>
 				<MainContainer.Left>
-					<ProfileView user={user} />
+					<ProfileView />
 				</MainContainer.Left>
 				<MainContainer.Right>
 					<RoomListView roomList={rooms} categories={categories} />

@@ -4,9 +4,11 @@ import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import { createGlobalStyle } from 'styled-components';
 import MainPage from './pages/MainPage';
 import DetailPage from './pages/DetailPage';
+import { AuthProvider } from './store/auth';
+import LoginRedirect from './components/LoginForm/LoginRedirect';
 
 const GlobalStyle = createGlobalStyle`
-	${resetCss};  
+	${resetCss};
 	html, body {
 		height: 100%;
 		background-color: #F5F7FE;
@@ -33,7 +35,7 @@ const GlobalStyle = createGlobalStyle`
 function App() {
 	return (
 		<>
-			<BrowserRouter basename="/pepple-front">
+			<BrowserRouter basename="/">
 				<Switch>
 					<Route path="/" exact>
 						<MainPage />
@@ -41,6 +43,7 @@ function App() {
 					<Route path="/room">
 						<DetailPage />
 					</Route>
+					<Route path="/redirect" component={LoginRedirect} />
 				</Switch>
 			</BrowserRouter>
 			<GlobalStyle />
@@ -48,4 +51,8 @@ function App() {
 	);
 }
 
-export default App;
+export default () => (
+	<AuthProvider>
+		<App />
+	</AuthProvider>
+);
