@@ -40,3 +40,15 @@ export const CreateNewRoomButton = styled.button`
 		outline: none;
 	}
 `;
+
+export const Loading = styled.div`
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin-top: 100px;
+	margin-left: -53px;
+	font-size: 18px;
+	color: #111862;
+	letter-spacing: -0.05em;
+`;

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 import styled from 'styled-components';
 import { OverlayContainer } from '@react-aria/overlays';
 import Header from '../components/Header/Header';
@@ -8,10 +9,19 @@ import Dialog from '../components/Dialog/Dialog';
 import LoginForm from '../components/LoginForm/LoginForm';
 import ProfileForm from '../components/ProfileForm/ProfileForm';
 
-const MainPage = ({ user, rooms, categories }) => {
+const MainPage = ({ user, categories }) => {
 	const [isLoginRequired, setIsLoginRequired] = useState(false);
 	const [isAdditionalInfoRequired, setIsAdditionalInfoRequired] =
 		useState(false);
+
+	const rooms = [];
+
+	axios
+		.get(`http://3.36.118.216:8080/room?pageNumber=${0}&pageSize=${10}`)
+		.then(res => {
+			rooms.push(...res.data);
+		})
+		.catch(err => console.log(err));
 
 	const onLoginButtonClick = () => {
 		setIsLoginRequired(false);
@@ -31,7 +41,7 @@ const MainPage = ({ user, rooms, categories }) => {
 					<ProfileView user={user} />
 				</MainContainer.Left>
 				<MainContainer.Right>
-					<RoomListView rooms={rooms} categories={categories} />
+					<RoomListView roomList={rooms} categories={categories} />
 				</MainContainer.Right>
 			</MainContainer>
 			{isLoginRequired && (
@@ -161,4 +171,6 @@ export const MainContainer = styled.div`
 
 MainContainer.Left = styled.div``;
 
-MainContainer.Right = styled.div``;
+MainContainer.Right = styled.div`
+	width: 100%;
+`;
