@@ -102,4 +102,5 @@ DetailContainer.Right = styled.div`
 	align-items: flex-end;
 	margin: 40px 0 0 30px;
 	width: 15%;
+	position: relative;
 `;

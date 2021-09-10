@@ -15,7 +15,8 @@ const GlobalStyle = createGlobalStyle`
 	#root {
 		width: 100%;
 		height: 100%;
-		font-family: Apple SD Gothic Neo;
+		font-size: 62.5%;
+		font-family: Noto Sans KR;
 		font-weight: normal;
 	}
 
