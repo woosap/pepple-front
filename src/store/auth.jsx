@@ -1,20 +1,24 @@
 import React, { createContext, useState } from 'react';
 
 const AuthContext = createContext({
-	state: { token: null, config: null },
+	state: { token: null, userId: null, userImg: null, isJoinRequired: false },
 	actions: {
 		setToken: () => {},
-		setConfig: () => {},
+		setUserId: () => {},
+		setUserImg: () => {},
+		setIsJoinRequired: () => {},
 	},
 });
 
 const AuthProvider = ({ children }) => {
 	const [token, setToken] = useState(localStorage.getItem('token'));
-	const [config, setConfig] = useState(null);
+	const [userId, setUserId] = useState(null);
+	const [userImg, setUserImg] = useState(null);
+	const [isJoinRequired, setIsJoinRequired] = useState(false);
 
 	const value = {
-		state: { token, config },
-		actions: { setToken, setConfig },
+		state: { token, userId, userImg, isJoinRequired },
+		actions: { setToken, setUserId, setUserImg, setIsJoinRequired },
 	};
 
 	return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

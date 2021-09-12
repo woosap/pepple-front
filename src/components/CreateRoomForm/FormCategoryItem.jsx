@@ -1,10 +1,17 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 
-const FormCategoryItem = ({ category }) => {
+const FormCategoryItem = ({
+	category,
+	selectedCategory,
+	setSelectedCategory,
+}) => {
 	const [selected, setSelected] = useState(false);
 
 	const handleClick = () => {
+		if (!selected) {
+			setSelectedCategory([...selectedCategory, category]);
+		}
 		setSelected(prev => !prev);
 	};
 

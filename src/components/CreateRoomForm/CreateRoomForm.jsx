@@ -11,17 +11,24 @@ import {
 import FormCategoryItem from './FormCategoryItem';
 import { ReactComponent as SpreadIcon } from '../../assets/icon/icon-arrow-bottom.svg';
 import DropdownBoxItem from './DropdownBoxItem';
+import useInput from '../../hooks/useInput';
 
-const CreateRoomForm = ({ categories }) => {
+const CreateRoomForm = ({ categories, handleSubmit }) => {
 	const categoryNames = ['DESIGN', 'DEVELOPMENT', 'PROJECT', 'STUDY'];
 	const numberOfMembers = [2, 3, 4, 5];
+	const [selectedCategory, setSelectedCategory] = useState([]);
 	const [clicked, setClicked] = useState(false);
 	const [isActive, setIsActive] = useState(false);
-	const [selectedNumber, setSelectedNumber] =
+	const [capacity, setCapacity] = useState(null);
+	const [selectedOption, setSelectedOption] =
 		useState('인원 수를 선택해 주세요.');
+	const title = useInput('');
+	const subtitle = useInput('');
 
-	const handleSubmitButtonClick = () => {
+	const handleSubmitButtonClick = e => {
+		e.preventDefault();
 		setClicked(prev => !prev);
+		handleSubmit(selectedCategory, title.value, subtitle.value, capacity);
 	};
 
 	const handleDropdownButtonClick = () => {
@@ -39,17 +46,25 @@ const CreateRoomForm = ({ categories }) => {
 								<FormCategoryItem
 									key={categories[name].id}
 									category={categories[name]}
+									selectedCategory={selectedCategory}
+									setSelectedCategory={setSelectedCategory}
 								/>
 							))}
 						</FormItem.CategoryList>
 					</FormItem>
 					<FormItem>
 						<FormItem.Title>대제목</FormItem.Title>
-						<FormItem.Input placeholder="페플러의 관심을 끌 수 있도록 제목을 설정해 주세요!" />
+						<FormItem.Input
+							placeholder="페플러의 관심을 끌 수 있도록 제목을 설정해 주세요!"
+							{...title}
+						/>
 					</FormItem>
 					<FormItem>
 						<FormItem.Title>소제목</FormItem.Title>
-						<FormItem.Input placeholder="스터디에 대해 잘 알 수 있게 적어주세요!" />
+						<FormItem.Input
+							placeholder="스터디에 대해 잘 알 수 있게 적어주세요!"
+							{...subtitle}
+						/>
 					</FormItem>
 					<FormItem>
 						<FormItem.Title>참여 인원</FormItem.Title>
@@ -58,7 +73,7 @@ const CreateRoomForm = ({ categories }) => {
 								isActive={isActive}
 								onClick={handleDropdownButtonClick}
 							>
-								{selectedNumber}
+								{selectedOption}
 								<span className="spreadIcon">
 									<SpreadIcon />
 								</span>
@@ -72,15 +87,15 @@ const CreateRoomForm = ({ categories }) => {
 								<DropdownBoxItem
 									key={number}
 									number={number}
-									selectedNumber={selectedNumber}
-									setSelectedNumber={setSelectedNumber}
+									selectedOption={selectedOption}
+									setSelectedOption={setSelectedOption}
+									setNumber={setCapacity}
 									setIsActive={setIsActive}
 								/>
 							))}
 						</DropdownBox>
 					</FormItem>
 				</FormItem.Box>
-
 				<SubmitButton clicked={clicked} onClick={handleSubmitButtonClick}>
 					완료
 				</SubmitButton>

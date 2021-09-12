@@ -12,10 +12,9 @@ import AuthContext from '../store/auth';
 
 const MainPage = ({ categories }) => {
 	const [isLoginRequired, setIsLoginRequired] = useState(true);
-	const [isAdditionalInfoRequired, setIsAdditionalInfoRequired] =
-		useState(false);
-	const { state } = useContext(AuthContext);
-	const { token } = state;
+	const { state, actions } = useContext(AuthContext);
+	const { token, isJoinRequired } = state;
+	const { setIsJoinRequired } = actions;
 
 	const rooms = [];
 
@@ -29,7 +28,7 @@ const MainPage = ({ categories }) => {
 
 		if (token) {
 			setIsLoginRequired(false);
-			setIsAdditionalInfoRequired(false);
+			setIsJoinRequired(false);
 		}
 	});
 
@@ -40,8 +39,28 @@ const MainPage = ({ categories }) => {
 	};
 
 	const onJoinButtonClick = () => {
-		setIsLoginRequired(false);
-		setIsAdditionalInfoRequired(false);
+		// api 호출
+	};
+
+	const onCreateRoom = (categoryList, _title, _subtitle, _capacity) => {
+		console.log(_title, _subtitle, _capacity, token);
+		axios
+			.post(
+				`http://3.36.118.216:8080/room/create`,
+				{
+					title: _title,
+					sub_title: _subtitle,
+					capacity: _capacity,
+					category: ['DEVELOP', 'STUDY'],
+				},
+				{
+					headers: {
+						Authorization: `Bearer ${token}`,
+					},
+				},
+			)
+			.then(res => console.log(res))
+			.catch(err => console.log(err));
 	};
 
 	return (
@@ -52,7 +71,11 @@ const MainPage = ({ categories }) => {
 					<ProfileView />
 				</MainContainer.Left>
 				<MainContainer.Right>
-					<RoomListView roomList={rooms} categories={categories} />
+					<RoomListView
+						roomList={rooms}
+						categories={categories}
+						onCreateRoom={onCreateRoom}
+					/>
 				</MainContainer.Right>
 			</MainContainer>
 			{isLoginRequired && (
@@ -62,7 +85,7 @@ const MainPage = ({ categories }) => {
 					</Dialog>
 				</OverlayContainer>
 			)}
-			{isAdditionalInfoRequired && (
+			{isJoinRequired && (
 				<OverlayContainer>
 					<Dialog type="profile_join">
 						<ProfileForm

@@ -12,7 +12,7 @@ import DialogCloseButton from '../Dialog/DialogCloseButton';
 import RoomListItem from '../RoomListItem/RoomListItem';
 import CreateRoomForm from '../CreateRoomForm/CreateRoomForm';
 
-const RoomListView = ({ roomList, categories }) => {
+const RoomListView = ({ roomList, categories, onCreateRoom }) => {
 	const { state, openButtonProps, openButtonRef } = useToggleDialog();
 	const [clicked, setClicked] = useState(false);
 	const [rooms, setRooms] = useState(roomList);
@@ -29,7 +29,10 @@ const RoomListView = ({ roomList, categories }) => {
 	const handleClick = () => {
 		setClicked(prev => !prev);
 	};
-	console.log(rooms);
+
+	const handleSubmit = (categoryList, title, subtitle, capacity) => {
+		onCreateRoom(categoryList, title, subtitle, capacity);
+	};
 
 	if (!rooms) {
 		return (
@@ -43,9 +46,30 @@ const RoomListView = ({ roomList, categories }) => {
 
 	if (rooms.length === 0) {
 		return (
-			<Loading>
-				<p>현재 존재하는 방이 없어요! 새로운 방을 만들어주세요</p>
-			</Loading>
+			<>
+				<Loading>
+					<p>현재 존재하는 방이 없어요! 새로운 방을 만들어주세요</p>
+				</Loading>
+				<CreateNewRoomButton
+					{...openButtonProps}
+					ref={openButtonRef}
+					onClick={handleClick}
+					clicked={clicked}
+				>
+					방 새로 만들기
+				</CreateNewRoomButton>
+				{state.isOpen && (
+					<OverlayContainer>
+						<Dialog onClose={handleClose}>
+							<CreateRoomForm
+								categories={categories}
+								handleSubmit={handleSubmit}
+							/>
+							<DialogCloseButton onCloseButton={handleClose} />
+						</Dialog>
+					</OverlayContainer>
+				)}
+			</>
 		);
 	}
 
@@ -74,7 +98,10 @@ const RoomListView = ({ roomList, categories }) => {
 			{state.isOpen && (
 				<OverlayContainer>
 					<Dialog onClose={handleClose}>
-						<CreateRoomForm categories={categories} />
+						<CreateRoomForm
+							categories={categories}
+							handleSubmit={handleSubmit}
+						/>
 						<DialogCloseButton onCloseButton={handleClose} />
 					</Dialog>
 				</OverlayContainer>
