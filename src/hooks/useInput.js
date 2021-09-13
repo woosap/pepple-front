@@ -1,21 +1,32 @@
 import { useState } from 'react';
 
-const useInput = (initialValue, validator) => {
+const useInput = (initialValue, validator, checker) => {
 	const [value, setValue] = useState(initialValue);
-	const [isFilled, setIsFilled] = useState(false);
+	const [isValid, setIsValid] = useState(true);
+	const [isFilled, setIsFilled] = useState(true);
 	const onChange = e => {
-		let willUpdate = true;
-		if (typeof validator === 'function') {
-			willUpdate = validator(value);
-		}
-		if (willUpdate) {
+		if (typeof checker === 'function') {
+			if (checker(e.target.value)) {
+				setValue(e.target.value);
+				setIsFilled(true);
+			}
+		} else {
 			setValue(e.target.value);
+			setIsFilled(true);
 		}
 	};
 	const onBlur = () => {
-		if (value !== '') setIsFilled(true);
+		if (value === '') {
+			setIsFilled(false);
+			setIsValid(true);
+			return;
+		}
+		if (typeof validator === 'function') {
+			setIsValid(validator(value));
+			setIsFilled(true);
+		}
 	};
-	return { value, isFilled, onChange, onBlur };
+	return { value, isValid, isFilled, onChange, onBlur, setIsFilled };
 };
 
 export default useInput;

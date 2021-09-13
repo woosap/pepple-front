@@ -13,7 +13,7 @@ import AuthContext from '../store/auth';
 const MainPage = ({ categories }) => {
 	const [isLoginRequired, setIsLoginRequired] = useState(true);
 	const { state, actions } = useContext(AuthContext);
-	const { token, isJoinRequired } = state;
+	const { token, isJoinRequired, userId, userImg } = state;
 	const { setIsJoinRequired } = actions;
 
 	const rooms = [];
@@ -38,8 +38,9 @@ const MainPage = ({ categories }) => {
 		);
 	};
 
-	const onJoinButtonClick = () => {
+	const onJoinButtonClick = (_email, _nickname, _desc, _job, _file, _urls) => {
 		// api 호출
+		console.log(userImg, userId, _email, _nickname, _desc, _job, _file, _urls);
 	};
 
 	const onCreateRoom = (categoryList, _title, _subtitle, _capacity) => {

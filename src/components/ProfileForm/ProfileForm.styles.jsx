@@ -57,6 +57,13 @@ export const FormItem = styled.div`
 	}
 `;
 
+FormItem.Error = styled.div`
+	color: #fc4166;
+	margin-left: calc(25% + 5px);
+	margin-top: -8px;
+	margin-bottom: 5px;
+`;
+
 FormItem.Title = styled.label`
 	display: inline-block;
 	width: 25%;
