@@ -1,7 +1,8 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext, useEffect } from 'react';
 import axios from 'axios';
 import styled from 'styled-components';
 import { OverlayContainer } from '@react-aria/overlays';
+import S3FileUpload from 'react-s3';
 import Header from '../components/Header/Header';
 import ProfileView from '../components/ProfileView/ProfileView';
 import RoomListView from '../components/RoomListView/RoomListView';
@@ -11,12 +12,19 @@ import ProfileForm from '../components/ProfileForm/ProfileForm';
 import AuthContext from '../store/auth';
 
 const MainPage = ({ categories }) => {
-	const [isLoginRequired, setIsLoginRequired] = useState(true);
 	const { state, actions } = useContext(AuthContext);
-	const { token, isJoinRequired, userId, userImg } = state;
-	const { setIsJoinRequired } = actions;
+	const { token, userId, userImg, isJoinRequired, isLoginRequired } = state;
+	const { setUserImg, setIsJoinRequired, setIsLoginRequired } = actions;
 
 	const rooms = [];
+
+	const AWSConfig = {
+		bucketName: 'pepple-profileimg',
+		region: 'us-east-2',
+		accessKeyId: process.env.REACT_APP_AWS_ID,
+		secretAcessKey: process.env.REACT_APP_AWS_SECRET,
+		headers: { 'Access-Control-Allow-Origin': '*' },
+	};
 
 	useEffect(() => {
 		axios
@@ -38,9 +46,28 @@ const MainPage = ({ categories }) => {
 		);
 	};
 
-	const onJoinButtonClick = (_email, _nickname, _desc, _job, _file, _urls) => {
-		// api 호출
-		console.log(userImg, userId, _email, _nickname, _desc, _job, _file, _urls);
+	const onJoinButtonClick = (_nickname, _desc, _job, _file, _urls) => {
+		S3FileUpload.uploadFile(_file, AWSConfig)
+			.then(res => {
+				console.log(res);
+				setUserImg(res.location);
+			})
+			.catch(err => console.warn(err));
+		axios
+			.post(`http://3.36.118.216:8080/user`, {
+				imageUrl: userImg,
+				job: 'FRONTEND',
+				nickname: _nickname,
+				profile: _desc,
+				snsList: _urls,
+				userId,
+			})
+			.then(res => {
+				console.log(res);
+				setIsJoinRequired(false);
+			})
+			.catch(err => console.warn(err));
+		console.log(userImg, userId, _nickname, _desc, _job, _file, _urls);
 	};
 
 	const onCreateRoom = (categoryList, _title, _subtitle, _capacity) => {
