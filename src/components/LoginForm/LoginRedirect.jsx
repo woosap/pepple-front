@@ -5,7 +5,13 @@ import AuthContext from '../../store/auth';
 const LoginRedirect = ({ history }) => {
 	const { state, actions } = useContext(AuthContext);
 	const { userId } = state;
-	const { setToken, setUserId, setUserImg, setIsJoinRequired } = actions;
+	const {
+		setToken,
+		setUserId,
+		setUserImg,
+		setIsJoinRequired,
+		setIsLoginRequired,
+	} = actions;
 
 	const getUserInfo = query => {
 		const getId = query.id;
@@ -28,11 +34,13 @@ const LoginRedirect = ({ history }) => {
 		if (getToken && userId) {
 			localStorage.setItem('token', getToken);
 			setToken(getToken);
+			setIsLoginRequired(false);
 			history.push('/');
 		} else if (getToken && !userId) {
 			console.warn('로그인 중 에러 발생 : register 전 토큰 발급');
 		} else {
 			getUserInfo(query);
+			setIsLoginRequired(false);
 		}
 	}, []);
 

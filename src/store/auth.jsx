@@ -1,12 +1,19 @@
 import React, { createContext, useState } from 'react';
 
 const AuthContext = createContext({
-	state: { token: null, userId: null, userImg: null, isJoinRequired: false },
+	state: {
+		token: null,
+		userId: null,
+		userImg: null,
+		isJoinRequired: false,
+		isLoginRequired: false,
+	},
 	actions: {
 		setToken: () => {},
 		setUserId: () => {},
 		setUserImg: () => {},
 		setIsJoinRequired: () => {},
+		setIsLoginRequired: () => {},
 	},
 });
 
@@ -15,10 +22,17 @@ const AuthProvider = ({ children }) => {
 	const [userId, setUserId] = useState(null);
 	const [userImg, setUserImg] = useState(null);
 	const [isJoinRequired, setIsJoinRequired] = useState(false);
+	const [isLoginRequired, setIsLoginRequired] = useState(true);
 
 	const value = {
-		state: { token, userId, userImg, isJoinRequired },
-		actions: { setToken, setUserId, setUserImg, setIsJoinRequired },
+		state: { token, userId, userImg, isJoinRequired, isLoginRequired },
+		actions: {
+			setToken,
+			setUserId,
+			setUserImg,
+			setIsJoinRequired,
+			setIsLoginRequired,
+		},
 	};
 
 	return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
