@@ -13,13 +13,6 @@ import useInput from '../../hooks/useInput';
 import { ReactComponent as SpreadIcon } from '../../assets/icon/icon-arrow-bottom2.svg';
 
 const JoinForm = ({ type, handleJoinButtonClick }) => {
-	const checkEmail = value => {
-		if (value === '') return true;
-		const regExp =
-			/^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
-		return regExp.test(value);
-	};
-
 	const checkNickname = value => {
 		let result = true;
 		axios
@@ -54,7 +47,6 @@ const JoinForm = ({ type, handleJoinButtonClick }) => {
 		return true;
 	};
 
-	const email = useInput('', checkEmail);
 	const nickname = useInput('', checkNickname, checkInputLetter);
 	const nicknameInput = useRef();
 	const description = useInput('');
@@ -64,9 +56,7 @@ const JoinForm = ({ type, handleJoinButtonClick }) => {
 	}
 	const jobs = [
 		{ id: 1, title: '기획자' },
-		{ id: 2, title: 'GUI 디자이너' },
-		{ id: 3, title: 'UX 디자이너' },
-		{ id: 4, title: '프로덕트 디자이너' },
+		{ id: 4, title: '디자이너' },
 		{ id: 5, title: '프론트엔드 개발자' },
 		{ id: 6, title: '백엔드 개발자' },
 		{ id: 7, title: '마케터' },
@@ -103,7 +93,6 @@ const JoinForm = ({ type, handleJoinButtonClick }) => {
 		}
 		const snsUrlList = snsList.map(sns => sns.value);
 		handleJoinButtonClick(
-			email.value,
 			nickname.value,
 			description.value,
 			selectedJob,
@@ -119,13 +108,6 @@ const JoinForm = ({ type, handleJoinButtonClick }) => {
 					{type === 'join' ? '추가 정보 입력하기' : '프로필 수정하기'}
 				</JoinFormBox.Title>
 				<FormContainer type={type}>
-					<FormItem>
-						<FormItem.Title>이메일</FormItem.Title>
-						<FormItem.Input placeholder="이메일을 입력해주세요. " {...email} />
-					</FormItem>
-					{email.isValid || (
-						<FormItem.Error>잘못된 이메일 형식입니다. </FormItem.Error>
-					)}
 					<FormItem>
 						<FormItem.Title>프로필 사진</FormItem.Title>
 						<UploadForm>
