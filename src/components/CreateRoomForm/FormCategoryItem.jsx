@@ -10,14 +10,18 @@ const FormCategoryItem = ({
 
 	const handleClick = () => {
 		if (!selected) {
-			setSelectedCategory([...selectedCategory, category]);
+			setSelectedCategory([...selectedCategory, category.value]);
+		} else {
+			setSelectedCategory(
+				selectedCategory.filter(item => item !== category.value),
+			);
 		}
 		setSelected(prev => !prev);
 	};
 
 	return (
 		<FormCategoryItemStyled selected={selected} onClick={handleClick}>
-			{category.ko}
+			{category.title}
 		</FormCategoryItemStyled>
 	);
 };

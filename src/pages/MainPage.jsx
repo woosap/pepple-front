@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useLayoutEffect, useState } from 'react';
 import axios from 'axios';
 import styled from 'styled-components';
 import { OverlayContainer } from '@react-aria/overlays';
@@ -17,7 +17,7 @@ const MainPage = ({ categories }) => {
 	const { setUserImg, setIsJoinRequired, setIsLoginRequired, setToken } =
 		actions;
 
-	const rooms = [];
+	const [rooms, setRooms] = useState([]);
 
 	const AWSConfig = {
 		bucketName: 'pepple-profileimg',
@@ -27,11 +27,11 @@ const MainPage = ({ categories }) => {
 		headers: { 'Access-Control-Allow-Origin': '*' },
 	};
 
-	useEffect(() => {
+	useLayoutEffect(() => {
 		axios
 			.get(`http://3.36.118.216:8080/room?pageNumber=${0}&pageSize=${10}`)
 			.then(res => {
-				rooms.push(...res.data);
+				setRooms([...res.data]);
 			})
 			.catch(err => console.log(err));
 
@@ -77,7 +77,7 @@ const MainPage = ({ categories }) => {
 	};
 
 	const onCreateRoom = (categoryList, _title, _subtitle, _capacity) => {
-		console.log(_title, _subtitle, _capacity, token);
+		console.log(categoryList, _title, _subtitle, _capacity);
 		axios
 			.post(
 				`http://3.36.118.216:8080/room/create`,
@@ -85,7 +85,7 @@ const MainPage = ({ categories }) => {
 					title: _title,
 					sub_title: _subtitle,
 					capacity: _capacity,
-					category: ['DEVELOP', 'STUDY'],
+					category: categoryList,
 				},
 				{
 					headers: {
@@ -150,10 +150,10 @@ MainPage.defaultProps = {
 		],
 	},
 	categories: {
-		DESIGN: { id: 1, ko: '디자인' },
-		DEVELOPMENT: { id: 2, ko: '개발' },
-		PROJECT: { id: 3, ko: '프로젝트' },
-		STUDY: { id: 4, ko: '스터디' },
+		DESIGN: { id: 1, title: '디자인', value: 'DESIGN' },
+		DEVELOP: { id: 2, title: '개발', value: 'DEVELOP' },
+		PROJECT: { id: 3, title: '프로젝트', value: 'PROJECT' },
+		STUDY: { id: 4, title: '스터디', value: 'STUDY' },
 	},
 };
 

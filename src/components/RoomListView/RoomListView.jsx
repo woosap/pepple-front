@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useLayoutEffect } from 'react';
 import { OverlayContainer } from '@react-aria/overlays';
 import {
 	RoomListViewStyled,
@@ -17,7 +17,7 @@ const RoomListView = ({ roomList, categories, onCreateRoom }) => {
 	const [clicked, setClicked] = useState(false);
 	const [rooms, setRooms] = useState(roomList);
 
-	useEffect(() => {
+	useLayoutEffect(() => {
 		setRooms(roomList);
 	}, [roomList]);
 
@@ -62,7 +62,7 @@ const RoomListView = ({ roomList, categories, onCreateRoom }) => {
 					<OverlayContainer>
 						<Dialog onClose={handleClose}>
 							<CreateRoomForm
-								categories={categories}
+								categoriesObj={categories}
 								handleSubmit={handleSubmit}
 							/>
 							<DialogCloseButton onCloseButton={handleClose} />
@@ -79,9 +79,9 @@ const RoomListView = ({ roomList, categories, onCreateRoom }) => {
 				<RoomList>
 					{rooms.map(room => (
 						<RoomListItem
-							key={room.id}
+							key={room.roomId}
 							room={room}
-							categories={room.categories}
+							categories={room.category}
 							categoriesObj={categories}
 						/>
 					))}
@@ -99,7 +99,7 @@ const RoomListView = ({ roomList, categories, onCreateRoom }) => {
 				<OverlayContainer>
 					<Dialog onClose={handleClose}>
 						<CreateRoomForm
-							categories={categories}
+							categoriesObj={categories}
 							handleSubmit={handleSubmit}
 						/>
 						<DialogCloseButton onCloseButton={handleClose} />

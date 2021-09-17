@@ -6,7 +6,6 @@ import {
 	MemberProfileImageList,
 } from './RoomListItem.styles';
 import ProfileImage from '../ProfileImage/ProfileImage';
-import RoomCategory from '../RoomCategory/RoomCategory';
 
 const RoomListItem = ({ room, categories, categoriesObj }) => {
 	const [clicked, setClicked] = useState(false);
@@ -21,18 +20,17 @@ const RoomListItem = ({ room, categories, categoriesObj }) => {
 				<RoomListItemBox>
 					<RoomListItemBox.CategoryList>
 						{categories.map(category => (
-							<RoomCategory
+							<RoomListItemBox.CategoryItem
 								key={categoriesObj[category].id}
-								category={category}
-								categories={categoriesObj}
-							/>
+								value={category}
+							>
+								{categoriesObj[category].title}
+							</RoomListItemBox.CategoryItem>
 						))}
 					</RoomListItemBox.CategoryList>
 					<RoomListItemBox.Title>{room.title}</RoomListItemBox.Title>
-					<RoomListItemBox.Subtitle>{room.subtitle}</RoomListItemBox.Subtitle>
-					<RoomListItemBox.BirthTime>
-						{room.birthTime}
-					</RoomListItemBox.BirthTime>
+					<RoomListItemBox.Subtitle>{room.subTitle}</RoomListItemBox.Subtitle>
+					<RoomListItemBox.BirthTime>{room.date}</RoomListItemBox.BirthTime>
 				</RoomListItemBox>
 				<MemberProfileImageList>
 					<ProfileImage order={1} />

@@ -13,9 +13,9 @@ import { ReactComponent as SpreadIcon } from '../../assets/icon/icon-arrow-botto
 import DropdownBoxItem from './DropdownBoxItem';
 import useInput from '../../hooks/useInput';
 
-const CreateRoomForm = ({ categories, handleSubmit }) => {
-	const categoryNames = ['DESIGN', 'DEVELOPMENT', 'PROJECT', 'STUDY'];
+const CreateRoomForm = ({ categoriesObj, handleSubmit }) => {
 	const numberOfMembers = [2, 3, 4, 5];
+	const categories = ['DESIGN', 'DEVELOP', 'PROJECT', 'STUDY'];
 	const [selectedCategory, setSelectedCategory] = useState([]);
 	const [clicked, setClicked] = useState(false);
 	const [isActive, setIsActive] = useState(false);
@@ -42,10 +42,10 @@ const CreateRoomForm = ({ categories, handleSubmit }) => {
 					<FormItem>
 						<FormItem.Title>카테고리</FormItem.Title>
 						<FormItem.CategoryList>
-							{categoryNames.map(name => (
+							{categories.map(value => (
 								<FormCategoryItem
-									key={categories[name].id}
-									category={categories[name]}
+									key={categoriesObj[value].id}
+									category={categoriesObj[value]}
 									selectedCategory={selectedCategory}
 									setSelectedCategory={setSelectedCategory}
 								/>
