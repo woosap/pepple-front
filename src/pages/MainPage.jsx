@@ -39,7 +39,7 @@ const MainPage = ({ categories }) => {
 			setIsLoginRequired(false);
 			setIsJoinRequired(false);
 		}
-	});
+	}, []);
 
 	const onLoginButtonClick = service => {
 		window.location.replace(
