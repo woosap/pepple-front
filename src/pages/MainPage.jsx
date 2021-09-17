@@ -77,13 +77,12 @@ const MainPage = ({ categories }) => {
 	};
 
 	const onCreateRoom = (categoryList, _title, _subtitle, _capacity) => {
-		console.log(categoryList, _title, _subtitle, _capacity);
 		axios
 			.post(
 				`http://3.36.118.216:8080/room/create`,
 				{
 					title: _title,
-					sub_title: _subtitle,
+					subTitle: _subtitle,
 					capacity: _capacity,
 					category: categoryList,
 				},
