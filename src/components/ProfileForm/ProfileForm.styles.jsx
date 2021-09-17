@@ -89,6 +89,7 @@ FormItem.InputItem = styled.input`
 	padding-left: 13px;
 	font-size: 12px;
 	margin-bottom: 8.5px;
+	letter-spacing: -0.03em;
 
 	::placeholder {
 		color: #cecece;
@@ -164,15 +165,13 @@ FormItem.Select = styled.div`
 	line-height: 18px;
 	letter-spacing: -0.03em;
 	color: ${props => (props.isSelected ? '#8e8585' : '#cecece')};
+	user-select: none;
 
-	.spreadIcon {
-		svg {
-			width: 100%;
-			height: 100%;
-		}
-		position: absolute;
-		right: 8px;
+	svg {
 		cursor: pointer;
+		position: absolute;
+		top: 8px;
+		right: 10px;
 	}
 `;
 
@@ -279,12 +278,10 @@ export const DropdownBox = styled.ul`
 export const DropdownItem = styled.li`
 	font-family: Noto Sans KR;
 	font-style: normal;
-	font-weight: ${({ value, selectedValue }) =>
-		value === selectedValue ? '500' : '300'};
+	font-weight: ${({ isSelected }) => (isSelected ? '500' : '300')};
 	font-size: 11px;
 	letter-spacing: -0.03em;
 	line-height: 23px;
-	color: ${({ value, selectedValue }) =>
-		value === selectedValue ? '#6138b9' : '#A3A3A3'};
+	color: ${({ isSelected }) => (isSelected ? '#6138b9' : '#A3A3A3')};
 	cursor: pointer;
 `;

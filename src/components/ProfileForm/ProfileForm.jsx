@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useContext } from 'react';
 import axios from 'axios';
 import {
 	JoinFormStyled,
@@ -11,21 +11,9 @@ import {
 } from './ProfileForm.styles';
 import useInput from '../../hooks/useInput';
 import { ReactComponent as SpreadIcon } from '../../assets/icon/icon-arrow-bottom2.svg';
+import AuthContext from '../../store/auth';
 
 const JoinForm = ({ type, handleJoinButtonClick }) => {
-	const checkNickname = value => {
-		let result = true;
-		axios
-			.get(`http://3.36.118.216:8080/api/nickname?nickname=${value}`)
-			.then(res => {
-				if (res.status !== 200) {
-					result = true;
-				}
-			})
-			.catch(err => console.warn(err));
-		return result;
-	};
-
 	const checkInputLetter = value => {
 		const special = /[`()~!@#$%^&*|\\'"_.,₩;:/?]/gi;
 		let len = 0;
@@ -47,26 +35,56 @@ const JoinForm = ({ type, handleJoinButtonClick }) => {
 		return true;
 	};
 
-	const nickname = useInput('', checkNickname, checkInputLetter);
 	const nicknameInput = useRef();
 	const description = useInput('');
 	const snsList = [];
 	for (let i = 0; i < 4; i += 1) {
-		snsList.push(useInput(''));
+		snsList.push({ id: i, value: useInput('') });
 	}
 	const jobs = [
-		{ id: 1, title: '기획자' },
-		{ id: 4, title: '디자이너' },
-		{ id: 5, title: '프론트엔드 개발자' },
-		{ id: 6, title: '백엔드 개발자' },
-		{ id: 7, title: '마케터' },
+		{ id: 1, title: '기획자', value: 'PLANNER' },
+		{ id: 4, title: '디자이너', value: 'DESIGNER' },
+		{ id: 5, title: '프론트엔드 개발자', value: 'FRONT' },
+		{ id: 6, title: '백엔드 개발자', value: 'BACKEND' },
+		{ id: 7, title: '마케터', value: 'MARKETER' },
 	];
+	const { state } = useContext(AuthContext);
+	const { userImg } = state;
+	const [nickname, setNickname] = useState('');
+	const [isFilled, setIsFilled] = useState(true);
+	const [isDuplicate, setIsDuplicate] = useState(false);
 	const [isActive, setIsActive] = useState(false);
-	const [selectedJob, setSelectedJob] = useState(
+	const [selectedJobTitle, setSelectedJobTitle] = useState(
 		'나를 나타내는 타이틀을 선택해주세요.',
 	);
-	const [isJobSelected, setIsJobSelected] = useState(false);
-	const [selectedFile, setSelectedFile] = useState('');
+	const [selectedJobValue, setSelectedJobValue] = useState(null);
+	const [selectedFile, setSelectedFile] = useState(userImg);
+
+	const checkNickname = async () => {
+		if (nickname === '') {
+			setIsFilled(false);
+			return;
+		}
+		await axios
+			.get(`http://3.36.118.216:8080/nickname?nickname=${nickname}`)
+			.then(res => {
+				console.log(res);
+			})
+			.catch(err => {
+				const errObj = { ...err };
+				if (errObj.response.status === 409) {
+					setIsDuplicate('중복된 닉네임입니다. ');
+				}
+			});
+	};
+
+	const handleChangeNickname = e => {
+		setIsDuplicate(false);
+		if (checkInputLetter(e.target.value)) {
+			setNickname(e.target.value);
+			setIsFilled(true);
+		}
+	};
 
 	const handleFileInputChange = e => {
 		setSelectedFile(e.target.value);
@@ -77,27 +95,24 @@ const JoinForm = ({ type, handleJoinButtonClick }) => {
 	};
 
 	const handleDropdownItemClick = e => {
-		setSelectedJob(e.target.innerText);
-		setIsJobSelected(true);
+		setSelectedJobTitle(e.target.innerText);
+		setSelectedJobValue(e.target.classList[2]);
 		setIsActive(false);
 	};
 
 	const handleClick = e => {
 		e.preventDefault();
-		if (nickname.value === '') {
-			nickname.setIsFilled(false);
-		}
-		if (!nickname.isFilled || !nickname.isValid || nickname.value === '') {
+		if (nickname === '' || isDuplicate) {
 			nicknameInput.current.focus();
 			return;
 		}
 		const snsUrlList = snsList.map(sns => sns.value);
 		handleJoinButtonClick(
-			nickname.value,
+			nickname,
 			description.value,
-			selectedJob,
+			selectedJobValue,
 			selectedFile,
-			snsUrlList,
+			snsUrlList.map(item => item.value),
 		);
 	};
 
@@ -128,33 +143,32 @@ const JoinForm = ({ type, handleJoinButtonClick }) => {
 						<FormItem.Title>닉네임</FormItem.Title>
 						<FormItem.Input
 							placeholder="총 여섯글자까지 가능합니다 (띄어쓰기 제외)"
-							{...nickname}
 							ref={nicknameInput}
+							onBlur={checkNickname}
+							onChange={handleChangeNickname}
 						/>
 					</FormItem>
-					{nickname.isFilled || (
+					{!isFilled && (
 						<FormItem.Error>닉네임은 필수 입력 항목입니다.</FormItem.Error>
 					)}
-					{nickname.isValid || (
-						<FormItem.Error>중복된 닉네임입니다. </FormItem.Error>
+					{isDuplicate && (
+						<FormItem.Error message={isDuplicate}>{isDuplicate}</FormItem.Error>
 					)}
 					<FormItem>
 						<FormItem.Title>타이틀</FormItem.Title>
 						<FormItem.Select
-							isSelected={isJobSelected}
 							onClick={handleTitleInputClick}
+							isSelected={selectedJobValue}
 						>
-							{selectedJob}
-							<span className="spreadIcon">
-								<SpreadIcon />
-							</span>
+							{selectedJobTitle}
+							<SpreadIcon />
 						</FormItem.Select>
 						<DropdownBox active={isActive}>
 							{jobs.map(job => (
 								<DropdownItem
 									key={job.id}
-									value={job.title}
-									selectedValue={selectedJob}
+									className={job.value}
+									isSelected={selectedJobValue === job.value}
 									onClick={handleDropdownItemClick}
 								>
 									{job.title}
@@ -167,27 +181,19 @@ const JoinForm = ({ type, handleJoinButtonClick }) => {
 						<FormItem.TextArea
 							placeholder="프로필을 자유롭게 작성해주세요."
 							{...description}
+							maxLength="72"
 						/>
 					</FormItem>
 					<FormItem>
 						<FormItem.Title>SNS 연결하기</FormItem.Title>
 						<FormItem.InputList>
-							<FormItem.InputItem
-								placeholder="URL을 입력해주세요."
-								{...snsList[0]}
-							/>
-							<FormItem.InputItem
-								placeholder="URL을 입력해주세요."
-								{...snsList[1]}
-							/>
-							<FormItem.InputItem
-								placeholder="URL을 입력해주세요."
-								{...snsList[2]}
-							/>
-							<FormItem.InputItem
-								placeholder="URL을 입력해주세요."
-								{...snsList[3]}
-							/>
+							{snsList.map(snsItem => (
+								<FormItem.InputItem
+									key={snsItem.id}
+									{...snsItem.value}
+									placeholder="URL을 입력해주세요. "
+								/>
+							))}
 						</FormItem.InputList>
 					</FormItem>
 				</FormContainer>

@@ -1,8 +1,7 @@
 import { useState } from 'react';
 
-const useInput = (initialValue, validator, checker) => {
+const useInput = (initialValue, checker) => {
 	const [value, setValue] = useState(initialValue);
-	const [isValid, setIsValid] = useState(true);
 	const [isFilled, setIsFilled] = useState(true);
 	const onChange = e => {
 		if (typeof checker === 'function') {
@@ -15,18 +14,12 @@ const useInput = (initialValue, validator, checker) => {
 			setIsFilled(true);
 		}
 	};
-	const onBlur = () => {
+	const onBlur = async () => {
 		if (value === '') {
 			setIsFilled(false);
-			setIsValid(true);
-			return;
-		}
-		if (typeof validator === 'function') {
-			setIsValid(validator(value));
-			setIsFilled(true);
 		}
 	};
-	return { value, isValid, isFilled, onChange, onBlur, setIsFilled };
+	return { value, isFilled, onChange, onBlur, setIsFilled };
 };
 
 export default useInput;

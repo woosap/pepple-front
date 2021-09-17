@@ -14,7 +14,8 @@ import AuthContext from '../store/auth';
 const MainPage = ({ categories }) => {
 	const { state, actions } = useContext(AuthContext);
 	const { token, userId, userImg, isJoinRequired, isLoginRequired } = state;
-	const { setUserImg, setIsJoinRequired, setIsLoginRequired } = actions;
+	const { setUserImg, setIsJoinRequired, setIsLoginRequired, setToken } =
+		actions;
 
 	const rooms = [];
 
@@ -47,12 +48,14 @@ const MainPage = ({ categories }) => {
 	};
 
 	const onJoinButtonClick = (_nickname, _desc, _job, _file, _urls) => {
-		S3FileUpload.uploadFile(_file, AWSConfig)
-			.then(res => {
-				console.log(res);
-				setUserImg(res.location);
-			})
-			.catch(err => console.warn(err));
+		if (typeof _file === 'object') {
+			S3FileUpload.uploadFile(_file, AWSConfig)
+				.then(res => {
+					console.log(res);
+					setUserImg(res.location);
+				})
+				.catch(err => console.warn(err));
+		}
 		axios
 			.post(`http://3.36.118.216:8080/user`, {
 				imageUrl: userImg,
@@ -65,6 +68,9 @@ const MainPage = ({ categories }) => {
 			.then(res => {
 				console.log(res);
 				setIsJoinRequired(false);
+				setToken(res.data.token);
+				localStorage.setItem('token', res.data.token);
+				localStorage.setItem('user', userId);
 			})
 			.catch(err => console.warn(err));
 		console.log(userImg, userId, _nickname, _desc, _job, _file, _urls);
