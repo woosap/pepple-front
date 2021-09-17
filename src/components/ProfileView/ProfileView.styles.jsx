@@ -20,6 +20,7 @@ export const ProfileImage = styled.div`
 	box-sizing: border-box;
 	border-radius: 100%;
 	margin: 32px 0 23px 0;
+	background: url(${({ img }) => img});
 `;
 
 export const UserInfo = styled.div`

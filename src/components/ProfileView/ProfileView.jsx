@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { OverlayContainer } from '@react-aria/overlays';
+import axios from 'axios';
 import Dialog from '../Dialog/Dialog';
 import {
 	ProfileViewStyled,
@@ -11,10 +12,30 @@ import ProfileImage from '../ProfileImage/ProfileImage';
 import DialogCloseButton from '../Dialog/DialogCloseButton';
 import useToggleDialog from '../../hooks/useToggleDialog';
 import ProfileForm from '../ProfileForm/ProfileForm';
+import AuthContext from '../../store/auth';
 
 const ProfileView = ({ user }) => {
+	const authContext = useContext(AuthContext);
+	const { token } = authContext.state;
 	const { state, openButtonProps, openButtonRef } = useToggleDialog();
 	const [clicked, setClicked] = useState(false);
+	const [userData, setUserData] = useState(user);
+
+	useEffect(async () => {
+		await axios
+			.get(`http://3.36.118.216:8080/auth/detail`, {
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			})
+			.then(res => {
+				setUserData(res.data);
+			})
+			.catch(err => {
+				console.log(err);
+				setUserData(user);
+			});
+	}, [userData]);
 
 	const handleClick = () => {
 		setClicked(prev => !prev);
@@ -28,13 +49,11 @@ const ProfileView = ({ user }) => {
 	return (
 		<>
 			<ProfileViewStyled>
-				<ProfileImage size="big" />
+				<ProfileImage url={userData.imageUrl} size="big" />
 				<UserInfo>
-					<UserInfo.Name>{user.name}</UserInfo.Name>
-					<UserInfo.Job>
-						{user.job === 'FRONTEND' ? '프론트엔드 개발자' : '기획자'}
-					</UserInfo.Job>
-					<UserInfo.Description>{user.description}</UserInfo.Description>
+					<UserInfo.Name>{userData.nickname}</UserInfo.Name>
+					<UserInfo.Job>{userData.job}</UserInfo.Job>
+					<UserInfo.Description>{userData.profile}</UserInfo.Description>
 				</UserInfo>
 				<ModifyProfileButton
 					{...openButtonProps}
@@ -44,11 +63,7 @@ const ProfileView = ({ user }) => {
 				>
 					개인정보 수정
 				</ModifyProfileButton>
-				<SNSList>
-					{user.sns.map(item => (
-						<SNSList.Item key={item.id} sort={item.sort} href={item.link} />
-					))}
-				</SNSList>
+				<SNSList />
 			</ProfileViewStyled>
 			{state.isOpen && (
 				<OverlayContainer>
