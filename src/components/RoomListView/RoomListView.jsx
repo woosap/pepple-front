@@ -12,7 +12,7 @@ import DialogCloseButton from '../Dialog/DialogCloseButton';
 import RoomListItem from '../RoomListItem/RoomListItem';
 import CreateRoomForm from '../CreateRoomForm/CreateRoomForm';
 
-const RoomListView = ({ roomList, categories, onCreateRoom }) => {
+const RoomListView = ({ roomList, onCreateRoom }) => {
 	const { state, openButtonProps, openButtonRef } = useToggleDialog();
 	const [clicked, setClicked] = useState(false);
 	const [rooms, setRooms] = useState(roomList);
@@ -61,10 +61,7 @@ const RoomListView = ({ roomList, categories, onCreateRoom }) => {
 				{state.isOpen && (
 					<OverlayContainer>
 						<Dialog onClose={handleClose}>
-							<CreateRoomForm
-								categoriesObj={categories}
-								handleSubmit={handleSubmit}
-							/>
+							<CreateRoomForm handleSubmit={handleSubmit} />
 							<DialogCloseButton onCloseButton={handleClose} />
 						</Dialog>
 					</OverlayContainer>
@@ -82,7 +79,6 @@ const RoomListView = ({ roomList, categories, onCreateRoom }) => {
 							key={room.roomId}
 							room={room}
 							categories={room.category}
-							categoriesObj={categories}
 						/>
 					))}
 				</RoomList>
@@ -98,10 +94,7 @@ const RoomListView = ({ roomList, categories, onCreateRoom }) => {
 			{state.isOpen && (
 				<OverlayContainer>
 					<Dialog onClose={handleClose}>
-						<CreateRoomForm
-							categoriesObj={categories}
-							handleSubmit={handleSubmit}
-						/>
+						<CreateRoomForm handleSubmit={handleSubmit} />
 						<DialogCloseButton onCloseButton={handleClose} />
 					</Dialog>
 				</OverlayContainer>

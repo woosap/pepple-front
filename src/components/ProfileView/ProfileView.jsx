@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useLayoutEffect, useState } from 'react';
 import { OverlayContainer } from '@react-aria/overlays';
 import axios from 'axios';
 import Dialog from '../Dialog/Dialog';
@@ -13,28 +13,31 @@ import DialogCloseButton from '../Dialog/DialogCloseButton';
 import useToggleDialog from '../../hooks/useToggleDialog';
 import ProfileForm from '../ProfileForm/ProfileForm';
 import AuthContext from '../../store/auth';
+import DefaultContext from '../../store/default';
 
-const ProfileView = ({ user }) => {
+const ProfileView = () => {
 	const authContext = useContext(AuthContext);
+	const defaultContext = useContext(DefaultContext);
 	const { token } = authContext.state;
+	const { defaultUser, jobsMapping } = defaultContext.state;
 	const { state, openButtonProps, openButtonRef } = useToggleDialog();
 	const [clicked, setClicked] = useState(false);
-	const [userData, setUserData] = useState(user);
+	const [userData, setUserData] = useState(defaultUser);
 
-	useEffect(async () => {
-		await axios
-			.get(`http://3.36.118.216:8080/auth/detail`, {
-				headers: {
-					Authorization: `Bearer ${token}`,
-				},
-			})
-			.then(res => {
-				setUserData(res.data);
-			})
-			.catch(err => {
-				console.log(err);
-				setUserData(user);
-			});
+	useLayoutEffect(() => {
+		const fetchUserData = async () => {
+			await axios
+				.get(`http://3.36.118.216:8080/auth/detail`, {
+					headers: {
+						Authorization: `Bearer ${token}`,
+					},
+				})
+				.then(res => {
+					setUserData(res.data);
+				})
+				.catch(err => console.log(err));
+		};
+		fetchUserData();
 	}, [userData]);
 
 	const handleClick = () => {
@@ -52,7 +55,7 @@ const ProfileView = ({ user }) => {
 				<ProfileImage url={userData.imageUrl} size="big" />
 				<UserInfo>
 					<UserInfo.Name>{userData.nickname}</UserInfo.Name>
-					<UserInfo.Job>{userData.job}</UserInfo.Job>
+					<UserInfo.Job>{jobsMapping[userData.job]}</UserInfo.Job>
 					<UserInfo.Description>{userData.profile}</UserInfo.Description>
 				</UserInfo>
 				<ModifyProfileButton
@@ -78,19 +81,3 @@ const ProfileView = ({ user }) => {
 };
 
 export default ProfileView;
-
-ProfileView.defaultProps = {
-	user: {
-		id: 1,
-		name: '쭈꾸미 개발자',
-		job: 'FRONTEND',
-		description:
-			'쭈꾸미처럼 맛있게 성장하고 싶은 쭈꾸미 프론트엔드 개발자 입니다. 쭈꾸미처럼 맛있게 성장하고 싶은 쭈꾸미 프론트엔드 개발자 입니다',
-		sns: [
-			{ id: 1, sort: 'blog', link: 'blog_link' },
-			{ id: 2, sort: 'github', link: 'github_link' },
-			{ id: 3, sort: 'instagram', link: 'instagram_link' },
-			{ id: 4, sort: 'facebook', link: 'facebook_link' },
-		],
-	},
-};

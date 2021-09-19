@@ -12,6 +12,7 @@ import {
 import useInput from '../../hooks/useInput';
 import { ReactComponent as SpreadIcon } from '../../assets/icon/icon-arrow-bottom2.svg';
 import AuthContext from '../../store/auth';
+import DefaultContext from '../../store/default';
 
 const JoinForm = ({ type, handleJoinButtonClick }) => {
 	const checkInputLetter = value => {
@@ -41,15 +42,11 @@ const JoinForm = ({ type, handleJoinButtonClick }) => {
 	for (let i = 0; i < 4; i += 1) {
 		snsList.push({ id: i, value: useInput('') });
 	}
-	const jobs = [
-		{ id: 1, title: '기획자', value: 'PLANNER' },
-		{ id: 4, title: '디자이너', value: 'DESIGNER' },
-		{ id: 5, title: '프론트엔드 개발자', value: 'FRONT' },
-		{ id: 6, title: '백엔드 개발자', value: 'BACKEND' },
-		{ id: 7, title: '마케터', value: 'MARKETER' },
-	];
-	const { state } = useContext(AuthContext);
-	const { userImg } = state;
+
+	const authContext = useContext(AuthContext);
+	const { userImg } = authContext.state;
+	const defaultContext = useContext(DefaultContext);
+	const { jobs } = defaultContext.state;
 	const [nickname, setNickname] = useState('');
 	const [isFilled, setIsFilled] = useState(true);
 	const [isDuplicate, setIsDuplicate] = useState(false);

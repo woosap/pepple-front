@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import {
 	CreateRoomFormStyled,
 	FormHeader,
@@ -12,10 +12,12 @@ import FormCategoryItem from './FormCategoryItem';
 import { ReactComponent as SpreadIcon } from '../../assets/icon/icon-arrow-bottom.svg';
 import DropdownBoxItem from './DropdownBoxItem';
 import useInput from '../../hooks/useInput';
+import DefaultContext from '../../store/default';
 
-const CreateRoomForm = ({ categoriesObj, handleSubmit }) => {
+const CreateRoomForm = ({ handleSubmit }) => {
 	const numberOfMembers = [2, 3, 4, 5];
-	const categories = ['DESIGN', 'DEVELOP', 'PROJECT', 'STUDY'];
+	const defaultContext = useContext(DefaultContext);
+	const { categoriesObj } = defaultContext.state;
 	const [selectedCategory, setSelectedCategory] = useState([]);
 	const [clicked, setClicked] = useState(false);
 	const [isActive, setIsActive] = useState(false);
@@ -24,6 +26,7 @@ const CreateRoomForm = ({ categoriesObj, handleSubmit }) => {
 		useState('인원 수를 선택해 주세요.');
 	const title = useInput('');
 	const subtitle = useInput('');
+	const categories = Object.keys(categoriesObj);
 
 	const handleSubmitButtonClick = e => {
 		e.preventDefault();

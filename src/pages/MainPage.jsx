@@ -11,12 +11,11 @@ import LoginForm from '../components/LoginForm/LoginForm';
 import ProfileForm from '../components/ProfileForm/ProfileForm';
 import AuthContext from '../store/auth';
 
-const MainPage = ({ categories }) => {
+const MainPage = () => {
 	const { state, actions } = useContext(AuthContext);
 	const { token, userId, userImg, isJoinRequired, isLoginRequired } = state;
 	const { setUserImg, setIsJoinRequired, setIsLoginRequired, setToken } =
 		actions;
-
 	const [rooms, setRooms] = useState([]);
 
 	const AWSConfig = {
@@ -104,11 +103,7 @@ const MainPage = ({ categories }) => {
 					<ProfileView />
 				</MainContainer.Left>
 				<MainContainer.Right>
-					<RoomListView
-						roomList={rooms}
-						categories={categories}
-						onCreateRoom={onCreateRoom}
-					/>
+					<RoomListView roomList={rooms} onCreateRoom={onCreateRoom} />
 				</MainContainer.Right>
 			</MainContainer>
 			{isLoginRequired && (
@@ -133,28 +128,6 @@ const MainPage = ({ categories }) => {
 };
 
 export default MainPage;
-
-MainPage.defaultProps = {
-	user: {
-		id: 1,
-		name: '쭈꾸미 개발자',
-		job: 'FRONTEND',
-		description:
-			'쭈꾸미처럼 맛있게 성장하고 싶은 쭈꾸미 프론트엔드 개발자 입니다. 쭈꾸미처럼 맛있게 성장하고 싶은 쭈꾸미 프론트엔드 개발자 입니다',
-		sns: [
-			{ id: 1, sort: 'blog', link: 'blog_link' },
-			{ id: 2, sort: 'github', link: 'github_link' },
-			{ id: 3, sort: 'instagram', link: 'instagram_link' },
-			{ id: 4, sort: 'facebook', link: 'facebook_link' },
-		],
-	},
-	categories: {
-		DESIGN: { id: 1, title: '디자인', value: 'DESIGN' },
-		DEVELOP: { id: 2, title: '개발', value: 'DEVELOP' },
-		PROJECT: { id: 3, title: '프로젝트', value: 'PROJECT' },
-		STUDY: { id: 4, title: '스터디', value: 'STUDY' },
-	},
-};
 
 export const MainContainer = styled.div`
 	display: flex;
