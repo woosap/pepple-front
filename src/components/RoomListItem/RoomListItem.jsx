@@ -39,7 +39,7 @@ const RoomListItem = ({ room, categories, handleRoomClick }) => {
 
 	useEffect(() => {
 		setTime(calcTimeForNow());
-	}, [time]);
+	}, []);
 
 	return (
 		<Link to={`/room/${room.roomId}`}>
