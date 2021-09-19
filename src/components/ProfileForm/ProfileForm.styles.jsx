@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const JoinFormStyled = styled.div`
+export const ProfileFormStyled = styled.div`
 	margin: 30px auto;
 	font-family: Noto Sans KR;
 	font-style: normal;
@@ -10,9 +10,9 @@ export const JoinFormStyled = styled.div`
 	letter-spacing: -0.03em;
 `;
 
-export const JoinFormBox = styled.form``;
+export const ProfileFormBox = styled.form``;
 
-JoinFormBox.Title = styled.h3`
+ProfileFormBox.Title = styled.h3`
 	text-align: center;
 	color: #6138b9;
 	font-size: 17px;
@@ -20,7 +20,7 @@ JoinFormBox.Title = styled.h3`
 	margin: 13px 0;
 `;
 
-JoinFormBox.SubmitButton = styled.button`
+ProfileFormBox.SubmitButton = styled.button`
 	display: block;
 	margin: ${({ type }) => (type === 'join' ? '0 auto 20px' : 'auto')};
 	width: 136px;
@@ -32,7 +32,7 @@ JoinFormBox.SubmitButton = styled.button`
 	cursor: pointer;
 `;
 
-JoinFormBox.SkipButton = styled.button`
+ProfileFormBox.SkipButton = styled.button`
 	display: block;
 	margin: 0 auto;
 	background: none;

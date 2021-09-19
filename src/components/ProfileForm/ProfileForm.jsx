@@ -1,8 +1,8 @@
 import React, { useState, useRef, useContext } from 'react';
 import axios from 'axios';
 import {
-	JoinFormStyled,
-	JoinFormBox,
+	ProfileFormStyled,
+	ProfileFormBox,
 	FormContainer,
 	FormItem,
 	DropdownBox,
@@ -14,7 +14,7 @@ import { ReactComponent as SpreadIcon } from '../../assets/icon/icon-arrow-botto
 import AuthContext from '../../store/auth';
 import DefaultContext from '../../store/default';
 
-const JoinForm = ({ type, handleJoinButtonClick }) => {
+const ProfileForm = ({ type, handleJoinButtonClick }) => {
 	const checkInputLetter = value => {
 		const special = /[`()~!@#$%^&*|\\'"_.,₩;:/?]/gi;
 		let len = 0;
@@ -114,11 +114,11 @@ const JoinForm = ({ type, handleJoinButtonClick }) => {
 	};
 
 	return (
-		<JoinFormStyled>
-			<JoinFormBox>
-				<JoinFormBox.Title>
+		<ProfileFormStyled>
+			<ProfileFormBox>
+				<ProfileFormBox.Title>
 					{type === 'join' ? '추가 정보 입력하기' : '프로필 수정하기'}
-				</JoinFormBox.Title>
+				</ProfileFormBox.Title>
 				<FormContainer type={type}>
 					<FormItem>
 						<FormItem.Title>프로필 사진</FormItem.Title>
@@ -194,12 +194,14 @@ const JoinForm = ({ type, handleJoinButtonClick }) => {
 						</FormItem.InputList>
 					</FormItem>
 				</FormContainer>
-				<JoinFormBox.SubmitButton type={type} onClick={handleClick}>
-					{type === 'join' ? '프로필 설정 완료' : '프로필 수정'}
-				</JoinFormBox.SubmitButton>
-			</JoinFormBox>
-		</JoinFormStyled>
+				{type === 'join' && (
+					<ProfileFormBox.SubmitButton type={type} onClick={handleClick}>
+						프로필 설정 완료
+					</ProfileFormBox.SubmitButton>
+				)}
+			</ProfileFormBox>
+		</ProfileFormStyled>
 	);
 };
 
-export default JoinForm;
+export default ProfileForm;
