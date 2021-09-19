@@ -91,9 +91,9 @@ SNSList.Item = styled.li`
 	width: 37px;
 	height: 37px;
 	background: #f5f6ff;
-	border: 1px solid #c9cdfa;
 	box-sizing: border-box;
 	border-radius: 6px;
 	margin: 0 11px 0 11px;
 	cursor: pointer;
+	overflow: hidden;
 `;

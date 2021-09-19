@@ -1,5 +1,11 @@
 import React, { createContext, useState } from 'react';
 import DefaultImage from '../assets/img-default.svg';
+import BehanceIcon from '../assets/icon-sns/behance.svg';
+import BlogIcon from '../assets/icon-sns/blog.svg';
+import BrunchIcon from '../assets/icon-sns/brunch.svg';
+import FacebookIcon from '../assets/icon-sns/facebook.svg';
+import GithubIcon from '../assets/icon-sns/github.svg';
+import TwitterIcon from '../assets/icon-sns/twitter.svg';
 
 const DefaultContext = createContext({
 	state: {
@@ -7,12 +13,14 @@ const DefaultContext = createContext({
 		categoriesObj: null,
 		jobs: null,
 		jobsMapping: null,
+		sns: [],
 	},
 	actions: {
 		setDefaultUser: () => {},
 		setCategoriesObj: () => {},
 		setJobs: () => {},
 		setJobsMapping: () => {},
+		setSns: () => {},
 	},
 });
 
@@ -22,6 +30,7 @@ const DefaultProvider = ({ children }) => {
 		job: 'none',
 		nickname: '닉네임',
 		profile: '안녕하세요! 페플에서 마음에 맞는 동료를 찾아보세요 😀',
+		snsList: ['https://github.com', 'https://velog.io'],
 	});
 	const [categoriesObj, setCategoriesObj] = useState({
 		DESIGN: { id: 1, title: '디자인', value: 'DESIGN' },
@@ -44,13 +53,22 @@ const DefaultProvider = ({ children }) => {
 		MARKETER: '마케터',
 		none: '직업을 설정해주세요',
 	});
+	const [sns, setSns] = useState({
+		github: GithubIcon,
+		facebook: FacebookIcon,
+		twitter: TwitterIcon,
+		behance: BehanceIcon,
+		brunch: BrunchIcon,
+		blog: BlogIcon,
+	});
 	const value = {
-		state: { defaultUser, categoriesObj, jobs, jobsMapping },
+		state: { defaultUser, categoriesObj, jobs, jobsMapping, sns },
 		actions: {
 			setDefaultUser,
 			setCategoriesObj,
 			setJobs,
 			setJobsMapping,
+			setSns,
 		},
 	};
 
