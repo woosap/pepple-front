@@ -1,40 +1,49 @@
-import React, { useEffect } from 'react';
+import React, { useContext, useLayoutEffect } from 'react';
 import qs from 'qs';
-import axios from 'axios';
+import AuthContext from '../../store/auth';
 
-const LoginRedirect = ({ location, history }) => {
-	useEffect(() => {
-		async function getToken() {
-			const { code } = qs.parse(location.search, {
-				ignoreQueryPrefix: true,
-			});
+const LoginRedirect = ({ history }) => {
+	const { state, actions } = useContext(AuthContext);
+	const { userId } = state;
+	const {
+		setToken,
+		setUserId,
+		setUserImg,
+		setIsJoinRequired,
+		setIsLoginRequired,
+	} = actions;
 
-			const clientID = 'c626d47b6711b219e86c';
-			const clientSecret = '';
-
-			const response = await axios.post(
-				'https://github.com/login/oauth/access_token',
-				{
-					code,
-					clientID,
-					clientSecret,
-				},
-				{
-					headers: {
-						accept: 'application/json',
-					},
-				},
-			);
-
-			const token = response.data.access_token;
-
-			console.log(`github token: ${token}`);
-			console.log(location);
+	const getUserInfo = query => {
+		const getId = query.id;
+		const getImage = query.image;
+		if (getId) {
+			setUserId(getId);
+			if (getImage) setUserImg(getImage);
+			setIsJoinRequired(true);
+			history.push('/');
+		} else {
+			console.warn('로그인 중 에러 발생 : user id 받아오기 실패');
 		}
+	};
 
-		getToken();
-		history.push('/');
-	}, [location]);
+	useLayoutEffect(() => {
+		const query = qs.parse(window.location.search, {
+			ignoreQueryPrefix: true,
+		});
+		const getToken = query.token;
+		if (getToken && userId) {
+			localStorage.setItem('token', getToken);
+			setToken(getToken);
+			setIsLoginRequired(false);
+			history.push('/');
+		} else if (getToken && !userId) {
+			console.warn('로그인 중 에러 발생 : register 전 토큰 발급');
+		} else {
+			getUserInfo(query);
+			setIsLoginRequired(false);
+		}
+	}, []);
+
 	return <div />;
 };
 

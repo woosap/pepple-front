@@ -1,16 +1,27 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 
-const FormCategoryItem = ({ category }) => {
+const FormCategoryItem = ({
+	category,
+	selectedCategory,
+	setSelectedCategory,
+}) => {
 	const [selected, setSelected] = useState(false);
 
 	const handleClick = () => {
+		if (!selected) {
+			setSelectedCategory([...selectedCategory, category.value]);
+		} else {
+			setSelectedCategory(
+				selectedCategory.filter(item => item !== category.value),
+			);
+		}
 		setSelected(prev => !prev);
 	};
 
 	return (
 		<FormCategoryItemStyled selected={selected} onClick={handleClick}>
-			{category.ko}
+			{category.title}
 		</FormCategoryItemStyled>
 	);
 };

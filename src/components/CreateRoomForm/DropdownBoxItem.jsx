@@ -3,17 +3,19 @@ import styled from 'styled-components';
 
 const DropdownBoxItem = ({
 	number,
-	selectedNumber,
-	setSelectedNumber,
+	selectedOption,
+	setSelectedOption,
+	setNumber,
 	setIsActive,
 }) => {
 	const handleClick = e => {
-		setSelectedNumber(e.target.innerHTML);
+		setNumber(number);
+		setSelectedOption(e.target.innerHTML);
 		setIsActive(false);
 	};
 	return (
 		<DropdownBoxItemStyled
-			selected={selectedNumber === `${number}명`}
+			selected={selectedOption === `${number}명`}
 			onClick={handleClick}
 		>
 			{number}명

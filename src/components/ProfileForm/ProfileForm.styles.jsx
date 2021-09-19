@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const JoinFormStyled = styled.div`
+export const ProfileFormStyled = styled.div`
 	margin: 30px auto;
 	font-family: Noto Sans KR;
 	font-style: normal;
@@ -10,9 +10,9 @@ export const JoinFormStyled = styled.div`
 	letter-spacing: -0.03em;
 `;
 
-export const JoinFormBox = styled.form``;
+export const ProfileFormBox = styled.form``;
 
-JoinFormBox.Title = styled.h3`
+ProfileFormBox.Title = styled.h3`
 	text-align: center;
 	color: #6138b9;
 	font-size: 17px;
@@ -20,7 +20,7 @@ JoinFormBox.Title = styled.h3`
 	margin: 13px 0;
 `;
 
-JoinFormBox.SubmitButton = styled.button`
+ProfileFormBox.SubmitButton = styled.button`
 	display: block;
 	margin: ${({ type }) => (type === 'join' ? '0 auto 20px' : 'auto')};
 	width: 136px;
@@ -32,7 +32,7 @@ JoinFormBox.SubmitButton = styled.button`
 	cursor: pointer;
 `;
 
-JoinFormBox.SkipButton = styled.button`
+ProfileFormBox.SkipButton = styled.button`
 	display: block;
 	margin: 0 auto;
 	background: none;
@@ -55,6 +55,13 @@ export const FormItem = styled.div`
 	:nth-child(5) {
 		margin: 18px 0;
 	}
+`;
+
+FormItem.Error = styled.div`
+	color: #fc4166;
+	margin-left: calc(25% + 5px);
+	margin-top: -8px;
+	margin-bottom: 5px;
 `;
 
 FormItem.Title = styled.label`
@@ -82,6 +89,7 @@ FormItem.InputItem = styled.input`
 	padding-left: 13px;
 	font-size: 12px;
 	margin-bottom: 8.5px;
+	letter-spacing: -0.03em;
 
 	::placeholder {
 		color: #cecece;
@@ -157,15 +165,13 @@ FormItem.Select = styled.div`
 	line-height: 18px;
 	letter-spacing: -0.03em;
 	color: ${props => (props.isSelected ? '#8e8585' : '#cecece')};
+	user-select: none;
 
-	.spreadIcon {
-		svg {
-			width: 100%;
-			height: 100%;
-		}
-		position: absolute;
-		right: 8px;
+	svg {
 		cursor: pointer;
+		position: absolute;
+		top: 8px;
+		right: 10px;
 	}
 `;
 
@@ -272,12 +278,10 @@ export const DropdownBox = styled.ul`
 export const DropdownItem = styled.li`
 	font-family: Noto Sans KR;
 	font-style: normal;
-	font-weight: ${({ value, selectedValue }) =>
-		value === selectedValue ? '500' : '300'};
+	font-weight: ${({ isSelected }) => (isSelected ? '500' : '300')};
 	font-size: 11px;
 	letter-spacing: -0.03em;
 	line-height: 23px;
-	color: ${({ value, selectedValue }) =>
-		value === selectedValue ? '#6138b9' : '#A3A3A3'};
+	color: ${({ isSelected }) => (isSelected ? '#6138b9' : '#A3A3A3')};
 	cursor: pointer;
 `;

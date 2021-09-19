@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useContext } from 'react';
+import axios from 'axios';
 import {
-	JoinFormStyled,
-	JoinFormBox,
+	ProfileFormStyled,
+	ProfileFormBox,
 	FormContainer,
 	FormItem,
 	DropdownBox,
@@ -10,26 +11,88 @@ import {
 } from './ProfileForm.styles';
 import useInput from '../../hooks/useInput';
 import { ReactComponent as SpreadIcon } from '../../assets/icon/icon-arrow-bottom2.svg';
+import AuthContext from '../../store/auth';
+import DefaultContext from '../../store/default';
 
-const JoinForm = ({ type, handleJoinButtonClick }) => {
-	const email = useInput('');
-	const nickname = useInput('');
-	const description = useInput('');
-	const jobs = [
-		{ id: 1, title: '기획자' },
-		{ id: 2, title: 'GUI 디자이너' },
-		{ id: 3, title: 'UX 디자이너' },
-		{ id: 4, title: '프로덕트 디자이너' },
-		{ id: 5, title: '프론트엔드 개발자' },
-		{ id: 6, title: '백엔드 개발자' },
-		{ id: 7, title: '마케터' },
-	];
+const ProfileForm = ({
+	type,
+	user,
+	handleJoinButtonClick,
+	handleEditButtonClick,
+}) => {
+	const checkInputLetter = value => {
+		const special = /[`()~!@#$%^&*|\\'"_.,₩;:/?]/gi;
+		let len = 0;
+		for (let i = 0; i < value.length; i += 1) {
+			if (value[i] === ' ') {
+				if (value[i + 1] === ' ') return false;
+				if (len >= 12) return false;
+			} else if (escape(value[i]).length > 4) {
+				len += 2;
+			} else if (value[i] === '+' || value[i] === '-') {
+				return false;
+			} else {
+				len += 1;
+			}
+		}
+		if (len > 12 || special.test(value)) {
+			return false;
+		}
+		return true;
+	};
+
+	const nicknameInput = useRef();
+	const description = useInput(user ? user.profile : '');
+	const snsList = [];
+	for (let i = 0; i < 4; i += 1) {
+		snsList.push({ id: i, value: useInput(user ? user.snsList[i] : '') });
+	}
+
+	const authContext = useContext(AuthContext);
+	const { userImg } = authContext.state;
+	const defaultContext = useContext(DefaultContext);
+	const { jobs, jobsMapping } = defaultContext.state;
+	const [nickname, setNickname] = useState(user ? user.nickname : '');
+	const [isFilled, setIsFilled] = useState(true);
+	const [isDuplicate, setIsDuplicate] = useState(false);
 	const [isActive, setIsActive] = useState(false);
-	const [selectedJob, setSelectedJob] = useState(
-		'나를 나타내는 타이틀을 선택해주세요.',
+	const [selectedJobTitle, setSelectedJobTitle] = useState(
+		user && user.job
+			? jobsMapping[user.job]
+			: '나를 나타내는 타이틀을 선택해주세요. ',
 	);
-	const [isJobSelected, setIsJobSelected] = useState(false);
-	const [selectedFile, setSelectedFile] = useState('');
+	const [selectedJobValue, setSelectedJobValue] = useState(
+		user && user.job !== 'none' ? user.job : null,
+	);
+	const [selectedFile, setSelectedFile] = useState(
+		user ? user.imageUrl : userImg,
+	);
+
+	const checkNickname = async () => {
+		if (nickname === '') {
+			setIsFilled(false);
+			return;
+		}
+		await axios
+			.get(`http://3.36.118.216:8080/nickname?nickname=${nickname}`)
+			.then(res => {
+				console.log(res);
+			})
+			.catch(err => {
+				const errObj = { ...err };
+				if (errObj.response.status === 409) {
+					setIsDuplicate('중복된 닉네임입니다. ');
+				}
+			});
+	};
+
+	const handleChangeNickname = e => {
+		setIsDuplicate(false);
+		if (checkInputLetter(e.target.value)) {
+			setNickname(e.target.value);
+			setIsFilled(true);
+		}
+	};
 
 	const handleFileInputChange = e => {
 		setSelectedFile(e.target.value);
@@ -40,22 +103,52 @@ const JoinForm = ({ type, handleJoinButtonClick }) => {
 	};
 
 	const handleDropdownItemClick = e => {
-		setSelectedJob(e.target.innerText);
-		setIsJobSelected(true);
+		setSelectedJobTitle(e.target.innerText);
+		setSelectedJobValue(e.target.classList[2]);
 		setIsActive(false);
 	};
 
+	const handleJoinClick = e => {
+		e.preventDefault();
+		if (nickname === '') {
+			setIsDuplicate('닉네임은 필수 입력 항목입니다. ');
+			nicknameInput.current.focus();
+			return;
+		}
+		const snsUrlList = snsList.map(sns => sns.value);
+		handleJoinButtonClick(
+			nickname,
+			description.value,
+			selectedJobValue,
+			selectedFile,
+			snsUrlList.map(item => item.value),
+		);
+	};
+
+	const handleEditClick = e => {
+		e.preventDefault();
+		if (nickname === '') {
+			setIsDuplicate('닉네임은 필수 입력 항목입니다. ');
+			nicknameInput.current.focus();
+			return;
+		}
+		const snsUrlList = snsList.map(sns => sns.value);
+		handleEditButtonClick(
+			nickname,
+			description.value,
+			selectedJobValue,
+			selectedFile,
+			snsUrlList.map(item => item.value),
+		);
+	};
+
 	return (
-		<JoinFormStyled>
-			<JoinFormBox>
-				<JoinFormBox.Title>
+		<ProfileFormStyled>
+			<ProfileFormBox>
+				<ProfileFormBox.Title>
 					{type === 'join' ? '추가 정보 입력하기' : '프로필 수정하기'}
-				</JoinFormBox.Title>
+				</ProfileFormBox.Title>
 				<FormContainer type={type}>
-					<FormItem>
-						<FormItem.Title>이메일</FormItem.Title>
-						<FormItem.Input placeholder="이메일을 입력해주세요. " {...email} />
-					</FormItem>
 					<FormItem>
 						<FormItem.Title>프로필 사진</FormItem.Title>
 						<UploadForm>
@@ -76,26 +169,33 @@ const JoinForm = ({ type, handleJoinButtonClick }) => {
 						<FormItem.Title>닉네임</FormItem.Title>
 						<FormItem.Input
 							placeholder="총 여섯글자까지 가능합니다 (띄어쓰기 제외)"
-							{...nickname}
+							ref={nicknameInput}
+							value={nickname}
+							onBlur={checkNickname}
+							onChange={handleChangeNickname}
 						/>
 					</FormItem>
+					{!isFilled && (
+						<FormItem.Error>닉네임은 필수 입력 항목입니다.</FormItem.Error>
+					)}
+					{isDuplicate && (
+						<FormItem.Error message={isDuplicate}>{isDuplicate}</FormItem.Error>
+					)}
 					<FormItem>
 						<FormItem.Title>타이틀</FormItem.Title>
 						<FormItem.Select
-							isSelected={isJobSelected}
 							onClick={handleTitleInputClick}
+							isSelected={selectedJobValue}
 						>
-							{selectedJob}
-							<span className="spreadIcon">
-								<SpreadIcon />
-							</span>
+							{selectedJobTitle}
+							<SpreadIcon />
 						</FormItem.Select>
 						<DropdownBox active={isActive}>
 							{jobs.map(job => (
 								<DropdownItem
 									key={job.id}
-									value={job.title}
-									selectedValue={selectedJob}
+									className={job.value}
+									isSelected={selectedJobValue === job.value}
 									onClick={handleDropdownItemClick}
 								>
 									{job.title}
@@ -108,29 +208,35 @@ const JoinForm = ({ type, handleJoinButtonClick }) => {
 						<FormItem.TextArea
 							placeholder="프로필을 자유롭게 작성해주세요."
 							{...description}
+							maxLength="72"
 						/>
 					</FormItem>
 					<FormItem>
 						<FormItem.Title>SNS 연결하기</FormItem.Title>
 						<FormItem.InputList>
-							<FormItem.InputItem placeholder="URL을 입력해주세요." />
-							<FormItem.InputItem placeholder="URL을 입력해주세요." />
-							<FormItem.InputItem placeholder="URL을 입력해주세요." />
-							<FormItem.InputItem placeholder="URL을 입력해주세요." />
+							{snsList.map(snsItem => (
+								<FormItem.InputItem
+									key={snsItem.id}
+									{...snsItem.value}
+									placeholder="URL을 입력해주세요. "
+								/>
+							))}
 						</FormItem.InputList>
 					</FormItem>
 				</FormContainer>
-				<JoinFormBox.SubmitButton type={type} onClick={handleJoinButtonClick}>
-					{type === 'join' ? '프로필 설정 완료' : '프로필 수정'}
-				</JoinFormBox.SubmitButton>
 				{type === 'join' && (
-					<JoinFormBox.SkipButton onClick={handleJoinButtonClick}>
-						다음에 입력하기
-					</JoinFormBox.SkipButton>
+					<ProfileFormBox.SubmitButton type={type} onClick={handleJoinClick}>
+						프로필 설정 완료
+					</ProfileFormBox.SubmitButton>
 				)}
-			</JoinFormBox>
-		</JoinFormStyled>
+				{type === 'edit' && (
+					<ProfileFormBox.SubmitButton type={type} onClick={handleEditClick}>
+						프로필 수정 완료
+					</ProfileFormBox.SubmitButton>
+				)}
+			</ProfileFormBox>
+		</ProfileFormStyled>
 	);
 };
 
-export default JoinForm;
+export default ProfileForm;

@@ -5,11 +5,11 @@ import {
 	SNSLoginList,
 } from './LoginForm.styles';
 import { ReactComponent as LogoIcon } from '../../assets/icon/icon-logo.svg';
-import Google from './Google';
-import KakaoLogin from './Kakao';
-import GithubLogin from './Github';
 
 const LoginForm = ({ handleLoginButtonClick }) => {
+	const handleClick = e => {
+		handleLoginButtonClick(e.target.classList[2]);
+	};
 	return (
 		<LoginFormStyled>
 			<LoginFormBox>
@@ -20,20 +20,14 @@ const LoginForm = ({ handleLoginButtonClick }) => {
 					페플과 함께 공부하고 신나게 성장하세요
 				</LoginFormBox.Title>
 				<SNSLoginList>
-					<SNSLoginList.Item
-						className="google"
-						onClick={handleLoginButtonClick}
-					>
-						<Google />
+					<SNSLoginList.Item className="google" onClick={handleClick}>
+						Google
 					</SNSLoginList.Item>
-					<SNSLoginList.Item
-						className="github"
-						onClick={handleLoginButtonClick}
-					>
-						<GithubLogin />
+					<SNSLoginList.Item className="github" onClick={handleClick}>
+						Github
 					</SNSLoginList.Item>
-					<SNSLoginList.Item className="kakao" onClick={handleLoginButtonClick}>
-						<KakaoLogin />
+					<SNSLoginList.Item className="kakao" onClick={handleClick}>
+						KAKAO TALK
 					</SNSLoginList.Item>
 				</SNSLoginList>
 				<LoginFormBox.Description>

@@ -13,9 +13,7 @@ const ProfileImageStyled = styled.div`
 	}};
 	margin: ${props => (props.size === 'big' ? '32px 0 23px 0' : '0')};
 	border: 1px solid #dadcf3;
-	box-sizing: border-box;
 	border-radius: 100%;
-	background: #fff;
 	z-index: ${({ order }) => {
 		if (order === 1) return '3';
 		if (order === 2) return '2';
@@ -27,6 +25,17 @@ const ProfileImageStyled = styled.div`
 		if (order === 2) return '38px';
 		return '0px';
 	}};
+	overflow: hidden;
+
+	img {
+		width: calc(100% + 6px);
+		height: calc(100% + 6px);
+		position: relative;
+		top: -3px;
+		left: -3px;
+		border-radius: 100%;
+		background-color: #fff;
+	}
 `;
 
 export default ProfileImageStyled;

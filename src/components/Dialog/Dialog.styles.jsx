@@ -22,7 +22,7 @@ DialogStyled.Box = styled.div`
 	}};
 	height: ${({ type }) => {
 		if (type === 'login') return '617px';
-		if (type === 'profile_join' || type === 'profile_edit') return '678px';
+		if (type === 'profile_join' || type === 'profile_edit') return '625px';
 		return '437px';
 	}};
 	position: relative;

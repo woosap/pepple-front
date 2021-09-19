@@ -25,6 +25,29 @@ RoomListItemBox.CategoryList = styled.div`
 	display: flex;
 `;
 
+RoomListItemBox.CategoryItem = styled.div`
+	background-color: ${({ value }) => {
+		if (value === 'DESIGN') return '#6138B9';
+		if (value === 'STUDY') return '#FFDB80';
+		if (value === 'DEVELOP') return '#00C1B6';
+		return '#FC80FF';
+	}};
+	color: ${({ value }) => (value === 'STUDY' ? '#10022D' : '#FFF')};
+	width: 50px;
+	height: 19px;
+	left: 473px;
+	top: 201px;
+	border-radius: 50px;
+	margin-right: 5px;
+	font-family: Apple SD Gothic Neo;
+	font-style: normal;
+	font-weight: 500;
+	font-size: 12px;
+	line-height: 14px;
+	text-align: center;
+	line-height: 19px;
+`;
+
 RoomListItemBox.Title = styled.div`
 	font-family: DIN Alternate;
 	font-style: normal;

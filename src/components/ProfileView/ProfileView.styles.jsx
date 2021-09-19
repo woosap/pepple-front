@@ -20,6 +20,7 @@ export const ProfileImage = styled.div`
 	box-sizing: border-box;
 	border-radius: 100%;
 	margin: 32px 0 23px 0;
+	background: url(${({ img }) => img});
 `;
 
 export const UserInfo = styled.div`
@@ -70,6 +71,10 @@ export const ModifyProfileButton = styled.button`
 	line-height: 18px;
 	cursor: pointer;
 
+	:disabled {
+		cursor: not-allowed;
+	}
+
 	:hover {
 		background: ${({ clicked }) =>
 			clicked ? 'rgba(245, 246, 255, 0.25)' : 'rgba(218, 220, 243, 0.25)'};
@@ -89,10 +94,9 @@ export const SNSList = styled.ul`
 SNSList.Item = styled.li`
 	width: 37px;
 	height: 37px;
-	background: #f5f6ff;
-	border: 1px solid #c9cdfa;
-	box-sizing: border-box;
-	border-radius: 6px;
 	margin: 0 11px 0 11px;
 	cursor: pointer;
+	overflow: hidden;
+	border-radius: 6px;
+	box-sizing: border-box;
 `;

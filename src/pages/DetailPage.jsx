@@ -1,13 +1,35 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
+import axios from 'axios';
 import Header from '../components/Header/Header';
 import RoomProfileView from '../components/RoomProfileView/RoomProfileView';
 import RoomMemberListView from '../components/RoomMemberListView/RoomMemberListView';
 import RoomCloudView from '../components/RoomCloudView/RoomCloudView';
 import MuteButton from '../components/MuteButton/MuteButton';
 import RoomCloseButton from '../components/RoomCloseButton/RoomCloseButton';
+import AuthContext from '../store/auth';
 
 const DetailPage = ({ room, members, resources, categories }) => {
+	const authContext = useContext(AuthContext);
+	const { token, userId } = authContext.state;
+
+	const onEndClick = () => {
+		axios
+			.post(
+				`http://3.36.118.216:8080/room/enter`,
+				{
+					roomId: room.roomId,
+					userId,
+				},
+				{
+					headers: {
+						Authorization: `Bearer ${token}`,
+					},
+				},
+			)
+			.then(res => console.log(res))
+			.catch(err => console.log(err));
+	};
 	return (
 		<>
 			<Header />
@@ -19,7 +41,7 @@ const DetailPage = ({ room, members, resources, categories }) => {
 				</DetailContainer.Left>
 				<DetailContainer.Right>
 					<RoomCloudView resources={resources} />
-					<RoomCloseButton />
+					<RoomCloseButton handleEndClick={onEndClick} />
 				</DetailContainer.Right>
 			</DetailContainer>
 		</>
