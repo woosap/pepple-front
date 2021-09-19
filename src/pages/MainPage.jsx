@@ -58,7 +58,7 @@ const MainPage = () => {
 		axios
 			.post(`http://3.36.118.216:8080/user`, {
 				imageUrl: userImg,
-				job: 'FRONTEND',
+				job: _job,
 				nickname: _nickname,
 				profile: _desc,
 				snsList: _urls,
@@ -73,6 +73,37 @@ const MainPage = () => {
 			})
 			.catch(err => console.warn(err));
 		console.log(userImg, userId, _nickname, _desc, _job, _file, _urls);
+	};
+
+	const onEditButtonClick = (_nickname, _desc, _job, _file, _urls) => {
+		console.log(userImg, userId, _nickname, _desc, _job, _file, _urls);
+		if (typeof _file === 'object') {
+			S3FileUpload.uploadFile(_file, AWSConfig)
+				.then(res => {
+					console.log(res);
+					setUserImg(res.location);
+				})
+				.catch(err => console.warn(err));
+		}
+		axios
+			.put(
+				`http://3.36.118.216:8080/user`,
+				{
+					imageUrl: userImg,
+					job: _job,
+					nickname: _nickname,
+					profile: _desc,
+					snsList: _urls,
+					userId,
+				},
+				{
+					headers: {
+						Authorization: `Bearer ${token}`,
+					},
+				},
+			)
+			.then(res => console.log(res))
+			.catch(err => console.log(err));
 	};
 
 	const onCreateRoom = (categoryList, _title, _subtitle, _capacity) => {
@@ -100,7 +131,7 @@ const MainPage = () => {
 			<Header />
 			<MainContainer>
 				<MainContainer.Left>
-					<ProfileView />
+					<ProfileView handleEditButtonClick={onEditButtonClick} />
 				</MainContainer.Left>
 				<MainContainer.Right>
 					<RoomListView roomList={rooms} onCreateRoom={onCreateRoom} />
