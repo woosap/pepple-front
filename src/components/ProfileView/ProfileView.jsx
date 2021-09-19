@@ -62,7 +62,7 @@ const ProfileView = () => {
 				.catch(err => console.log(err));
 		};
 		fetchUserData();
-	}, [userData]);
+	}, []);
 
 	const handleClick = () => {
 		setClicked(prev => !prev);
