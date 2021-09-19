@@ -126,6 +126,24 @@ const MainPage = () => {
 			.catch(err => console.log(err));
 	};
 
+	const onRoomClick = roomId => {
+		axios
+			.post(
+				`http://3.36.118.216:8080/room/enter`,
+				{
+					roomId,
+					userId,
+				},
+				{
+					headers: {
+						Authorization: `Bearer ${token}`,
+					},
+				},
+			)
+			.then(res => console.log(res))
+			.catch(err => console.log(err));
+	};
+
 	return (
 		<>
 			<Header />
@@ -134,7 +152,11 @@ const MainPage = () => {
 					<ProfileView handleEditButtonClick={onEditButtonClick} />
 				</MainContainer.Left>
 				<MainContainer.Right>
-					<RoomListView roomList={rooms} onCreateRoom={onCreateRoom} />
+					<RoomListView
+						roomList={rooms}
+						onCreateRoom={onCreateRoom}
+						onRoomClick={onRoomClick}
+					/>
 				</MainContainer.Right>
 			</MainContainer>
 			{isLoginRequired && (

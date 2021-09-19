@@ -12,7 +12,7 @@ import DialogCloseButton from '../Dialog/DialogCloseButton';
 import RoomListItem from '../RoomListItem/RoomListItem';
 import CreateRoomForm from '../CreateRoomForm/CreateRoomForm';
 
-const RoomListView = ({ roomList, onCreateRoom }) => {
+const RoomListView = ({ roomList, onCreateRoom, onRoomClick }) => {
 	const { state, openButtonProps, openButtonRef } = useToggleDialog();
 	const [clicked, setClicked] = useState(false);
 	const [rooms, setRooms] = useState(roomList);
@@ -79,6 +79,7 @@ const RoomListView = ({ roomList, onCreateRoom }) => {
 							key={room.roomId}
 							room={room}
 							categories={room.category}
+							handleRoomClick={onRoomClick}
 						/>
 					))}
 				</RoomList>

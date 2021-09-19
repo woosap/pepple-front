@@ -8,13 +8,14 @@ import {
 import ProfileImage from '../ProfileImage/ProfileImage';
 import DefaultContext from '../../store/default';
 
-const RoomListItem = ({ room, categories }) => {
+const RoomListItem = ({ room, categories, handleRoomClick }) => {
 	const [clicked, setClicked] = useState(false);
 	const [time, setTime] = useState('');
 	const { categoriesObj } = useContext(DefaultContext).state;
 
 	const handleClick = () => {
 		setClicked(prev => !prev);
+		handleRoomClick(room.roomId);
 	};
 
 	const calcTimeForNow = () => {
