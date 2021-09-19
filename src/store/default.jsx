@@ -27,10 +27,10 @@ const DefaultContext = createContext({
 const DefaultProvider = ({ children }) => {
 	const [defaultUser, setDefaultUser] = useState({
 		imageUrl: DefaultImage,
-		job: 'none',
+		job: null,
 		nickname: '닉네임',
-		profile: '안녕하세요! 페플에서 마음에 맞는 동료를 찾아보세요 😀',
-		snsList: ['https://github.com', 'https://velog.io'],
+		profile: '안녕하세요 ! 페플에서 함께 성장할 동료를 찾아보세요 😀',
+		snsList: [],
 	});
 	const [categoriesObj, setCategoriesObj] = useState({
 		DESIGN: { id: 1, title: '디자인', value: 'DESIGN' },
@@ -51,7 +51,7 @@ const DefaultProvider = ({ children }) => {
 		FRONTEND: '프론트엔드 개발자',
 		BACKEND: '백엔드 개발자',
 		MARKETER: '마케터',
-		none: '직업을 설정해주세요',
+		none: '나를 나타내는 타이틀을 설정해주세요',
 	});
 	const [sns, setSns] = useState({
 		github: GithubIcon,
