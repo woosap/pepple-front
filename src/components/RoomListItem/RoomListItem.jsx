@@ -42,7 +42,7 @@ const RoomListItem = ({ room, categories, handleRoomClick }) => {
 	}, [time]);
 
 	return (
-		<Link to="/room">
+		<Link to={`/room/${room.roomId}`}>
 			<RoomListItemStyled clicked={clicked} onClick={handleClick}>
 				<RoomListItemBox>
 					<RoomListItemBox.CategoryList>
