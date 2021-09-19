@@ -1,4 +1,5 @@
 import React, { createContext, useState } from 'react';
+import DefaultImage from '../assets/img-default.svg';
 
 const DefaultContext = createContext({
 	state: {
@@ -17,6 +18,7 @@ const DefaultContext = createContext({
 
 const DefaultProvider = ({ children }) => {
 	const [defaultUser, setDefaultUser] = useState({
+		imageUrl: DefaultImage,
 		job: 'none',
 		nickname: '닉네임',
 		profile: '안녕하세요 !',

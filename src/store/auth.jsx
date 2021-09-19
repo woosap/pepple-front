@@ -4,7 +4,7 @@ const AuthContext = createContext({
 	state: {
 		token: null,
 		userId: null,
-		userImg: null,
+		userImg: '',
 		isJoinRequired: false,
 		isLoginRequired: false,
 	},
@@ -20,7 +20,7 @@ const AuthContext = createContext({
 const AuthProvider = ({ children }) => {
 	const [token, setToken] = useState(localStorage.getItem('token'));
 	const [userId, setUserId] = useState(localStorage.getItem('user'));
-	const [userImg, setUserImg] = useState(null);
+	const [userImg, setUserImg] = useState('');
 	const [isJoinRequired, setIsJoinRequired] = useState(false);
 	const [isLoginRequired, setIsLoginRequired] = useState(true);
 
