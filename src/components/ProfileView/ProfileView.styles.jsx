@@ -71,6 +71,10 @@ export const ModifyProfileButton = styled.button`
 	line-height: 18px;
 	cursor: pointer;
 
+	:disabled {
+		cursor: not-allowed;
+	}
+
 	:hover {
 		background: ${({ clicked }) =>
 			clicked ? 'rgba(245, 246, 255, 0.25)' : 'rgba(218, 220, 243, 0.25)'};
