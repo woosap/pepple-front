@@ -94,10 +94,9 @@ export const SNSList = styled.ul`
 SNSList.Item = styled.li`
 	width: 37px;
 	height: 37px;
-	background: #f5f6ff;
-	box-sizing: border-box;
-	border-radius: 6px;
 	margin: 0 11px 0 11px;
 	cursor: pointer;
 	overflow: hidden;
+	border-radius: 6px;
+	box-sizing: border-box;
 `;
