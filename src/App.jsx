@@ -1,3 +1,4 @@
+/* eslint-disable react/no-children-prop */
 import React from 'react';
 import resetCss from 'reset-css';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
@@ -5,9 +6,38 @@ import { createGlobalStyle } from 'styled-components';
 import MainPage from './pages/MainPage';
 import DetailPage from './pages/DetailPage';
 import { AuthProvider } from './store/auth';
+import { DefaultProvider } from './store/default';
 import LoginRedirect from './components/LoginForm/LoginRedirect';
 
-const GlobalStyle = createGlobalStyle`
+const AppProvider = ({ contexts, children }) =>
+	contexts.reduce(
+		(prev, context) =>
+			React.createElement(context, {
+				children: prev,
+			}),
+		children,
+	);
+
+function App() {
+	return (
+		<>
+			<BrowserRouter basename="/">
+				<Switch>
+					<Route path="/" exact>
+						<MainPage />
+					</Route>
+					<Route path="/room">
+						<DetailPage />
+					</Route>
+					<Route path="/redirect" component={LoginRedirect} />
+				</Switch>
+			</BrowserRouter>
+			<GlobalStyle />
+		</>
+	);
+}
+
+export const GlobalStyle = createGlobalStyle`
 	${resetCss};
 	html, body {
 		height: 100%;
@@ -32,27 +62,8 @@ const GlobalStyle = createGlobalStyle`
 	}
 `;
 
-function App() {
-	return (
-		<>
-			<BrowserRouter basename="/">
-				<Switch>
-					<Route path="/" exact>
-						<MainPage />
-					</Route>
-					<Route path="/room">
-						<DetailPage />
-					</Route>
-					<Route path="/redirect" component={LoginRedirect} />
-				</Switch>
-			</BrowserRouter>
-			<GlobalStyle />
-		</>
-	);
-}
-
 export default () => (
-	<AuthProvider>
+	<AppProvider contexts={[AuthProvider, DefaultProvider]}>
 		<App />
-	</AuthProvider>
+	</AppProvider>
 );
