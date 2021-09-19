@@ -1,10 +1,11 @@
 import React, { createContext, useState } from 'react';
+import DefaultImage from '../assets/img-default.svg';
 
 const AuthContext = createContext({
 	state: {
 		token: null,
 		userId: null,
-		userImg: '',
+		userImg: DefaultImage,
 		isJoinRequired: false,
 		isLoginRequired: false,
 	},
@@ -20,7 +21,7 @@ const AuthContext = createContext({
 const AuthProvider = ({ children }) => {
 	const [token, setToken] = useState(localStorage.getItem('token'));
 	const [userId, setUserId] = useState(localStorage.getItem('user'));
-	const [userImg, setUserImg] = useState('');
+	const [userImg, setUserImg] = useState(DefaultImage);
 	const [isJoinRequired, setIsJoinRequired] = useState(false);
 	const [isLoginRequired, setIsLoginRequired] = useState(true);
 
