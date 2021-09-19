@@ -5,12 +5,13 @@ import {
 } from './RoomCloseButton.styles';
 import { ReactComponent as CloseIcon } from '../../assets/icon/icon-close-mini.svg';
 
-const RoomCloseButton = () => {
+const RoomCloseButton = ({ handleEndClick }) => {
 	const [isOpen, setIsOpen] = useState(false);
 	const [clicked, setClicked] = useState(false);
 	const handleClick = () => {
 		setClicked(prev => !prev);
 		setIsOpen(prev => !prev);
+		handleEndClick();
 	};
 	return (
 		<>
