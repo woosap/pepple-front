@@ -14,8 +14,9 @@ import useToggleDialog from '../../hooks/useToggleDialog';
 import ProfileForm from '../ProfileForm/ProfileForm';
 import AuthContext from '../../store/auth';
 import DefaultContext from '../../store/default';
+import DefaultImage from '../../assets/img-default.svg';
 
-const ProfileView = () => {
+const ProfileView = ({ handleEditButtonClick }) => {
 	const authContext = useContext(AuthContext);
 	const defaultContext = useContext(DefaultContext);
 	const { token } = authContext.state;
@@ -39,18 +40,13 @@ const ProfileView = () => {
 			}
 		});
 		setUserSns({
-			...userSns,
 			...newObj,
 		});
 	};
 
-	useEffect(() => {
-		findSnsIcon();
-	}, []);
-
 	useLayoutEffect(() => {
-		const fetchUserData = async () => {
-			await axios
+		const fetchUserData = () => {
+			axios
 				.get(`http://3.36.118.216:8080/auth/detail`, {
 					headers: {
 						Authorization: `Bearer ${token}`,
@@ -64,6 +60,11 @@ const ProfileView = () => {
 		fetchUserData();
 	}, []);
 
+	useEffect(() => {
+		findSnsIcon();
+		console.log(userData);
+	}, [userData]);
+
 	const handleClick = () => {
 		setClicked(prev => !prev);
 	};
@@ -76,17 +77,22 @@ const ProfileView = () => {
 	return (
 		<>
 			<ProfileViewStyled>
-				<ProfileImage url={userData.imageUrl} size="big" />
+				<ProfileImage url={userData.imageUrl || DefaultImage} size="big" />
 				<UserInfo>
 					<UserInfo.Name>{userData.nickname}</UserInfo.Name>
-					<UserInfo.Job>{jobsMapping[userData.job]}</UserInfo.Job>
-					<UserInfo.Description>{userData.profile}</UserInfo.Description>
+					<UserInfo.Job>
+						{jobsMapping[userData.job ? userData.job : 'none']}
+					</UserInfo.Job>
+					<UserInfo.Description>
+						{userData.profile ? userData.profile : defaultUser.profile}
+					</UserInfo.Description>
 				</UserInfo>
 				<ModifyProfileButton
 					{...openButtonProps}
 					ref={openButtonRef}
 					clicked={clicked}
 					onClick={handleClick}
+					disabled={userData === defaultUser}
 				>
 					개인정보 수정
 				</ModifyProfileButton>
@@ -103,7 +109,11 @@ const ProfileView = () => {
 			{state.isOpen && (
 				<OverlayContainer>
 					<Dialog type="profile_edit" onClose={handleClose}>
-						<ProfileForm />
+						<ProfileForm
+							type="edit"
+							user={userData === defaultUser ? null : userData}
+							handleEditButtonClick={handleEditButtonClick}
+						/>
 						<DialogCloseButton onCloseButton={handleClose} />
 					</Dialog>
 				</OverlayContainer>
