@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import {
 	RoomListItemStyled,
@@ -6,10 +6,12 @@ import {
 	MemberProfileImageList,
 } from './RoomListItem.styles';
 import ProfileImage from '../ProfileImage/ProfileImage';
+import DefaultContext from '../../store/default';
 
-const RoomListItem = ({ room, categories, categoriesObj }) => {
+const RoomListItem = ({ room, categories }) => {
 	const [clicked, setClicked] = useState(false);
 	const [time, setTime] = useState('');
+	const { categoriesObj } = useContext(DefaultContext).state;
 
 	const handleClick = () => {
 		setClicked(prev => !prev);
