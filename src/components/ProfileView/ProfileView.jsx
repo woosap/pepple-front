@@ -62,7 +62,6 @@ const ProfileView = ({ handleEditButtonClick }) => {
 
 	useEffect(() => {
 		findSnsIcon();
-		console.log(userData);
 	}, [userData]);
 
 	const handleClick = () => {
