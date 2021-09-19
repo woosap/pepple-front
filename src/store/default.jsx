@@ -21,7 +21,7 @@ const DefaultProvider = ({ children }) => {
 		imageUrl: DefaultImage,
 		job: 'none',
 		nickname: '닉네임',
-		profile: '안녕하세요 !',
+		profile: '안녕하세요! 페플에서 마음에 맞는 동료를 찾아보세요 😀',
 	});
 	const [categoriesObj, setCategoriesObj] = useState({
 		DESIGN: { id: 1, title: '디자인', value: 'DESIGN' },
