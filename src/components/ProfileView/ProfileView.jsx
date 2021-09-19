@@ -46,7 +46,7 @@ const ProfileView = () => {
 
 	useEffect(() => {
 		findSnsIcon();
-	}, [userData]);
+	}, []);
 
 	useLayoutEffect(() => {
 		const fetchUserData = async () => {
