@@ -1,5 +1,4 @@
 import React, { useContext, useLayoutEffect, useState } from 'react';
-import axios from 'axios';
 import styled from 'styled-components';
 import { OverlayContainer } from '@react-aria/overlays';
 import S3FileUpload from 'react-s3';
@@ -10,6 +9,7 @@ import Dialog from '../components/Dialog/Dialog';
 import LoginForm from '../components/LoginForm/LoginForm';
 import ProfileForm from '../components/ProfileForm/ProfileForm';
 import AuthContext from '../store/auth';
+import api from '../api';
 
 const MainPage = () => {
 	const { state, actions } = useContext(AuthContext);
@@ -27,8 +27,8 @@ const MainPage = () => {
 	};
 
 	useLayoutEffect(() => {
-		axios
-			.get(`http://3.36.118.216:8080/room?pageNumber=${0}&pageSize=${10}`)
+		api
+			.get(`/room?pageNumber=${0}&pageSize=${10}`)
 			.then(res => {
 				setRooms([...res.data]);
 			})
@@ -42,7 +42,7 @@ const MainPage = () => {
 
 	const onLoginButtonClick = service => {
 		window.location.replace(
-			`http://3.36.118.216:8080/oauth2/authorize/${service}`,
+			`https://pepple.social/oauth2/authorize/${service}`,
 		);
 	};
 
@@ -55,8 +55,8 @@ const MainPage = () => {
 				})
 				.catch(err => console.warn(err));
 		}
-		axios
-			.post(`http://3.36.118.216:8080/user`, {
+		api
+			.post(`/user`, {
 				imageUrl: userImg,
 				job: _job,
 				nickname: _nickname,
@@ -85,9 +85,9 @@ const MainPage = () => {
 				})
 				.catch(err => console.warn(err));
 		}
-		axios
+		api
 			.put(
-				`http://3.36.118.216:8080/user`,
+				`/user`,
 				{
 					imageUrl: userImg,
 					job: _job,
@@ -107,9 +107,9 @@ const MainPage = () => {
 	};
 
 	const onCreateRoom = (categoryList, _title, _subtitle, _capacity) => {
-		axios
+		api
 			.post(
-				`http://3.36.118.216:8080/room/create`,
+				`/room/create`,
 				{
 					title: _title,
 					subTitle: _subtitle,
@@ -127,9 +127,9 @@ const MainPage = () => {
 	};
 
 	const onRoomClick = roomId => {
-		axios
+		api
 			.post(
-				`http://3.36.118.216:8080/room/enter`,
+				`/room/enter`,
 				{
 					roomId,
 					userId,

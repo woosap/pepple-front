@@ -1,6 +1,5 @@
 import React, { useContext, useLayoutEffect, useState, useEffect } from 'react';
 import { OverlayContainer } from '@react-aria/overlays';
-import axios from 'axios';
 import Dialog from '../Dialog/Dialog';
 import {
 	ProfileViewStyled,
@@ -15,6 +14,7 @@ import ProfileForm from '../ProfileForm/ProfileForm';
 import AuthContext from '../../store/auth';
 import DefaultContext from '../../store/default';
 import DefaultImage from '../../assets/img-default.svg';
+import api from '../../api';
 
 const ProfileView = ({ handleEditButtonClick }) => {
 	const authContext = useContext(AuthContext);
@@ -46,8 +46,8 @@ const ProfileView = ({ handleEditButtonClick }) => {
 
 	useLayoutEffect(() => {
 		const fetchUserData = () => {
-			axios
-				.get(`http://3.36.118.216:8080/auth/detail`, {
+			api
+				.get(`/auth/detail`, {
 					headers: {
 						Authorization: `Bearer ${token}`,
 					},

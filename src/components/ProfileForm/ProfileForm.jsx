@@ -1,5 +1,4 @@
 import React, { useState, useRef, useContext } from 'react';
-import axios from 'axios';
 import {
 	ProfileFormStyled,
 	ProfileFormBox,
@@ -13,6 +12,7 @@ import useInput from '../../hooks/useInput';
 import { ReactComponent as SpreadIcon } from '../../assets/icon/icon-arrow-bottom2.svg';
 import AuthContext from '../../store/auth';
 import DefaultContext from '../../store/default';
+import api from '../../api';
 
 const ProfileForm = ({
 	type,
@@ -73,8 +73,8 @@ const ProfileForm = ({
 			setIsFilled(false);
 			return;
 		}
-		await axios
-			.get(`http://3.36.118.216:8080/nickname?nickname=${nickname}`)
+		await api
+			.get(`/nickname?nickname=${nickname}`)
 			.then(res => {
 				console.log(res);
 			})
