@@ -1,5 +1,12 @@
-import React, { createContext, useState, useEffect } from 'react';
+import React, {
+	createContext,
+	useState,
+	useEffect,
+	useLayoutEffect,
+	useContext,
+} from 'react';
 import S3FileUpload from 'react-s3';
+import DefaultContext from './default';
 import DefaultImage from '../assets/img-default.svg';
 import api from '../api';
 
@@ -24,11 +31,14 @@ const AuthContext = createContext({
 });
 
 const AuthProvider = ({ children }) => {
+	const { defaultUser, snsIcons } = useContext(DefaultContext);
 	const [token, setToken] = useState(localStorage.getItem('token'));
 	const [userId, setUserId] = useState(localStorage.getItem('user'));
 	const [userImg, setUserImg] = useState(DefaultImage);
 	const [logined, setLogined] = useState(false);
 	const [joined, setJoined] = useState(true);
+	const [userData, setUserData] = useState(defaultUser);
+	const [userSns, setUserSns] = useState({});
 
 	const AWSConfig = {
 		bucketName: 'pepple-profileimg',
@@ -38,13 +48,6 @@ const AuthProvider = ({ children }) => {
 		headers: { 'Access-Control-Allow-Origin': '*' },
 	};
 
-	useEffect(() => {
-		if (token) {
-			setLogined(true);
-			setJoined(true);
-		}
-	}, []);
-
 	const login = service => {
 		window.location.replace(
 			`https://pepple.social/oauth2/authorize/${service}`,
@@ -52,7 +55,7 @@ const AuthProvider = ({ children }) => {
 	};
 
 	const join = (nickname, description, job, file, snsList) => {
-		if (typeof _file === 'object') {
+		if (typeof file === 'object') {
 			S3FileUpload.uploadFile(file, AWSConfig)
 				.then(res => {
 					console.log(res);
@@ -70,7 +73,6 @@ const AuthProvider = ({ children }) => {
 				userId,
 			})
 			.then(res => {
-				console.log(res);
 				setJoined(true);
 				setToken(res.data.token);
 				localStorage.setItem('token', res.data.token);
@@ -80,7 +82,7 @@ const AuthProvider = ({ children }) => {
 	};
 
 	const edit = (nickname, description, job, file, snsList) => {
-		if (typeof _file === 'object') {
+		if (typeof file === 'object') {
 			S3FileUpload.uploadFile(file, AWSConfig)
 				.then(res => {
 					console.log(res);
@@ -109,8 +111,55 @@ const AuthProvider = ({ children }) => {
 			.catch(err => console.log(err));
 	};
 
+	const getDetail = () => {
+		api
+			.get(`/auth/detail`, {
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			})
+			.then(res => {
+				setUserData(res.data);
+			})
+			.catch(err => console.log(err));
+	};
+
+	const getIcons = () => {
+		const snsNames = Object.keys(snsIcons);
+		const newObj = {};
+		userData.snsList.forEach(url => {
+			for (let i = 0; i < snsNames.length; i += 1) {
+				if (url.indexOf(snsNames[i]) > -1) {
+					newObj[snsNames[i]] = { url, icon: snsIcons[snsNames[i]] };
+					break;
+				} else if (i === snsNames.length - 1) {
+					newObj.etc = { url, icon: snsIcons.blog };
+					break;
+				}
+			}
+		});
+		setUserSns({
+			...newObj,
+		});
+	};
+
+	useEffect(() => {
+		if (token) {
+			setLogined(true);
+			setJoined(true);
+		}
+	}, []);
+
+	useEffect(() => {
+		getIcons();
+	}, [userData]);
+
+	useLayoutEffect(() => {
+		getDetail();
+	}, []);
+
 	const value = {
-		state: { token, userId, userImg, logined, joined },
+		state: { token, userId, userImg, logined, joined, userData, userSns },
 		actions: {
 			setToken,
 			setUserId,
@@ -121,6 +170,8 @@ const AuthProvider = ({ children }) => {
 		login,
 		join,
 		edit,
+		getDetail,
+		getIcon,
 	};
 
 	return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

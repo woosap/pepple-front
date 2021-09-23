@@ -1,4 +1,4 @@
-import React, { useContext, useLayoutEffect, useState, useEffect } from 'react';
+import React, { useContext, useState } from 'react';
 import { OverlayContainer } from '@react-aria/overlays';
 import Dialog from '../Dialog/Dialog';
 import {
@@ -14,53 +14,12 @@ import ProfileForm from '../ProfileForm/ProfileForm';
 import AuthContext from '../../store/auth';
 import DefaultContext from '../../store/default';
 import DefaultImage from '../../assets/img-default.svg';
-import api from '../../api';
 
 const ProfileView = ({ handleEditButtonClick }) => {
-	const { token } = useContext(AuthContext).state;
-	const { defaultUser, jobsMapping, snsIcons } = useContext(DefaultContext);
+	const { userData, userSns } = useContext(AuthContext).state;
+	const { defaultUser, jobsMapping } = useContext(DefaultContext);
 	const { state, openButtonProps, openButtonRef } = useToggleDialog();
 	const [clicked, setClicked] = useState(false);
-	const [userData, setUserData] = useState(defaultUser);
-	const [userSns, setUserSns] = useState({});
-
-	const findSnsIcon = () => {
-		const snsNames = Object.keys(snsIcons);
-		const newObj = {};
-		userData.snsList.forEach(url => {
-			for (let i = 0; i < snsNames.length; i += 1) {
-				if (url.indexOf(snsNames[i]) > 0) {
-					newObj[snsNames[i]] = { url, icon: snsIcons[snsNames[i]] };
-				} else if (i === snsNames.length - 1) {
-					newObj[i] = { url, icon: snsIcons.blog };
-					break;
-				}
-			}
-		});
-		setUserSns({
-			...newObj,
-		});
-	};
-
-	useLayoutEffect(() => {
-		const fetchUserData = () => {
-			api
-				.get(`/auth/detail`, {
-					headers: {
-						Authorization: `Bearer ${token}`,
-					},
-				})
-				.then(res => {
-					setUserData(res.data);
-				})
-				.catch(err => console.log(err));
-		};
-		fetchUserData();
-	}, []);
-
-	useEffect(() => {
-		findSnsIcon();
-	}, [userData]);
 
 	const handleClick = () => {
 		setClicked(prev => !prev);
