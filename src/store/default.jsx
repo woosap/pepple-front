@@ -10,9 +10,9 @@ import TwitterIcon from '../assets/icon-sns/twitter.svg';
 const DefaultContext = createContext({
 	defaultUser: null,
 	categoriesObj: null,
-	jobs: null,
+	jobsObj: null,
 	jobsMapping: null,
-	sns: [],
+	snsIcons: [],
 });
 
 const DefaultProvider = ({ children }) => {
