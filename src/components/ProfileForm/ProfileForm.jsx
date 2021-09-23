@@ -50,8 +50,7 @@ const ProfileForm = ({
 
 	const authContext = useContext(AuthContext);
 	const { userImg } = authContext.state;
-	const defaultContext = useContext(DefaultContext);
-	const { jobs, jobsMapping } = defaultContext.state;
+	const { jobsObj, jobsMapping } = useContext(DefaultContext);
 	const [nickname, setNickname] = useState(user ? user.nickname : '');
 	const [isFilled, setIsFilled] = useState(true);
 	const [isDuplicate, setIsDuplicate] = useState(false);
@@ -191,7 +190,7 @@ const ProfileForm = ({
 							<SpreadIcon />
 						</FormItem.Select>
 						<DropdownBox active={isActive}>
-							{jobs.map(job => (
+							{jobsObj.map(job => (
 								<DropdownItem
 									key={job.id}
 									className={job.value}

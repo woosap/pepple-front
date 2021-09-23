@@ -17,24 +17,22 @@ import DefaultImage from '../../assets/img-default.svg';
 import api from '../../api';
 
 const ProfileView = ({ handleEditButtonClick }) => {
-	const authContext = useContext(AuthContext);
-	const defaultContext = useContext(DefaultContext);
-	const { token } = authContext.state;
-	const { defaultUser, jobsMapping, sns } = defaultContext.state;
+	const { token } = useContext(AuthContext).state;
+	const { defaultUser, jobsMapping, snsIcons } = useContext(DefaultContext);
 	const { state, openButtonProps, openButtonRef } = useToggleDialog();
 	const [clicked, setClicked] = useState(false);
 	const [userData, setUserData] = useState(defaultUser);
 	const [userSns, setUserSns] = useState({});
 
 	const findSnsIcon = () => {
-		const snsNames = Object.keys(sns);
+		const snsNames = Object.keys(snsIcons);
 		const newObj = {};
 		userData.snsList.forEach(url => {
 			for (let i = 0; i < snsNames.length; i += 1) {
 				if (url.indexOf(snsNames[i]) > 0) {
-					newObj[snsNames[i]] = { url, icon: sns[snsNames[i]] };
+					newObj[snsNames[i]] = { url, icon: snsIcons[snsNames[i]] };
 				} else if (i === snsNames.length - 1) {
-					newObj[i] = { url, icon: sns.blog };
+					newObj[i] = { url, icon: snsIcons.blog };
 					break;
 				}
 			}

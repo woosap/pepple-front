@@ -16,8 +16,7 @@ import DefaultContext from '../../store/default';
 
 const CreateRoomForm = ({ handleSubmit }) => {
 	const numberOfMembers = [2, 3, 4, 5];
-	const defaultContext = useContext(DefaultContext);
-	const { categoriesObj } = defaultContext.state;
+	const { categoriesObj } = useContext(DefaultContext);
 	const [selectedCategory, setSelectedCategory] = useState([]);
 	const [clicked, setClicked] = useState(false);
 	const [isActive, setIsActive] = useState(false);
