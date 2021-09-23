@@ -144,17 +144,14 @@ const AuthProvider = ({ children }) => {
 	};
 
 	useEffect(() => {
-		if (token) {
-			setLogined(true);
-			setJoined(true);
-		}
-	}, []);
-
-	useEffect(() => {
 		getIcons();
 	}, [userData]);
 
 	useLayoutEffect(() => {
+		if (token) {
+			setLogined(true);
+			setJoined(true);
+		}
 		getDetail();
 	}, []);
 
