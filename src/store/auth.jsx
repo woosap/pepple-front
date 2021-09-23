@@ -170,8 +170,6 @@ const AuthProvider = ({ children }) => {
 		login,
 		join,
 		edit,
-		getDetail,
-		getIcon,
 	};
 
 	return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
