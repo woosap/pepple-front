@@ -21,7 +21,7 @@ const AppProvider = ({ contexts, children }) =>
 function App() {
 	return (
 		<>
-			<BrowserRouter basename="/pepple-front">
+			<BrowserRouter basename="/">
 				<Switch>
 					<Route path="/" exact>
 						<MainPage />
