@@ -20,52 +20,47 @@ const ProfileForm = ({
 	handleJoinButtonClick,
 	handleEditButtonClick,
 }) => {
-	const checkInputLetter = value => {
-		const special = /[`()~!@#$%^&*|\\'"_.,₩;:/?]/gi;
-		let len = 0;
-		for (let i = 0; i < value.length; i += 1) {
-			if (value[i] === ' ') {
-				if (value[i + 1] === ' ') return false;
-				if (len >= 12) return false;
-			} else if (escape(value[i]).length > 4) {
-				len += 2;
-			} else if (value[i] === '+' || value[i] === '-') {
-				return false;
-			} else {
-				len += 1;
-			}
-		}
-		if (len > 12 || special.test(value)) {
-			return false;
-		}
-		return true;
-	};
+	const { userImg } = useContext(AuthContext).state;
+	const { jobsObj, jobsMapping } = useContext(DefaultContext);
 
+	const [file, setFile] = useState(user ? user.imageUrl : userImg);
+	const [nickname, setNickname] = useState(user ? user.nickname : '');
 	const nicknameInput = useRef();
 	const description = useInput(user ? user.profile : '');
+	const [jobTitle, setJobTitle] = useState(
+		user && user.job
+			? jobsMapping[user.job]
+			: '나를 나타내는 타이틀을 선택해주세요. ',
+	);
+	const [jobValue, setJobValue] = useState(user && user.job ? user.job : null);
+	const [isFilled, setIsFilled] = useState(true);
+	const [isDuplicate, setIsDuplicate] = useState(false);
+	const [isActive, setIsActive] = useState(false);
 	const snsList = [];
 	for (let i = 0; i < 4; i += 1) {
 		snsList.push({ id: i, value: useInput(user ? user.snsList[i] : '') });
 	}
 
-	const authContext = useContext(AuthContext);
-	const { userImg } = authContext.state;
-	const { jobsObj, jobsMapping } = useContext(DefaultContext);
-	const [nickname, setNickname] = useState(user ? user.nickname : '');
-	const [isFilled, setIsFilled] = useState(true);
-	const [isDuplicate, setIsDuplicate] = useState(false);
-	const [isActive, setIsActive] = useState(false);
-	const [selectedJobTitle, setSelectedJobTitle] = useState(
-		user && user.job
-			? jobsMapping[user.job]
-			: '나를 나타내는 타이틀을 선택해주세요. ',
-	);
-	const [selectedJobValue, setSelectedJobValue] = useState(
-		user && user.job !== 'none' ? user.job : null,
-	);
-	const [selectedFile, setSelectedFile] = useState(
-		user ? user.imageUrl : userImg,
-	);
+	const checkInput = input => {
+		const special = /[`()~!@#$%^&*|\\'"_.,₩;:/?]/gi;
+		let len = 0;
+		for (let i = 0; i < input.length; i += 1) {
+			if (input[i] === ' ') {
+				if (input[i + 1] === ' ') return false;
+				if (len >= 12) return false;
+			} else if (escape(input[i]).length > 4) {
+				len += 2;
+			} else if (input[i] === '+' || input[i] === '-') {
+				return false;
+			} else {
+				len += 1;
+			}
+		}
+		if (len > 12 || special.test(input)) {
+			return false;
+		}
+		return true;
+	};
 
 	const checkNickname = async () => {
 		if (nickname === '') {
@@ -87,14 +82,14 @@ const ProfileForm = ({
 
 	const handleChangeNickname = e => {
 		setIsDuplicate(false);
-		if (checkInputLetter(e.target.value)) {
+		if (checkInput(e.target.value)) {
 			setNickname(e.target.value);
 			setIsFilled(true);
 		}
 	};
 
 	const handleFileInputChange = e => {
-		setSelectedFile(e.target.value);
+		setFile(e.target.value);
 	};
 
 	const handleTitleInputClick = () => {
@@ -102,8 +97,8 @@ const ProfileForm = ({
 	};
 
 	const handleDropdownItemClick = e => {
-		setSelectedJobTitle(e.target.innerText);
-		setSelectedJobValue(e.target.classList[2]);
+		setJobTitle(e.target.innerText);
+		setJobValue(e.target.classList[2]);
 		setIsActive(false);
 	};
 
@@ -118,8 +113,8 @@ const ProfileForm = ({
 		handleJoinButtonClick(
 			nickname,
 			description.value,
-			selectedJobValue,
-			selectedFile,
+			jobValue,
+			file,
 			snsUrlList.map(item => item.value),
 		);
 	};
@@ -135,8 +130,8 @@ const ProfileForm = ({
 		handleEditButtonClick(
 			nickname,
 			description.value,
-			selectedJobValue,
-			selectedFile,
+			jobValue,
+			file,
 			snsUrlList.map(item => item.value),
 		);
 	};
@@ -153,7 +148,7 @@ const ProfileForm = ({
 						<UploadForm>
 							<UploadForm.TextInput
 								disabled
-								value={selectedFile}
+								value={file}
 								placeholder="400 x 400 사이즈를 권장합니다"
 							/>
 							<UploadForm.Input
@@ -184,9 +179,9 @@ const ProfileForm = ({
 						<FormItem.Title>타이틀</FormItem.Title>
 						<FormItem.Select
 							onClick={handleTitleInputClick}
-							isSelected={selectedJobValue}
+							isSelected={jobValue}
 						>
-							{selectedJobTitle}
+							{jobTitle}
 							<SpreadIcon />
 						</FormItem.Select>
 						<DropdownBox active={isActive}>
@@ -194,7 +189,7 @@ const ProfileForm = ({
 								<DropdownItem
 									key={job.id}
 									className={job.value}
-									isSelected={selectedJobValue === job.value}
+									isSelected={jobValue === job.value}
 									onClick={handleDropdownItemClick}
 								>
 									{job.title}
