@@ -43,15 +43,18 @@ const ProfileView = ({ handleEditButtonClick }) => {
 						{userData.profile ? userData.profile : defaultUser.profile}
 					</UserInfo.Description>
 				</UserInfo>
-				<ModifyProfileButton
-					{...openButtonProps}
-					ref={openButtonRef}
-					clicked={clicked}
-					onClick={handleClick}
-					disabled={userData === defaultUser}
-				>
-					개인정보 수정
-				</ModifyProfileButton>
+				{userData === defaultUser ? (
+					<ModifyProfileButton disabled>개인정보 수정</ModifyProfileButton>
+				) : (
+					<ModifyProfileButton
+						{...openButtonProps}
+						ref={openButtonRef}
+						clicked={clicked}
+						onClick={handleClick}
+					>
+						개인정보 수정
+					</ModifyProfileButton>
+				)}
 				<SNSList>
 					{Object.keys(userSns).map(key => (
 						<SNSList.Item key={key}>
