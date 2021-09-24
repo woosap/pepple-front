@@ -7,43 +7,26 @@ import {
 } from './RoomListItem.styles';
 import ProfileImage from '../ProfileImage/ProfileImage';
 import DefaultContext from '../../store/default';
+import RoomContext from '../../store/room';
 
-const RoomListItem = ({ room, categories, handleRoomClick }) => {
+const RoomListItem = ({ room, categories }) => {
+	const { categoriesObj } = useContext(DefaultContext);
+	const { enterRoom, getTime } = useContext(RoomContext);
 	const [clicked, setClicked] = useState(false);
 	const [time, setTime] = useState('');
-	const { categoriesObj } = useContext(DefaultContext).state;
-
-	const handleClick = () => {
-		setClicked(prev => !prev);
-		handleRoomClick(room.roomId);
-	};
-
-	const calcTimeForNow = () => {
-		const now = new Date();
-		const birth = new Date(room.date);
-
-		const timeMinutes = Math.floor(
-			(now.getTime() - birth.getTime()) / 1000 / 60,
-		);
-		if (timeMinutes < 1) return '방금전';
-		if (timeMinutes < 60) return `${timeMinutes}분전`;
-
-		const timeHours = Math.floor(timeMinutes / 60);
-		if (timeHours < 24) return `${timeHours}시간 전`;
-
-		const timeDays = Math.floor(timeMinutes / 60 / 24);
-		if (timeDays < 365) return `${timeDays}일전`;
-
-		return `${Math.floor(timeDays / 365)}년 전`;
-	};
 
 	useEffect(() => {
-		setTime(calcTimeForNow());
+		setTime(getTime(room));
 	}, []);
+
+	const handleRoomClick = () => {
+		setClicked(prev => !prev);
+		enterRoom(room.roomId);
+	};
 
 	return (
 		<Link to={`/room/${room.roomId}`}>
-			<RoomListItemStyled clicked={clicked} onClick={handleClick}>
+			<RoomListItemStyled clicked={clicked} onClick={handleRoomClick}>
 				<RoomListItemBox>
 					<RoomListItemBox.CategoryList>
 						{categories.map(category => (

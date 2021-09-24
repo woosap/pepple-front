@@ -1,4 +1,4 @@
-import React, { useState, useLayoutEffect } from 'react';
+import React, { useState, useContext } from 'react';
 import { OverlayContainer } from '@react-aria/overlays';
 import {
 	RoomListViewStyled,
@@ -11,15 +11,12 @@ import Dialog from '../Dialog/Dialog';
 import DialogCloseButton from '../Dialog/DialogCloseButton';
 import RoomListItem from '../RoomListItem/RoomListItem';
 import CreateRoomForm from '../CreateRoomForm/CreateRoomForm';
+import RoomContext from '../../store/room';
 
-const RoomListView = ({ roomList, onCreateRoom, onRoomClick }) => {
+const RoomListView = () => {
+	const { rooms } = useContext(RoomContext);
 	const { state, openButtonProps, openButtonRef } = useToggleDialog();
 	const [clicked, setClicked] = useState(false);
-	const [rooms, setRooms] = useState(roomList);
-
-	useLayoutEffect(() => {
-		setRooms(roomList);
-	}, [roomList]);
 
 	const handleClose = () => {
 		state.close();
@@ -28,10 +25,6 @@ const RoomListView = ({ roomList, onCreateRoom, onRoomClick }) => {
 
 	const handleClick = () => {
 		setClicked(prev => !prev);
-	};
-
-	const handleSubmit = (categoryList, title, subtitle, capacity) => {
-		onCreateRoom(categoryList, title, subtitle, capacity);
 	};
 
 	if (!rooms) {
@@ -61,7 +54,7 @@ const RoomListView = ({ roomList, onCreateRoom, onRoomClick }) => {
 				{state.isOpen && (
 					<OverlayContainer>
 						<Dialog onClose={handleClose}>
-							<CreateRoomForm handleSubmit={handleSubmit} />
+							<CreateRoomForm />
 							<DialogCloseButton onCloseButton={handleClose} />
 						</Dialog>
 					</OverlayContainer>
@@ -79,7 +72,6 @@ const RoomListView = ({ roomList, onCreateRoom, onRoomClick }) => {
 							key={room.roomId}
 							room={room}
 							categories={room.category}
-							handleRoomClick={onRoomClick}
 						/>
 					))}
 				</RoomList>
@@ -95,7 +87,7 @@ const RoomListView = ({ roomList, onCreateRoom, onRoomClick }) => {
 			{state.isOpen && (
 				<OverlayContainer>
 					<Dialog onClose={handleClose}>
-						<CreateRoomForm handleSubmit={handleSubmit} />
+						<CreateRoomForm />
 						<DialogCloseButton onCloseButton={handleClose} />
 					</Dialog>
 				</OverlayContainer>

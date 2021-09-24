@@ -13,8 +13,10 @@ import { ReactComponent as SpreadIcon } from '../../assets/icon/icon-arrow-botto
 import DropdownBoxItem from './DropdownBoxItem';
 import useInput from '../../hooks/useInput';
 import DefaultContext from '../../store/default';
+import RoomContext from '../../store/room';
 
-const CreateRoomForm = ({ handleSubmit }) => {
+const CreateRoomForm = () => {
+	const { createRoom } = useContext(RoomContext);
 	const numberOfMembers = [2, 3, 4, 5];
 	const { categoriesObj } = useContext(DefaultContext);
 	const [selectedCategory, setSelectedCategory] = useState([]);
@@ -30,12 +32,13 @@ const CreateRoomForm = ({ handleSubmit }) => {
 	const handleSubmitButtonClick = e => {
 		e.preventDefault();
 		setClicked(prev => !prev);
-		handleSubmit(selectedCategory, title.value, subtitle.value, capacity);
+		createRoom(title.value, subtitle.value, capacity, selectedCategory);
 	};
 
 	const handleDropdownButtonClick = () => {
 		setIsActive(prev => !prev);
 	};
+
 	return (
 		<CreateRoomFormStyled>
 			<FormHeader>방 새로 만들기</FormHeader>
