@@ -1,10 +1,4 @@
-import React, {
-	createContext,
-	useContext,
-	useState,
-	useLayoutEffect,
-} from 'react';
-import AuthContext from './auth';
+import React, { createContext, useState, useLayoutEffect } from 'react';
 import api from '../api';
 
 const RoomContext = createContext({
@@ -15,17 +9,36 @@ const RoomContext = createContext({
 });
 
 const RoomProvider = ({ children }) => {
-	const { userId } = useContext(AuthContext).state;
 	const [rooms, setRooms] = useState([]);
-	console.log(rooms);
-	useLayoutEffect(() => {
+
+	const getRooms = () => {
 		api
 			.get(`/room?pageNumber=${0}&pageSize=${10}`)
 			.then(res => {
 				setRooms([...res.data]);
 			})
 			.catch(err => console.log(err));
-	}, []);
+	};
+
+	const enterRoom = roomId => {
+		const token = localStorage.getItem('token');
+		const userId = localStorage.getItem('user');
+		api
+			.post(
+				`/room/enter`,
+				{
+					roomId,
+					userId,
+				},
+				{
+					headers: {
+						Authorization: `Bearer ${token}`,
+					},
+				},
+			)
+			.then(res => console.log(res))
+			.catch(err => console.log(err));
+	};
 
 	const createRoom = (title, subTitle, capacity, category) => {
 		const token = localStorage.getItem('token');
@@ -44,26 +57,10 @@ const RoomProvider = ({ children }) => {
 					},
 				},
 			)
-			.then(res => console.log(res))
-			.catch(err => console.log(err));
-	};
-
-	const enterRoom = roomId => {
-		const token = localStorage.getItem('token');
-		api
-			.post(
-				`/room/enter`,
-				{
-					roomId,
-					userId,
-				},
-				{
-					headers: {
-						Authorization: `Bearer ${token}`,
-					},
-				},
-			)
-			.then(res => console.log(res))
+			.then(res => {
+				console.log(res);
+				getRooms();
+			})
 			.catch(err => console.log(err));
 	};
 
@@ -92,6 +89,10 @@ const RoomProvider = ({ children }) => {
 
 		return `${Math.floor(timeDays / 365)}년 전`;
 	};
+
+	useLayoutEffect(() => {
+		getRooms();
+	}, []);
 
 	const value = {
 		rooms,
