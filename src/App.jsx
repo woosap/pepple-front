@@ -7,6 +7,7 @@ import MainPage from './pages/MainPage';
 import DetailPage from './pages/DetailPage';
 import { AuthProvider } from './store/auth';
 import { DefaultProvider } from './store/default';
+import { RoomProvider } from './store/room';
 import LoginRedirect from './components/LoginForm/LoginRedirect';
 
 const AppProvider = ({ contexts, children }) =>
@@ -63,7 +64,7 @@ export const GlobalStyle = createGlobalStyle`
 `;
 
 export default () => (
-	<AppProvider contexts={[AuthProvider, DefaultProvider]}>
+	<AppProvider contexts={[AuthProvider, DefaultProvider, RoomProvider]}>
 		<App />
 	</AppProvider>
 );

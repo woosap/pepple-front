@@ -1,14 +1,16 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import {
 	LoginFormStyled,
 	LoginFormBox,
 	SNSLoginList,
 } from './LoginForm.styles';
 import { ReactComponent as LogoIcon } from '../../assets/icon/icon-logo.svg';
+import AuthContext from '../../store/auth';
 
-const LoginForm = ({ handleLoginButtonClick }) => {
+const LoginForm = () => {
+	const authContext = useContext(AuthContext);
 	const handleClick = e => {
-		handleLoginButtonClick(e.target.classList[2]);
+		authContext.login(e.target.classList[2]);
 	};
 	return (
 		<LoginFormStyled>

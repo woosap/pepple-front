@@ -1,6 +1,5 @@
-import React, { useContext, useLayoutEffect, useState, useEffect } from 'react';
+import React, { useContext, useState } from 'react';
 import { OverlayContainer } from '@react-aria/overlays';
-import axios from 'axios';
 import Dialog from '../Dialog/Dialog';
 import {
 	ProfileViewStyled,
@@ -17,52 +16,10 @@ import DefaultContext from '../../store/default';
 import DefaultImage from '../../assets/img-default.svg';
 
 const ProfileView = ({ handleEditButtonClick }) => {
-	const authContext = useContext(AuthContext);
-	const defaultContext = useContext(DefaultContext);
-	const { token } = authContext.state;
-	const { defaultUser, jobsMapping, sns } = defaultContext.state;
+	const { userData, userSns } = useContext(AuthContext).state;
+	const { defaultUser, jobsMapping } = useContext(DefaultContext);
 	const { state, openButtonProps, openButtonRef } = useToggleDialog();
 	const [clicked, setClicked] = useState(false);
-	const [userData, setUserData] = useState(defaultUser);
-	const [userSns, setUserSns] = useState({});
-
-	const findSnsIcon = () => {
-		const snsNames = Object.keys(sns);
-		const newObj = {};
-		userData.snsList.forEach(url => {
-			for (let i = 0; i < snsNames.length; i += 1) {
-				if (url.indexOf(snsNames[i]) > 0) {
-					newObj[snsNames[i]] = { url, icon: sns[snsNames[i]] };
-				} else if (i === snsNames.length - 1) {
-					newObj[i] = { url, icon: sns.blog };
-					break;
-				}
-			}
-		});
-		setUserSns({
-			...newObj,
-		});
-	};
-
-	useLayoutEffect(() => {
-		const fetchUserData = () => {
-			axios
-				.get(`http://3.36.118.216:8080/auth/detail`, {
-					headers: {
-						Authorization: `Bearer ${token}`,
-					},
-				})
-				.then(res => {
-					setUserData(res.data);
-				})
-				.catch(err => console.log(err));
-		};
-		fetchUserData();
-	}, []);
-
-	useEffect(() => {
-		findSnsIcon();
-	}, [userData]);
 
 	const handleClick = () => {
 		setClicked(prev => !prev);
@@ -86,15 +43,18 @@ const ProfileView = ({ handleEditButtonClick }) => {
 						{userData.profile ? userData.profile : defaultUser.profile}
 					</UserInfo.Description>
 				</UserInfo>
-				<ModifyProfileButton
-					{...openButtonProps}
-					ref={openButtonRef}
-					clicked={clicked}
-					onClick={handleClick}
-					disabled={userData === defaultUser}
-				>
-					개인정보 수정
-				</ModifyProfileButton>
+				{userData === defaultUser ? (
+					<ModifyProfileButton disabled>개인정보 수정</ModifyProfileButton>
+				) : (
+					<ModifyProfileButton
+						{...openButtonProps}
+						ref={openButtonRef}
+						clicked={clicked}
+						onClick={handleClick}
+					>
+						개인정보 수정
+					</ModifyProfileButton>
+				)}
 				<SNSList>
 					{Object.keys(userSns).map(key => (
 						<SNSList.Item key={key}>
