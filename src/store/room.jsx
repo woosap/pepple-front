@@ -1,4 +1,4 @@
-import React, { createContext, useState, useLayoutEffect } from 'react';
+import React, { createContext, useState } from 'react';
 import api from '../api';
 
 const RoomContext = createContext({
@@ -89,10 +89,6 @@ const RoomProvider = ({ children }) => {
 
 		return `${Math.floor(timeDays / 365)}년 전`;
 	};
-
-	useLayoutEffect(() => {
-		getRooms();
-	}, []);
 
 	const value = {
 		rooms,
