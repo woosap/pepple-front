@@ -3,13 +3,20 @@ import {
 	RoomCloudViewStyled,
 	RoomCloudViewHeader,
 	UploadButton,
-	ContentList,
+	// ContentList,
 } from './RoomCloudView.styles';
 import { ReactComponent as UploadIcon } from '../../assets/icon/icon-add.svg';
-import CloudResource from '../CloudResource/CloudResource';
+// import CloudResource from '../CloudResource/CloudResource';
 import UploadResourceForm from '../UploadResourceForm/UploadResourceForm';
 
-const RoomCloudView = ({ resources }) => {
+/*
+			<ContentList>
+				{resources.map(res => (
+					<CloudResource key={res.id} resource={res} />
+				))}
+			</ContentList>
+*/
+const RoomCloudView = () => {
 	const [isOpen, setIsOpen] = useState(false);
 
 	const handleUploadButtonClick = () => {
@@ -24,11 +31,6 @@ const RoomCloudView = ({ resources }) => {
 				</UploadButton>
 			</RoomCloudViewHeader>
 			{isOpen && <UploadResourceForm />}
-			<ContentList>
-				{resources.map(res => (
-					<CloudResource key={res.id} resource={res} />
-				))}
-			</ContentList>
 		</RoomCloudViewStyled>
 	);
 };
