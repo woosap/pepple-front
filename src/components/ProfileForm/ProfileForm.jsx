@@ -14,13 +14,9 @@ import AuthContext from '../../store/auth';
 import DefaultContext from '../../store/default';
 import api from '../../api';
 
-const ProfileForm = ({
-	type,
-	user,
-	handleJoinButtonClick,
-	handleEditButtonClick,
-}) => {
-	const { userImg } = useContext(AuthContext).state;
+const ProfileForm = ({ type, user }) => {
+	const authContext = useContext(AuthContext);
+	const { userImg } = authContext.state;
 	const { jobsObj, jobsMapping } = useContext(DefaultContext);
 
 	const [file, setFile] = useState(user ? user.imageUrl : userImg);
@@ -110,7 +106,7 @@ const ProfileForm = ({
 			return;
 		}
 		const snsUrlList = snsList.map(sns => sns.value);
-		handleJoinButtonClick(
+		authContext.join(
 			nickname,
 			description.value,
 			jobValue,
@@ -127,7 +123,7 @@ const ProfileForm = ({
 			return;
 		}
 		const snsUrlList = snsList.map(sns => sns.value);
-		handleEditButtonClick(
+		authContext.edit(
 			nickname,
 			description.value,
 			jobValue,
