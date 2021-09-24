@@ -7,6 +7,7 @@ const RoomContext = createContext({
 	roomInfo: null,
 	createRoom: () => {},
 	enterRoom: () => {},
+	leaveRoom: () => {},
 	getTime: () => {},
 	getRooms: () => {},
 	getRoomDetail: () => {},
@@ -70,6 +71,26 @@ const RoomProvider = ({ children }) => {
 			.catch(err => console.log(err));
 	};
 
+	const leaveRoom = roomId => {
+		const userId = localStorage.getItem('user');
+		const token = localStorage.getItem('token');
+		api
+			.post(
+				`/room/leave`,
+				{
+					roomId,
+					userId,
+				},
+				{
+					headers: {
+						Authorization: `Bearer ${token}`,
+					},
+				},
+			)
+			.then(res => console.log(res))
+			.catch(err => console.log(err));
+	};
+
 	const getRoomDetail = roomId => {
 		const token = localStorage.getItem('token');
 		api
@@ -110,6 +131,7 @@ const RoomProvider = ({ children }) => {
 		setRoomInfo,
 		createRoom,
 		enterRoom,
+		leaveRoom,
 		getTime,
 		getRooms,
 		getRoomDetail,

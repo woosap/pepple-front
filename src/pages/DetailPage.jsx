@@ -9,7 +9,8 @@ import RoomCloseButton from '../components/RoomCloseButton/RoomCloseButton';
 import RoomContext from '../store/room';
 
 const DetailPage = ({ match }) => {
-	const { roomInfo, users, getTime, getRoomDetail } = useContext(RoomContext);
+	const { roomInfo, users, getTime, getRoomDetail, leaveRoom } =
+		useContext(RoomContext);
 	const [time, setTime] = useState('');
 
 	useLayoutEffect(() => {
@@ -17,10 +18,12 @@ const DetailPage = ({ match }) => {
 	}, []);
 
 	useEffect(() => {
-		if (roomInfo) {
-			setTime(getTime(roomInfo));
-		}
+		if (roomInfo) setTime(getTime(roomInfo));
 	}, [roomInfo]);
+
+	const handleLeaveRoom = () => {
+		if (roomInfo) leaveRoom(roomInfo.roomId);
+	};
 
 	if (!roomInfo || !users || time === '') {
 		return (
@@ -42,7 +45,7 @@ const DetailPage = ({ match }) => {
 				</DetailContainer.Left>
 				<DetailContainer.Right>
 					<RoomCloudView />
-					<RoomCloseButton />
+					<RoomCloseButton handleLeaveRoom={handleLeaveRoom} />
 				</DetailContainer.Right>
 			</DetailContainer>
 		</>

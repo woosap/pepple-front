@@ -5,14 +5,20 @@ import {
 } from './RoomCloseButton.styles';
 import { ReactComponent as CloseIcon } from '../../assets/icon/icon-close-mini.svg';
 
-const RoomCloseButton = ({ handleEndClick }) => {
+const RoomCloseButton = ({ handleLeaveRoom }) => {
 	const [isOpen, setIsOpen] = useState(false);
 	const [clicked, setClicked] = useState(false);
+
 	const handleClick = () => {
 		setClicked(prev => !prev);
 		setIsOpen(prev => !prev);
-		handleEndClick();
 	};
+
+	const handleEnd = () => {
+		handleClick();
+		handleLeaveRoom();
+	};
+
 	return (
 		<>
 			<RoomCloseButtonStyled clicked={clicked} onClick={handleClick}>
@@ -27,7 +33,7 @@ const RoomCloseButton = ({ handleEndClick }) => {
 					<RoomCloseModal.Description>
 						채팅이 종료되면 클라우드 파일은 저장되지 않습니다.
 					</RoomCloseModal.Description>
-					<RoomCloseModal.Button onClick={handleClick}>
+					<RoomCloseModal.Button onClick={handleEnd}>
 						종료
 					</RoomCloseModal.Button>
 					<CloseIcon onClick={handleClick} />
