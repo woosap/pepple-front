@@ -94,7 +94,7 @@ const AuthProvider = ({ children }) => {
 			.put(
 				`/user`,
 				{
-					imageUrl: userImg,
+					imageUrl: file || userImg,
 					job,
 					nickname,
 					profile: description,
@@ -151,8 +151,8 @@ const AuthProvider = ({ children }) => {
 		if (token) {
 			setLogined(true);
 			setJoined(true);
+			getDetail();
 		}
-		getDetail();
 	}, []);
 
 	const value = {
