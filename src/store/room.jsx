@@ -1,4 +1,5 @@
 import React, { createContext, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import api from '../api';
 
 const RoomContext = createContext({
@@ -14,6 +15,7 @@ const RoomContext = createContext({
 });
 
 const RoomProvider = ({ children }) => {
+	const history = useHistory();
 	const [rooms, setRooms] = useState([]);
 	const [users, setUsers] = useState(null);
 	const [roomInfo, setRoomInfo] = useState(null);
@@ -67,6 +69,8 @@ const RoomProvider = ({ children }) => {
 			.then(res => {
 				console.log(res);
 				getRooms();
+				enterRoom(res.data.roomId);
+				history.push(`/room/${res.data.roomId}`);
 			})
 			.catch(err => console.log(err));
 	};
