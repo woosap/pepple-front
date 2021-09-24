@@ -24,12 +24,8 @@ function App() {
 		<>
 			<BrowserRouter basename="/pepple-front">
 				<Switch>
-					<Route path="/" exact>
-						<MainPage />
-					</Route>
-					<Route path="/room">
-						<DetailPage />
-					</Route>
+					<Route path="/" exact component={MainPage} />
+					<Route path="/room/:roomId" component={DetailPage} />
 					<Route path="/redirect" component={LoginRedirect} />
 				</Switch>
 			</BrowserRouter>
