@@ -6,6 +6,8 @@ const RoomContext = createContext({
 	createRoom: () => {},
 	enterRoom: () => {},
 	getTime: () => {},
+	getRooms: () => {},
+	getRoomDetail: () => {},
 });
 
 const RoomProvider = ({ children }) => {
@@ -95,6 +97,7 @@ const RoomProvider = ({ children }) => {
 		createRoom,
 		enterRoom,
 		getTime,
+		getRooms,
 		getRoomDetail,
 	};
 
