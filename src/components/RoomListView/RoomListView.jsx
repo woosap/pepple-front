@@ -54,7 +54,7 @@ const RoomListView = () => {
 				{state.isOpen && (
 					<OverlayContainer>
 						<Dialog onClose={handleClose}>
-							<CreateRoomForm />
+							<CreateRoomForm onClose={handleClose} />
 							<DialogCloseButton onCloseButton={handleClose} />
 						</Dialog>
 					</OverlayContainer>
@@ -87,7 +87,7 @@ const RoomListView = () => {
 			{state.isOpen && (
 				<OverlayContainer>
 					<Dialog onClose={handleClose}>
-						<CreateRoomForm />
+						<CreateRoomForm onClose={handleClose} />
 						<DialogCloseButton onCloseButton={handleClose} />
 					</Dialog>
 				</OverlayContainer>

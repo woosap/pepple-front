@@ -15,7 +15,7 @@ import useInput from '../../hooks/useInput';
 import DefaultContext from '../../store/default';
 import RoomContext from '../../store/room';
 
-const CreateRoomForm = () => {
+const CreateRoomForm = ({ onClose }) => {
 	const { createRoom } = useContext(RoomContext);
 	const numberOfMembers = [2, 3, 4, 5];
 	const { categoriesObj } = useContext(DefaultContext);
@@ -33,6 +33,7 @@ const CreateRoomForm = () => {
 		e.preventDefault();
 		setClicked(prev => !prev);
 		createRoom(title.value, subtitle.value, capacity, selectedCategory);
+		onClose();
 	};
 
 	const handleDropdownButtonClick = () => {
