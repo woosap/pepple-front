@@ -9,7 +9,11 @@ export const RoomMemberListViewStyled = styled.div`
 
 export const MemberWrapper = styled.div`
 	display: flex;
-	justify-content: space-around;
+	min-width: 230px;
+	min-height: 180px;
+	max-width: 400px;
+	max-height: 250px;
+	justify-content: center;
 	background-color: #fff;
 	border: 1px solid #d0d4ff;
 	box-sizing: border-box;
@@ -20,6 +24,7 @@ export const MemberWrapper = styled.div`
 MemberWrapper.Left = styled.div`
 	display: flex;
 	align-items: center;
+	margin-right: 15%;
 `;
 
 MemberWrapper.Right = styled.div`
