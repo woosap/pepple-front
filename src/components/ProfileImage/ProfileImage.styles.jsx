@@ -14,17 +14,15 @@ const ProfileImageStyled = styled.div`
 	margin: ${props => (props.size === 'big' ? '32px 0 23px 0' : '0')};
 	border: 1px solid #dadcf3;
 	border-radius: 100%;
-	z-index: ${({ order }) => {
-		if (order === 1) return '3';
-		if (order === 2) return '2';
-		return '1';
-	}};
-	position: relative;
-	left: ${({ order }) => {
-		if (order === 1) return '76px';
-		if (order === 2) return '38px';
-		return '0px';
-	}};
+	z-index: ${({ order, length }) => length - order};
+	${({ size }) => {
+		if (size === 'small') {
+			return `position: absolute;`;
+		}
+		return '';
+	}}
+	right: ${({ order, length }) =>
+		length - order > 0 ? (length - order) * 38 : 0}px;
 	overflow: hidden;
 
 	img {
