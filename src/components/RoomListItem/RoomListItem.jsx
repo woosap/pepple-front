@@ -12,7 +12,7 @@ import RoomContext from '../../store/room';
 const RoomListItem = ({ room, categories }) => {
 	const { categoriesObj } = useContext(DefaultContext);
 	const { enterRoom, getTime } = useContext(RoomContext);
-	const [clicked, setClicked] = useState(false);
+	// const [clicked, setClicked] = useState(false);
 	const [time, setTime] = useState('');
 
 	useEffect(() => {
@@ -20,7 +20,7 @@ const RoomListItem = ({ room, categories }) => {
 	}, []);
 
 	const handleRoomClick = () => {
-		setClicked(prev => !prev);
+		// setClicked(prev => !prev);
 		enterRoom(room.roomId);
 	};
 
@@ -43,7 +43,7 @@ const RoomListItem = ({ room, categories }) => {
 	*/
 
 	return (
-		<RoomListItemStyled clicked={clicked} onClick={handleRoomClick}>
+		<RoomListItemStyled onClick={handleRoomClick}>
 			<RoomListItemBox>
 				<RoomListItemBox.CategoryList>
 					{categories.map(category => (
