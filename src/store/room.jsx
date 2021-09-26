@@ -29,6 +29,21 @@ const RoomProvider = ({ children }) => {
 			.catch(err => console.log(err));
 	};
 
+	const getRoomDetail = roomId => {
+		const token = localStorage.getItem('token');
+		api
+			.get(`/room/${roomId}`, {
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			})
+			.then(res => {
+				setRoomInfo(res.data.roomInfo);
+				setUsers(res.data.users);
+			})
+			.catch(err => console.log(err));
+	};
+
 	const enterRoom = roomId => {
 		const token = localStorage.getItem('token');
 		const userId = localStorage.getItem('user');
@@ -45,7 +60,10 @@ const RoomProvider = ({ children }) => {
 					},
 				},
 			)
-			.then(res => console.log(res))
+			.then(res => {
+				console.log(res);
+				getRoomDetail(roomId);
+			})
 			.catch(err => console.log(err));
 	};
 
@@ -91,22 +109,9 @@ const RoomProvider = ({ children }) => {
 					},
 				},
 			)
-			.then(res => console.log(res))
-			.catch(err => console.log(err));
-	};
-
-	const getRoomDetail = roomId => {
-		const token = localStorage.getItem('token');
-		api
-			.get(`/room/${roomId}`, {
-				headers: {
-					Authorization: `Bearer ${token}`,
-				},
-			})
 			.then(res => {
-				setRoomInfo(res.data.roomInfo);
-				console.log(res.data.users);
-				setUsers(res.data.users);
+				console.log(res);
+				history.push('/');
 			})
 			.catch(err => console.log(err));
 	};
