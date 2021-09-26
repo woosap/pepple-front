@@ -44,10 +44,31 @@ const RoomProvider = ({ children }) => {
 			.catch(err => console.log(err));
 	};
 
-	const enterRoom = roomId => {
+	const checkRoomUsers = async (roomId, userId) => {
+		const token = localStorage.getItem('token');
+		try {
+			const res = await api.get(`/room/${roomId}`, {
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			});
+			return !res.data.users.some(user => user.userId === userId);
+		} catch (err) {
+			console.log(err);
+			return false;
+		}
+	};
+
+	const enterRoom = async roomId => {
 		const token = localStorage.getItem('token');
 		const userId = localStorage.getItem('user');
-		api
+		const result = await checkRoomUsers(roomId, userId);
+		if (!result) {
+			history.push(`/room/${roomId}`);
+			getRoomDetail(roomId);
+			return;
+		}
+		await api
 			.post(
 				`/room/enter`,
 				{
@@ -62,6 +83,7 @@ const RoomProvider = ({ children }) => {
 			)
 			.then(res => {
 				console.log(res);
+				history.push(`/room/${roomId}`);
 				getRoomDetail(roomId);
 			})
 			.catch(err => console.log(err));
