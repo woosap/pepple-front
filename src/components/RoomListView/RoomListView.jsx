@@ -1,10 +1,11 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { OverlayContainer } from '@react-aria/overlays';
 import {
 	RoomListViewStyled,
 	RoomList,
 	CreateNewRoomButton,
 	Loading,
+	AlertModal,
 } from './RoomListView.styles';
 import useToggleDialog from '../../hooks/useToggleDialog';
 import Dialog from '../Dialog/Dialog';
@@ -12,11 +13,13 @@ import DialogCloseButton from '../Dialog/DialogCloseButton';
 import RoomListItem from '../RoomListItem/RoomListItem';
 import CreateRoomForm from '../CreateRoomForm/CreateRoomForm';
 import RoomContext from '../../store/room';
+import { ReactComponent as CloseIcon } from '../../assets/icon/icon-close-mini.svg';
 
 const RoomListView = () => {
-	const { rooms } = useContext(RoomContext);
+	const { rooms, error, setError } = useContext(RoomContext);
 	const { state, openButtonProps, openButtonRef } = useToggleDialog();
 	const [clicked, setClicked] = useState(false);
+	const [isOpen, setIsOpen] = useState(false);
 
 	const handleClose = () => {
 		state.close();
@@ -26,6 +29,16 @@ const RoomListView = () => {
 	const handleClick = () => {
 		setClicked(prev => !prev);
 	};
+
+	const handleAlertClick = () => {
+		setIsOpen(false);
+		setClicked(false);
+		setError(false);
+	};
+
+	useEffect(() => {
+		if (error) setIsOpen(true);
+	}, [error]);
 
 	if (!rooms) {
 		return (
@@ -53,7 +66,7 @@ const RoomListView = () => {
 				</CreateNewRoomButton>
 				{state.isOpen && (
 					<OverlayContainer>
-						<Dialog onClose={handleClose}>
+						<Dialog type="create" onClose={handleClose}>
 							<CreateRoomForm onClose={handleClose} />
 							<DialogCloseButton onCloseButton={handleClose} />
 						</Dialog>
@@ -86,9 +99,25 @@ const RoomListView = () => {
 			</RoomListViewStyled>
 			{state.isOpen && (
 				<OverlayContainer>
-					<Dialog onClose={handleClose}>
+					<Dialog type="create" onClose={handleClose}>
 						<CreateRoomForm onClose={handleClose} />
 						<DialogCloseButton onCloseButton={handleClose} />
+					</Dialog>
+				</OverlayContainer>
+			)}
+			{isOpen && (
+				<OverlayContainer>
+					<Dialog type="alert">
+						<AlertModal>
+							<AlertModal.Title>방이 가득 찼어요 !</AlertModal.Title>
+							<AlertModal.Description>
+								다른 방에 입장하거나 새로운 방을 만들어 주세요.
+							</AlertModal.Description>
+							<AlertModal.Button onClick={handleAlertClick}>
+								확인
+							</AlertModal.Button>
+							<CloseIcon onClick={handleAlertClick} />
+						</AlertModal>
 					</Dialog>
 				</OverlayContainer>
 			)}
