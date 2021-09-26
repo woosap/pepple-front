@@ -120,6 +120,10 @@ const AuthProvider = ({ children }) => {
 			})
 			.then(res => {
 				setUserData(res.data);
+				if (!userId) {
+					setUserId(res.data.userId);
+					localStorage.setItem('user', res.data.userId);
+				}
 			})
 			.catch(err => console.log(err));
 	};
@@ -143,17 +147,43 @@ const AuthProvider = ({ children }) => {
 		});
 	};
 
+	const checkToken = async () => {
+		try {
+			const res = await api.get('/auth', {
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			});
+			return res.data.authorized;
+		} catch (err) {
+			return false;
+		}
+	};
+
 	useEffect(() => {
 		getIcons();
 	}, [userData]);
 
 	useLayoutEffect(() => {
-		if (token) {
-			setLogined(true);
-			setJoined(true);
-			getDetail();
-		}
-	}, []);
+		const setAuth = async () => {
+			if (token) {
+				const result = await checkToken();
+				if (!result) {
+					localStorage.removeItem('token');
+					localStorage.removeItem('user');
+					setToken(null);
+					setUserId(null);
+					setLogined(false);
+					setJoined(true);
+					return;
+				}
+				setLogined(true);
+				setJoined(true);
+				getDetail();
+			}
+		};
+		setAuth();
+	}, [token]);
 
 	const value = {
 		state: { token, userId, userImg, logined, joined, userData, userSns },
@@ -167,6 +197,7 @@ const AuthProvider = ({ children }) => {
 		login,
 		join,
 		edit,
+		checkToken,
 	};
 
 	return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

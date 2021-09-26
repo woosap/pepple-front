@@ -31,7 +31,10 @@ const LoginRedirect = ({ history }) => {
 			setLogined(true);
 			history.push('/');
 		} else if (getToken && !userId) {
-			console.warn('로그인 중 에러 발생 : register 전 토큰 발급');
+			localStorage.setItem('token', getToken);
+			setToken(getToken);
+			setLogined(true);
+			history.push('/');
 		} else {
 			getUserInfo(query);
 			setLogined(true);
