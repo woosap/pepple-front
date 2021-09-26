@@ -16,14 +16,26 @@ const DialogStyled = styled.div`
 
 DialogStyled.Box = styled.div`
 	width: ${({ type }) => {
-		if (type === 'login' || type === 'profile_join' || type === 'profile_edit')
-			return '567px';
-		return '713px';
+		switch (type) {
+			case 'create':
+				return '713px';
+			case 'alert':
+				return '423px';
+			default:
+				return '567px';
+		}
 	}};
 	height: ${({ type }) => {
-		if (type === 'login') return '617px';
-		if (type === 'profile_join' || type === 'profile_edit') return '625px';
-		return '437px';
+		switch (type) {
+			case 'login':
+				return '617px';
+			case 'create':
+				return '437px';
+			case 'alert':
+				return '185px';
+			default:
+				return '625px';
+		}
 	}};
 	position: relative;
 	display: flex;

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useContext, useEffect, useLayoutEffect } from 'react';
 import styled from 'styled-components';
 import Header from '../components/Header/Header';
 import RoomProfileView from '../components/RoomProfileView/RoomProfileView';
@@ -6,20 +6,46 @@ import RoomMemberListView from '../components/RoomMemberListView/RoomMemberListV
 import RoomCloudView from '../components/RoomCloudView/RoomCloudView';
 import MuteButton from '../components/MuteButton/MuteButton';
 import RoomCloseButton from '../components/RoomCloseButton/RoomCloseButton';
+import RoomContext from '../store/room';
 
-const DetailPage = () => {
+const DetailPage = ({ match }) => {
+	const { roomInfo, users, getTime, getRoomDetail, leaveRoom } =
+		useContext(RoomContext);
+	const [time, setTime] = useState('');
+
+	useLayoutEffect(() => {
+		getRoomDetail(Number(match.params.roomId));
+	}, []);
+
+	useEffect(() => {
+		if (roomInfo) setTime(getTime(roomInfo));
+	}, [roomInfo]);
+
+	const handleLeaveRoom = () => {
+		if (roomInfo) leaveRoom(roomInfo.roomId);
+	};
+
+	if (!roomInfo || !users || time === '') {
+		return (
+			<>
+				<Header />
+				<DetailContainer>로딩 중입니다..</DetailContainer>
+			</>
+		);
+	}
+
 	return (
 		<>
 			<Header />
 			<DetailContainer>
 				<DetailContainer.Left>
-					<RoomProfileView />
-					<RoomMemberListView />
+					<RoomProfileView title={roomInfo.title} date={time} />
+					<RoomMemberListView members={users} />
 					<MuteButton />
 				</DetailContainer.Left>
 				<DetailContainer.Right>
 					<RoomCloudView />
-					<RoomCloseButton />
+					<RoomCloseButton handleLeaveRoom={handleLeaveRoom} />
 				</DetailContainer.Right>
 			</DetailContainer>
 		</>

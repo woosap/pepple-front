@@ -1,15 +1,26 @@
-import React, { createContext, useState, useLayoutEffect } from 'react';
+import React, { createContext, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import api from '../api';
 
 const RoomContext = createContext({
 	rooms: [],
+	users: null,
+	roomInfo: null,
+	error: false,
 	createRoom: () => {},
 	enterRoom: () => {},
+	leaveRoom: () => {},
 	getTime: () => {},
+	getRooms: () => {},
+	getRoomDetail: () => {},
 });
 
 const RoomProvider = ({ children }) => {
+	const history = useHistory();
 	const [rooms, setRooms] = useState([]);
+	const [users, setUsers] = useState(null);
+	const [roomInfo, setRoomInfo] = useState(null);
+	const [error, setError] = useState(false);
 
 	const getRooms = () => {
 		api
@@ -20,10 +31,46 @@ const RoomProvider = ({ children }) => {
 			.catch(err => console.log(err));
 	};
 
-	const enterRoom = roomId => {
+	const getRoomDetail = roomId => {
+		const token = localStorage.getItem('token');
+		api
+			.get(`/room/${roomId}`, {
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			})
+			.then(res => {
+				setRoomInfo(res.data.roomInfo);
+				setUsers(res.data.users);
+			})
+			.catch(err => console.log(err));
+	};
+
+	const checkRoomUsers = async (roomId, userId) => {
+		const token = localStorage.getItem('token');
+		try {
+			const res = await api.get(`/room/${roomId}`, {
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			});
+			return !res.data.users.some(user => user.userId === userId);
+		} catch (err) {
+			console.log(err);
+			return false;
+		}
+	};
+
+	const enterRoom = async roomId => {
 		const token = localStorage.getItem('token');
 		const userId = localStorage.getItem('user');
-		api
+		const result = await checkRoomUsers(roomId, userId);
+		if (!result) {
+			history.push(`/room/${roomId}`);
+			getRoomDetail(roomId);
+			return;
+		}
+		await api
 			.post(
 				`/room/enter`,
 				{
@@ -36,8 +83,15 @@ const RoomProvider = ({ children }) => {
 					},
 				},
 			)
-			.then(res => console.log(res))
-			.catch(err => console.log(err));
+			.then(res => {
+				console.log(res);
+				history.push(`/room/${roomId}`);
+				getRoomDetail(roomId);
+			})
+			.catch(err => {
+				console.log(err);
+				setError(true);
+			});
 	};
 
 	const createRoom = (title, subTitle, capacity, category) => {
@@ -60,14 +114,32 @@ const RoomProvider = ({ children }) => {
 			.then(res => {
 				console.log(res);
 				getRooms();
+				enterRoom(res.data.roomId);
+				history.push(`/room/${res.data.roomId}`);
 			})
 			.catch(err => console.log(err));
 	};
 
-	const getRoomDetail = roomId => {
+	const leaveRoom = roomId => {
+		const userId = localStorage.getItem('user');
+		const token = localStorage.getItem('token');
 		api
-			.get(`/room/${roomId}`)
-			.then(res => console.log(res))
+			.post(
+				`/room/leave`,
+				{
+					roomId,
+					userId,
+				},
+				{
+					headers: {
+						Authorization: `Bearer ${token}`,
+					},
+				},
+			)
+			.then(res => {
+				console.log(res);
+				history.push('/');
+			})
 			.catch(err => console.log(err));
 	};
 
@@ -78,27 +150,28 @@ const RoomProvider = ({ children }) => {
 		const timeMinutes = Math.floor(
 			(now.getTime() - birth.getTime()) / 1000 / 60,
 		);
+		const timeHours = Math.floor(timeMinutes / 60);
+		const timeDays = Math.floor(timeMinutes / 60 / 24);
+
 		if (timeMinutes < 1) return '방금전';
 		if (timeMinutes < 60) return `${timeMinutes}분전`;
-
-		const timeHours = Math.floor(timeMinutes / 60);
 		if (timeHours < 24) return `${timeHours}시간 전`;
-
-		const timeDays = Math.floor(timeMinutes / 60 / 24);
 		if (timeDays < 365) return `${timeDays}일전`;
-
 		return `${Math.floor(timeDays / 365)}년 전`;
 	};
 
-	useLayoutEffect(() => {
-		getRooms();
-	}, []);
-
 	const value = {
 		rooms,
+		roomInfo,
+		users,
+		error,
+		setRoomInfo,
+		setError,
 		createRoom,
 		enterRoom,
+		leaveRoom,
 		getTime,
+		getRooms,
 		getRoomDetail,
 	};
 

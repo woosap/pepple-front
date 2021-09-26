@@ -23,15 +23,13 @@ function App() {
 	return (
 		<>
 			<BrowserRouter basename="/pepple-front">
-				<Switch>
-					<Route path="/" exact>
-						<MainPage />
-					</Route>
-					<Route path="/room">
-						<DetailPage />
-					</Route>
-					<Route path="/redirect" component={LoginRedirect} />
-				</Switch>
+				<AppProvider contexts={[AuthProvider, DefaultProvider, RoomProvider]}>
+					<Switch>
+						<Route path="/" exact component={MainPage} />
+						<Route path="/room/:roomId" component={DetailPage} />
+						<Route path="/redirect" component={LoginRedirect} />
+					</Switch>
+				</AppProvider>
 			</BrowserRouter>
 			<GlobalStyle />
 		</>
@@ -63,8 +61,4 @@ export const GlobalStyle = createGlobalStyle`
 	}
 `;
 
-export default () => (
-	<AppProvider contexts={[AuthProvider, DefaultProvider, RoomProvider]}>
-		<App />
-	</AppProvider>
-);
+export default App;

@@ -5,12 +5,12 @@ import {
 	RoomInfo,
 } from './RoomProfileView.styles';
 
-const RoomProfileView = () => (
+const RoomProfileView = ({ title, date }) => (
 	<RoomProfileViewStyled>
-		<RoomTitle />
+		<RoomTitle>{title}</RoomTitle>
 		<RoomInfo>
 			<RoomInfo.CategoryList />
-			<RoomInfo.BirthTime />
+			<RoomInfo.BirthTime>{date}</RoomInfo.BirthTime>
 		</RoomInfo>
 	</RoomProfileViewStyled>
 );

@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useLayoutEffect } from 'react';
 import styled from 'styled-components';
 import { OverlayContainer } from '@react-aria/overlays';
 import Header from '../components/Header/Header';
@@ -8,10 +8,16 @@ import Dialog from '../components/Dialog/Dialog';
 import LoginForm from '../components/LoginForm/LoginForm';
 import ProfileForm from '../components/ProfileForm/ProfileForm';
 import AuthContext from '../store/auth';
+import RoomContext from '../store/room';
 
 const MainPage = () => {
 	const authContext = useContext(AuthContext);
 	const { joined, logined } = authContext.state;
+	const { getRooms } = useContext(RoomContext);
+
+	useLayoutEffect(() => {
+		getRooms();
+	}, []);
 
 	return (
 		<>

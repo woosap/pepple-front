@@ -84,7 +84,5 @@ RoomListItemBox.BirthTime = styled.div`
 export const MemberProfileImageList = styled.div`
 	display: flex;
 	justify-content: flex-end;
-	position: absolute;
-	bottom: 21px;
-	right: 63px;
+	position: relative;
 `;
