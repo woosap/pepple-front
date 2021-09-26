@@ -6,6 +6,7 @@ const RoomContext = createContext({
 	rooms: [],
 	users: null,
 	roomInfo: null,
+	error: false,
 	createRoom: () => {},
 	enterRoom: () => {},
 	leaveRoom: () => {},
@@ -19,6 +20,7 @@ const RoomProvider = ({ children }) => {
 	const [rooms, setRooms] = useState([]);
 	const [users, setUsers] = useState(null);
 	const [roomInfo, setRoomInfo] = useState(null);
+	const [error, setError] = useState(false);
 
 	const getRooms = () => {
 		api
@@ -86,7 +88,10 @@ const RoomProvider = ({ children }) => {
 				history.push(`/room/${roomId}`);
 				getRoomDetail(roomId);
 			})
-			.catch(err => console.log(err));
+			.catch(err => {
+				console.log(err);
+				setError(true);
+			});
 	};
 
 	const createRoom = (title, subTitle, capacity, category) => {
@@ -159,7 +164,9 @@ const RoomProvider = ({ children }) => {
 		rooms,
 		roomInfo,
 		users,
+		error,
 		setRoomInfo,
+		setError,
 		createRoom,
 		enterRoom,
 		leaveRoom,
