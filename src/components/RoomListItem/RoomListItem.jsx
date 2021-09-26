@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Link } from 'react-router-dom';
+import nextId from 'react-id-generator';
 import {
 	RoomListItemStyled,
 	RoomListItemBox,
@@ -43,8 +44,15 @@ const RoomListItem = ({ room, categories }) => {
 					<RoomListItemBox.BirthTime>{time}</RoomListItemBox.BirthTime>
 				</RoomListItemBox>
 				<MemberProfileImageList>
-					<ProfileImage order={1} />
-					<ProfileImage order={2} />
+					{room.imageUrl.map((image, index, arr) => (
+						<ProfileImage
+							key={nextId()}
+							url={image}
+							order={index + 1}
+							length={arr.length}
+							size="small"
+						/>
+					))}
 				</MemberProfileImageList>
 			</RoomListItemStyled>
 		</Link>
