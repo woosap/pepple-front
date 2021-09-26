@@ -5,7 +5,7 @@ import DefaultImage from '../../assets/img-default.svg';
 const ProfileImage = ({ url, size, order, length }) => {
 	return (
 		<ProfileImageStyled size={size} order={order} length={length}>
-			{url && <img src={url} alt="profile" />}
+			<img src={url || DefaultImage} alt="profile" />
 		</ProfileImageStyled>
 	);
 };
