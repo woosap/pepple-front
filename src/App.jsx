@@ -8,7 +8,6 @@ import DetailPage from './pages/DetailPage';
 import { AuthProvider } from './store/auth';
 import { DefaultProvider } from './store/default';
 import { RoomProvider } from './store/room';
-import { AgoraProvider } from './store/agora';
 import LoginRedirect from './components/LoginForm/LoginRedirect';
 
 const AppProvider = ({ contexts, children }) =>
@@ -24,14 +23,7 @@ function App() {
 	return (
 		<>
 			<BrowserRouter basename="/pepple-front">
-				<AppProvider
-					contexts={[
-						AuthProvider,
-						DefaultProvider,
-						RoomProvider,
-						AgoraProvider,
-					]}
-				>
+				<AppProvider contexts={[AuthProvider, DefaultProvider, RoomProvider]}>
 					<Switch>
 						<Route path="/" exact component={MainPage} />
 						<Route path="/room/:roomId" component={DetailPage} />
