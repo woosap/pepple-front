@@ -1,6 +1,7 @@
 import React, { createContext, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import api from '../api';
+import useAgora from '../hooks/useAgora';
 
 const RoomContext = createContext({
 	rooms: [],
@@ -21,6 +22,7 @@ const RoomProvider = ({ children }) => {
 	const [users, setUsers] = useState(null);
 	const [roomInfo, setRoomInfo] = useState(null);
 	const [error, setError] = useState(false);
+	const { joinChannel, leaveChannel } = useAgora();
 
 	const getRooms = () => {
 		api
@@ -87,6 +89,7 @@ const RoomProvider = ({ children }) => {
 				console.log(res);
 				history.push(`/room/${roomId}`);
 				getRoomDetail(roomId);
+				joinChannel(userId, roomId);
 			})
 			.catch(err => {
 				console.log(err);
@@ -138,6 +141,7 @@ const RoomProvider = ({ children }) => {
 			)
 			.then(res => {
 				console.log(res);
+				leaveChannel();
 				history.push('/');
 			})
 			.catch(err => console.log(err));
