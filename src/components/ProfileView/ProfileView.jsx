@@ -70,7 +70,6 @@ const ProfileView = ({ handleEditButtonClick }) => {
 					<Dialog type="profile_edit" onClose={handleClose}>
 						<ProfileForm
 							type="edit"
-							user={userData === defaultUser ? null : userData}
 							handleEditButtonClick={handleEditButtonClick}
 						/>
 						<DialogCloseButton onCloseButton={handleClose} />
