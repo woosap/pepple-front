@@ -101,7 +101,7 @@ const useForm = () => {
 		});
 	};
 
-	const handleJoinClick = e => {
+	const handleJoin = e => {
 		e.preventDefault();
 		if (inputs.nickname === '') {
 			setValid({
@@ -129,7 +129,7 @@ const useForm = () => {
 		});
 	};
 
-	const handleEditClick = e => {
+	const handleEdit = e => {
 		e.preventDefault();
 		if (inputs.nickname === '') {
 			setValid({
@@ -168,8 +168,8 @@ const useForm = () => {
 		handleJobChange,
 		handleSnsListChange,
 		handleInputChange,
-		handleJoinClick,
-		handleEditClick,
+		handleJoin,
+		handleEdit,
 	};
 };
 

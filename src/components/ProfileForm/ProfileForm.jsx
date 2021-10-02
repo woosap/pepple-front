@@ -12,7 +12,7 @@ import { ReactComponent as SpreadIcon } from '../../assets/icon/icon-arrow-botto
 import DefaultContext from '../../store/default';
 import useForm from '../../hooks/useForm';
 
-const ProfileForm = ({ type }) => {
+const ProfileForm = ({ type, handleClose }) => {
 	const { jobsObj } = useContext(DefaultContext);
 	const [isActive, setIsActive] = useState(false);
 
@@ -25,8 +25,8 @@ const ProfileForm = ({ type }) => {
 		handleJobChange,
 		handleSnsListChange,
 		handleInputChange,
-		handleJoinClick,
-		handleEditClick,
+		handleJoin,
+		handleEdit,
 	} = useForm();
 
 	const handleTitleInputClick = () => {
@@ -36,6 +36,11 @@ const ProfileForm = ({ type }) => {
 	const handleDropdownItemClick = e => {
 		handleJobChange(e);
 		setIsActive(false);
+	};
+
+	const handleEditClick = e => {
+		handleClose();
+		handleEdit(e);
 	};
 
 	return (
@@ -126,7 +131,7 @@ const ProfileForm = ({ type }) => {
 					</FormItem>
 				</FormContainer>
 				{type === 'join' && (
-					<ProfileFormBox.SubmitButton type={type} onClick={handleJoinClick}>
+					<ProfileFormBox.SubmitButton type={type} onClick={handleJoin}>
 						프로필 설정 완료
 					</ProfileFormBox.SubmitButton>
 				)}
