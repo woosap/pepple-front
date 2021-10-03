@@ -22,7 +22,7 @@ const AppProvider = ({ contexts, children }) =>
 function App() {
 	return (
 		<>
-			<BrowserRouter basename="/pepple-front">
+			<BrowserRouter basename="/">
 				<AppProvider contexts={[AuthProvider, DefaultProvider, RoomProvider]}>
 					<Switch>
 						<Route path="/" exact component={MainPage} />
