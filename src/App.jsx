@@ -1,7 +1,7 @@
 /* eslint-disable react/no-children-prop */
 import React from 'react';
 import resetCss from 'reset-css';
-import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import { HashRouter, Switch, Route } from 'react-router-dom';
 import { createGlobalStyle } from 'styled-components';
 import MainPage from './pages/MainPage';
 import DetailPage from './pages/DetailPage';
@@ -22,7 +22,7 @@ const AppProvider = ({ contexts, children }) =>
 function App() {
 	return (
 		<>
-			<BrowserRouter basename="/pepple-front">
+			<HashRouter basename="/pepple-front">
 				<AppProvider contexts={[AuthProvider, DefaultProvider, RoomProvider]}>
 					<Switch>
 						<Route path="/" exact component={MainPage} />
@@ -30,7 +30,7 @@ function App() {
 						<Route path="/redirect" component={LoginRedirect} />
 					</Switch>
 				</AppProvider>
-			</BrowserRouter>
+			</HashRouter>
 			<GlobalStyle />
 		</>
 	);
