@@ -22,8 +22,9 @@ const RoomProvider = ({ children }) => {
 	const [users, setUsers] = useState(null);
 	const [roomInfo, setRoomInfo] = useState(null);
 	const [error, setError] = useState(false);
+	const [mute, setMute] = useState(false);
 	const [localAudioTrack, setLocalAudioTrack] = useState(null);
-	const { joinChannel, leaveChannel } = useAgora();
+	const { joinChannel, leaveChannel, muteTrack, unmuteTrack } = useAgora();
 
 	const getRooms = () => {
 		api
@@ -169,11 +170,18 @@ const RoomProvider = ({ children }) => {
 		return `${Math.floor(timeDays / 365)}년 전`;
 	};
 
+	const handleMute = () => {
+		if (mute) unmuteTrack(localAudioTrack);
+		else muteTrack(localAudioTrack);
+		setMute(!mute);
+	};
+
 	const value = {
 		rooms,
 		roomInfo,
 		users,
 		error,
+		mute,
 		setRoomInfo,
 		setError,
 		createRoom,
@@ -182,6 +190,7 @@ const RoomProvider = ({ children }) => {
 		getTime,
 		getRooms,
 		getRoomDetail,
+		handleMute,
 	};
 
 	return <RoomContext.Provider value={value}>{children}</RoomContext.Provider>;

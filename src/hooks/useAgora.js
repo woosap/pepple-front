@@ -76,21 +76,20 @@ const useAgora = () => {
 
 	// leave room
 	const leaveChannel = async localAudioTrack => {
-		console.log('!!!!!!!', rtc, localAudioTrack);
 		localAudioTrack?.close();
 		await rtc?.client?.leave();
 		console.log('leave success !');
 	};
 
-	const mute = localAudioTrack => {
+	const muteTrack = localAudioTrack => {
 		localAudioTrack?.setEnabled(false);
 	};
 
-	const unmute = localAudioTrack => {
+	const unmuteTrack = localAudioTrack => {
 		localAudioTrack?.setEnabled(true);
 	};
 
-	return { joinChannel, leaveChannel, mute, unmute };
+	return { joinChannel, leaveChannel, muteTrack, unmuteTrack };
 };
 
 export default useAgora;
