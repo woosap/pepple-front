@@ -10,7 +10,6 @@ const useAgora = () => {
 	const options = {
 		appId: process.env.REACT_APP_AGORA_APP_ID,
 		channel: '',
-		uid: '',
 	};
 
 	const [remoteUsers, setRemoteUsers] = useState([]);
@@ -23,13 +22,12 @@ const useAgora = () => {
 	const getAgoraToken = async (userId, roomId) => {
 		const token = localStorage.getItem('token');
 		options.channel = String(roomId);
-		options.uid = userId;
 		try {
 			const res = await api.post(
 				`/agoraToken`,
 				{
 					channelName: options.channel,
-					userAccount: options.uid,
+					userAccount: userId,
 				},
 				{
 					headers: {
@@ -67,7 +65,7 @@ const useAgora = () => {
 			rtc.client.on('user-unpublished', handleUserUnpublished);
 			if (agoraToken) {
 				await rtc.client
-					.join(options.appId, options.channel, agoraToken, options.uid)
+					.join(options.appId, options.channel, agoraToken, userId)
 					.then(res => console.log('join success !', res))
 					.catch(err => console.log(err));
 				const localAudioTrack = await AgoraRTC.createMicrophoneAudioTrack();
