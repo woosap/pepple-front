@@ -22,6 +22,7 @@ const RoomProvider = ({ children }) => {
 	const [users, setUsers] = useState(null);
 	const [roomInfo, setRoomInfo] = useState(null);
 	const [error, setError] = useState(false);
+	const [localAudioTrack, setLocalAudioTrack] = useState(null);
 	const { joinChannel, leaveChannel } = useAgora();
 
 	const getRooms = () => {
@@ -89,7 +90,11 @@ const RoomProvider = ({ children }) => {
 				console.log(res);
 				history.push(`/room/${roomId}`);
 				getRoomDetail(roomId);
-				joinChannel(userId, roomId);
+				const agora = async () => {
+					const track = await joinChannel(userId, roomId);
+					setLocalAudioTrack(track);
+				};
+				agora();
 			})
 			.catch(err => {
 				console.log(err);
@@ -141,7 +146,7 @@ const RoomProvider = ({ children }) => {
 			)
 			.then(res => {
 				console.log(res);
-				leaveChannel();
+				leaveChannel(localAudioTrack);
 				history.push('/');
 			})
 			.catch(err => console.log(err));

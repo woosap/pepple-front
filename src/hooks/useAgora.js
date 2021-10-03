@@ -4,7 +4,6 @@ import api from '../api';
 const useAgora = () => {
 	const rtc = {
 		client: AgoraRTC.createClient({ mode: 'rtc', codec: 'h264' }),
-		localAudioTrack: null,
 	};
 
 	const options = {
@@ -62,34 +61,33 @@ const useAgora = () => {
 					.join(options.appId, options.channel, agoraToken, options.uid)
 					.then(res => console.log('join success !', res))
 					.catch(err => console.log(err));
-				rtc.localAudioTrack = await AgoraRTC.createMicrophoneAudioTrack();
-				await rtc.client.publish([rtc.localAudioTrack]);
+				const localAudioTrack = await AgoraRTC.createMicrophoneAudioTrack();
+				await rtc.client.publish([localAudioTrack]);
 				console.log('publish success!');
-			} else {
-				console.log('agora token missing');
+				return localAudioTrack;
 			}
+			console.log('agora token missing');
+			return null;
 		} catch (err) {
 			console.log(err);
+			return null;
 		}
 	};
 
 	// leave room
-	const leaveChannel = async () => {
-		console.log(rtc);
-		if (rtc.localAudioTrack) {
-			await rtc.localAudioTrack.close();
-		}
-		if (rtc.client) {
-			await rtc.client.leave();
-		}
+	const leaveChannel = async localAudioTrack => {
+		console.log('!!!!!!!', rtc, localAudioTrack);
+		localAudioTrack?.close();
+		await rtc?.client?.leave();
+		console.log('leave success !');
 	};
 
-	const mute = () => {
-		rtc.localAudioTrack.setEnabled(false);
+	const mute = localAudioTrack => {
+		localAudioTrack?.setEnabled(false);
 	};
 
-	const unmute = () => {
-		rtc.localAudioTrack.setEnabled(true);
+	const unmute = localAudioTrack => {
+		localAudioTrack?.setEnabled(true);
 	};
 
 	return { joinChannel, leaveChannel, mute, unmute };
