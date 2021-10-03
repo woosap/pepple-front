@@ -249,8 +249,8 @@ UploadForm.Button = styled.label`
 	cursor: pointer;
 	position: absolute;
 	top: 6px;
-	right: 8px;
-	background: none;
+	right: 1px;
+	background: #fcfcfc;
 	font-size: 12px;
 	font-family: Noto Sans KR;
 	font-style: normal;
@@ -258,6 +258,7 @@ UploadForm.Button = styled.label`
 	font-size: 12px;
 	line-height: 18px;
 	letter-spacing: -0.03em;
+	padding: 0 8px;
 `;
 
 export const DropdownBox = styled.ul`

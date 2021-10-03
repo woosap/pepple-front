@@ -15,7 +15,7 @@ import AuthContext from '../../store/auth';
 import DefaultContext from '../../store/default';
 import DefaultImage from '../../assets/img-default.svg';
 
-const ProfileView = ({ handleEditButtonClick }) => {
+const ProfileView = () => {
 	const { userData, userSns } = useContext(AuthContext).state;
 	const { defaultUser, jobsMapping } = useContext(DefaultContext);
 	const { state, openButtonProps, openButtonRef } = useToggleDialog();
@@ -68,11 +68,7 @@ const ProfileView = ({ handleEditButtonClick }) => {
 			{state.isOpen && (
 				<OverlayContainer>
 					<Dialog type="profile_edit" onClose={handleClose}>
-						<ProfileForm
-							type="edit"
-							user={userData === defaultUser ? null : userData}
-							handleEditButtonClick={handleEditButtonClick}
-						/>
+						<ProfileForm type="edit" handleClose={handleClose} />
 						<DialogCloseButton onCloseButton={handleClose} />
 					</Dialog>
 				</OverlayContainer>
