@@ -22,6 +22,7 @@ const ProfileForm = ({ type, handleClose }) => {
 		nicknameRef,
 		checkNicknameDuplicate,
 		handleNicknameChange,
+		handleFileChange,
 		handleJobChange,
 		handleSnsListChange,
 		handleInputChange,
@@ -55,14 +56,14 @@ const ProfileForm = ({ type, handleClose }) => {
 						<UploadForm>
 							<UploadForm.TextInput
 								disabled
-								value={inputs.file}
+								value={inputs.file.name}
 								placeholder="400 x 400 사이즈를 권장합니다"
 							/>
 							<UploadForm.Input
 								type="file"
 								id="file"
 								name="file"
-								onChange={handleInputChange}
+								onChange={handleFileChange}
 							/>
 							<UploadForm.Button htmlFor="file">파일 찾기</UploadForm.Button>
 						</UploadForm>

@@ -5,10 +5,13 @@ import DefaultContext from '../store/default';
 
 const useForm = () => {
 	const authContext = useContext(AuthContext);
-	const { userImg, userData } = authContext.state;
+	const { userData } = authContext.state;
 	const { jobsMapping } = useContext(DefaultContext);
 	const [inputs, setInputs] = useState({
-		file: userData?.imageUrl || userImg,
+		file: {
+			name: userData?.imageUrl || '',
+			obj: null,
+		},
 		nickname: userData?.nickname || '',
 		job: {
 			title: userData?.job
@@ -83,6 +86,16 @@ const useForm = () => {
 		}
 	};
 
+	const handleFileChange = e => {
+		setInputs({
+			...inputs,
+			file: {
+				name: e.target.files[0].name,
+				obj: e.target.files[0],
+			},
+		});
+	};
+
 	const handleJobChange = e => {
 		setInputs({
 			...inputs,
@@ -114,7 +127,7 @@ const useForm = () => {
 			inputs.nickname,
 			inputs.description,
 			inputs.job.value,
-			inputs.file,
+			inputs.file.obj,
 			inputs.snsList.filter(item => item.value !== '').map(item => item.value),
 		);
 	};
@@ -142,7 +155,7 @@ const useForm = () => {
 			inputs.nickname,
 			inputs.description,
 			inputs.job.value,
-			inputs.file,
+			inputs.file.obj,
 			inputs.snsList.filter(item => item.value !== '').map(item => item.value),
 		);
 	};
@@ -165,6 +178,7 @@ const useForm = () => {
 		nicknameRef,
 		checkNicknameDuplicate,
 		handleNicknameChange,
+		handleFileChange,
 		handleJobChange,
 		handleSnsListChange,
 		handleInputChange,
