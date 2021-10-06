@@ -21,7 +21,7 @@ const LoginRedirect = ({ history }) => {
 	};
 
 	useLayoutEffect(() => {
-		const query = qs.parse(window.location.search, {
+		const query = qs.parse(history.location.search, {
 			ignoreQueryPrefix: true,
 		});
 		const getToken = query.token;
