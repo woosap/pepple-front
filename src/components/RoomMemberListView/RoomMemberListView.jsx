@@ -18,7 +18,7 @@ const RoomMemberListView = ({ members }) => {
 				<MemberWrapper key={member.userId}>
 					<MemberWrapper.Left>
 						<ProfileImageWrapper>
-							<ProfileImage size="medium" />
+							<ProfileImage size="medium" url={member.imageUrl} />
 						</ProfileImageWrapper>
 					</MemberWrapper.Left>
 					<MemberWrapper.Right>
