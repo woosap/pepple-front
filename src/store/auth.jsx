@@ -48,6 +48,23 @@ const AuthProvider = ({ children }) => {
 		headers: { 'Access-Control-Allow-Origin': '*' },
 	};
 
+	const getDetail = () => {
+		api
+			.get(`/auth/detail`, {
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			})
+			.then(res => {
+				setUserData(res.data);
+				if (!userId) {
+					setUserId(res.data.userId);
+					localStorage.setItem('user', res.data.userId);
+				}
+			})
+			.catch(err => console.log(err));
+	};
+
 	const login = service => {
 		window.location.replace(
 			`https://pepple.social/oauth2/authorize/${service}`,
@@ -107,25 +124,14 @@ const AuthProvider = ({ children }) => {
 					},
 				},
 			)
-			.then(res => console.log(res))
-			.catch(err => console.log(err));
-	};
-
-	const getDetail = () => {
-		api
-			.get(`/auth/detail`, {
-				headers: {
-					Authorization: `Bearer ${token}`,
-				},
-			})
 			.then(res => {
-				setUserData(res.data);
-				if (!userId) {
-					setUserId(res.data.userId);
-					localStorage.setItem('user', res.data.userId);
-				}
+				console.log(res);
+				getDetail();
 			})
-			.catch(err => console.log(err));
+			.catch(err => {
+				console.log(err);
+				getDetail();
+			});
 	};
 
 	const getIcons = () => {
