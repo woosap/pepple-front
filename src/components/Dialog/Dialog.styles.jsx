@@ -43,6 +43,7 @@ DialogStyled.Box = styled.div`
 	background: #fff;
 	border-radius: ${({ type }) => (type === 'login' ? '50px' : '20px')};
 	box-sizing: border-box;
+	outline: none;
 `;
 
 export default DialogStyled;
