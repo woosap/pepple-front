@@ -20,7 +20,7 @@ LoginFormBox.Title = styled.p`
 	text-align: center;
 	margin: 77px 0 108px 0;
 	font-weight: normal;
-	font-family: Noto Sans;
+	font-family: 'Noto Sans', sans-serif;
 `;
 
 LoginFormBox.Description = styled.div`
