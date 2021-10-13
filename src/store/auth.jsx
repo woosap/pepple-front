@@ -5,7 +5,8 @@ import React, {
 	useLayoutEffect,
 	useContext,
 } from 'react';
-import S3FileUpload from 'react-s3';
+import AWS from 'aws-sdk';
+import nextId from 'react-id-generator';
 import DefaultContext from './default';
 import DefaultImage from '../assets/img-default.svg';
 import api from '../api';
@@ -40,13 +41,12 @@ const AuthProvider = ({ children }) => {
 	const [userData, setUserData] = useState(defaultUser);
 	const [userSns, setUserSns] = useState({});
 
-	const AWSConfig = {
-		bucketName: 'pepple-profileimg',
+	AWS.config.update({
 		region: 'us-east-2',
-		accessKeyId: process.env.REACT_APP_AWS_ID,
-		secretAcessKey: process.env.REACT_APP_AWS_SECRET,
-		headers: { 'Access-Control-Allow-Origin': '*' },
-	};
+		credentials: new AWS.CognitoIdentityCredentials({
+			IdentityPoolId: process.env.REACT_APP_AWS_POOL_ID,
+		}),
+	});
 
 	const getDetail = () => {
 		api
@@ -72,66 +72,123 @@ const AuthProvider = ({ children }) => {
 	};
 
 	const join = (nickname, description, job, file, snsList) => {
-		if (typeof file === 'object') {
-			S3FileUpload.uploadFile(file, AWSConfig)
-				.then(res => {
-					console.log(res);
-					setUserImg(res.location);
-				})
-				.catch(err => console.warn(err));
-		}
-		api
-			.post(`/user`, {
-				imageUrl: userImg,
-				job,
-				nickname,
-				profile: description,
-				snsList,
-				userId,
-			})
-			.then(res => {
-				setJoined(true);
-				setToken(res.data.token);
-				localStorage.setItem('token', res.data.token);
-				localStorage.setItem('user', userId);
-			})
-			.catch(err => console.warn(err));
-	};
-
-	const edit = (nickname, description, job, file, snsList) => {
-		if (typeof file === 'object') {
-			S3FileUpload.uploadFile(file, AWSConfig)
-				.then(res => {
-					console.log(res);
-					setUserImg(res.location);
-				})
-				.catch(err => console.warn(err));
-		}
-		api
-			.put(
-				`/user`,
-				{
-					imageUrl: file || userImg,
+		if (typeof file !== 'object') {
+			api
+				.post('/user', {
 					job,
 					nickname,
 					profile: description,
 					snsList,
 					userId,
+				})
+				.then(res => {
+					setJoined(true);
+					setToken(res.data.token);
+					localStorage.setItem('token', res.data.token);
+					localStorage.setItem('user', userId);
+				})
+				.catch(error => console.warn(error));
+		} else {
+			const upload = new AWS.S3.ManagedUpload({
+				params: {
+					Bucket: 'pepple-profileimg',
+					Key: `${nextId()}.${file.type.split('/')[1]}`,
+					Body: file,
 				},
-				{
-					headers: {
-						Authorization: `Bearer ${token}`,
-					},
-				},
-			)
-			.then(res => {
-				console.log(res);
-				getDetail();
-			})
-			.catch(err => {
-				console.log(err);
-				getDetail();
 			});
+			upload.send((err, data) => {
+				if (err) {
+					console.log(err);
+				} else if (data) {
+					console.log(data);
+				}
+				api
+					.post('/user', {
+						imageUrl: data?.Location || null,
+						job,
+						nickname,
+						profile: description,
+						snsList,
+						userId,
+					})
+					.then(res => {
+						setJoined(true);
+						setToken(res.data.token);
+						localStorage.setItem('token', res.data.token);
+						localStorage.setItem('user', userId);
+					})
+					.catch(error => console.warn(error));
+			});
+		}
+	};
+
+	const edit = (nickname, description, job, file, snsList) => {
+		if (typeof file !== 'object') {
+			api
+				.put(
+					`/user`,
+					{
+						job,
+						nickname,
+						profile: description,
+						snsList,
+						userId,
+					},
+					{
+						headers: {
+							Authorization: `Bearer ${token}`,
+						},
+					},
+				)
+				.then(res => {
+					console.log(res);
+					getDetail();
+				})
+				.catch(err => {
+					console.log(err);
+					getDetail();
+				});
+		} else {
+			const upload = new AWS.S3.ManagedUpload({
+				params: {
+					Bucket: 'pepple-profileimg',
+					Key: `${nextId()}.${file.type.split('/')[1]}`,
+					Body: file,
+				},
+			});
+			upload.send((err, data) => {
+				if (err) {
+					console.log(err);
+				} else if (data) {
+					console.log(data);
+				}
+				api
+					.put(
+						`/user`,
+						{
+							imageUrl: data.Location || userImg,
+							job,
+							nickname,
+							profile: description,
+							snsList,
+							userId,
+						},
+						{
+							headers: {
+								Authorization: `Bearer ${token}`,
+							},
+						},
+					)
+					.then(res => {
+						console.log(res);
+						getDetail();
+					})
+					.catch(error => {
+						console.log(error);
+						getDetail();
+					});
+			});
+		}
 	};
 
 	const getIcons = () => {
