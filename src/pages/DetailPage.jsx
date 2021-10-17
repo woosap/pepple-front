@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect, useLayoutEffect } from 'react';
+import React, { useContext, useLayoutEffect } from 'react';
 import styled from 'styled-components';
 import Header from '../components/Header/Header';
 import RoomProfileView from '../components/RoomProfileView/RoomProfileView';
@@ -7,24 +7,17 @@ import RoomCloudView from '../components/RoomCloudView/RoomCloudView';
 import MuteButton from '../components/MuteButton/MuteButton';
 import RoomCloseButton from '../components/RoomCloseButton/RoomCloseButton';
 import RoomContext from '../store/room';
+import { useRoomData } from '../hooks/useRoomData';
 import useAgora from '../hooks/useAgora';
 
 const DetailPage = ({ match }) => {
-	const {
-		roomInfo,
-		users,
-		getTime,
-		getRoomDetail,
-		leaveRoom,
-		setLocalAudioTrack,
-	} = useContext(RoomContext);
-	const [time, setTime] = useState('');
+	const { getRoomData } = useRoomData(match.params.roomId);
+	const { getTime, leaveRoom, setLocalAudioTrack } = useContext(RoomContext);
 	const { joinChannel } = useAgora();
 
 	useLayoutEffect(() => {
 		const roomId = Number(match.params.roomId);
 		const userId = localStorage.getItem('user');
-		getRoomDetail(roomId);
 		const agora = async () => {
 			const track = await joinChannel(userId, roomId);
 			setLocalAudioTrack(track);
@@ -32,17 +25,22 @@ const DetailPage = ({ match }) => {
 		agora();
 	}, []);
 
-	useEffect(() => {
-		if (roomInfo) {
-			setTime(getTime(roomInfo));
-		}
-	}, [roomInfo]);
-
 	const handleLeaveRoom = () => {
-		if (roomInfo) leaveRoom(roomInfo.roomId);
+		leaveRoom(match.params.roomId);
 	};
 
-	if (!roomInfo || !users || time === '') {
+	if (getRoomData.error) {
+		return (
+			<>
+				<Header />
+				<DetailContainer>
+					앗! 에러가 발생했어요. 잠시 후 다시 시도해주세요.
+				</DetailContainer>
+			</>
+		);
+	}
+
+	if (!getRoomData.data && !getRoomData.error) {
 		return (
 			<>
 				<Header />
@@ -56,8 +54,11 @@ const DetailPage = ({ match }) => {
 			<Header />
 			<DetailContainer>
 				<DetailContainer.Left>
-					<RoomProfileView title={roomInfo.title} date={time} />
-					<RoomMemberListView members={users} />
+					<RoomProfileView
+						title={getRoomData.data.roomInfo.title}
+						date={getTime(getRoomData.data.roomInfo)}
+					/>
+					<RoomMemberListView members={getRoomData.data.users} />
 					<MuteButton />
 				</DetailContainer.Left>
 				<DetailContainer.Right>
