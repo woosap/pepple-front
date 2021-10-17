@@ -84,6 +84,7 @@ const useAgora = () => {
 
 	// leave room
 	const leaveChannel = async localAudioTrack => {
+		localAudioTrack?.setEnabled(true);
 		localAudioTrack?.stop();
 		localAudioTrack?.close();
 		await rtc?.client?.leave();
