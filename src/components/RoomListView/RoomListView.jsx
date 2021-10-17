@@ -13,10 +13,12 @@ import DialogCloseButton from '../Dialog/DialogCloseButton';
 import RoomListItem from '../RoomListItem/RoomListItem';
 import CreateRoomForm from '../CreateRoomForm/CreateRoomForm';
 import RoomContext from '../../store/room';
+import { useRoomListData } from '../../hooks/useRoomData';
 import { ReactComponent as CloseIcon } from '../../assets/icon/icon-close-mini.svg';
 
 const RoomListView = () => {
-	const { rooms, error, setError } = useContext(RoomContext);
+	const { getRoomListData } = useRoomListData();
+	const { error, setError } = useContext(RoomContext);
 	const { state, openButtonProps, openButtonRef } = useToggleDialog();
 	const [clicked, setClicked] = useState(false);
 	const [isOpen, setIsOpen] = useState(false);
@@ -40,7 +42,15 @@ const RoomListView = () => {
 		if (error) setIsOpen(true);
 	}, [error]);
 
-	if (!rooms) {
+	if (!getRoomListData.data) {
+		return (
+			<Loading>
+				<p>로딩 중입니다...</p>
+			</Loading>
+		);
+	}
+
+	if (getRoomListData.error && !getRoomListData.data) {
 		return (
 			<Loading>
 				<p>
@@ -50,7 +60,7 @@ const RoomListView = () => {
 		);
 	}
 
-	if (rooms.length === 0) {
+	if (getRoomListData.data.length === 0) {
 		return (
 			<>
 				<Loading>
@@ -80,7 +90,7 @@ const RoomListView = () => {
 		<>
 			<RoomListViewStyled>
 				<RoomList>
-					{rooms.map(room => (
+					{getRoomListData.data.map(room => (
 						<RoomListItem
 							key={room.roomId}
 							room={room}
