@@ -25,7 +25,7 @@ const RoomProvider = ({ children }) => {
 	const [mute, setMute] = useState(false);
 	const [localAudioTrack, setLocalAudioTrack] = useState(null);
 	const { joinChannel, leaveChannel, muteTrack, unmuteTrack } = useAgora();
-	const { getRoomData, getRoomListData } = useRoomListData();
+	const { getRoomListData } = useRoomListData();
 
 	const checkRoomUsers = async (roomId, userId) => {
 		const token = localStorage.getItem('token');
@@ -65,7 +65,7 @@ const RoomProvider = ({ children }) => {
 			)
 			.then(res => {
 				console.log(res);
-				getRoomData.mutate();
+				// getRoomData.mutate();
 				history.push(`/room/${roomId}`);
 				const agora = async () => {
 					const track = await joinChannel(userId, roomId);
