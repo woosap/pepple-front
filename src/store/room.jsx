@@ -148,8 +148,9 @@ const RoomProvider = ({ children }) => {
 	};
 
 	const handleMute = () => {
-		if (mute) unmuteTrack(localAudioTrack);
-		else muteTrack(localAudioTrack);
+		const userId = localStorage.getItem('user');
+		if (mute) unmuteTrack(userId, localAudioTrack);
+		else muteTrack(userId, localAudioTrack);
 		setMute(!mute);
 	};
 
