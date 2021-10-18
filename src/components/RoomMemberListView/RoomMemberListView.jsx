@@ -14,23 +14,23 @@ import useAgora from '../../hooks/useAgora';
 
 const RoomMemberListView = ({ members }) => {
 	const { jobsMapping } = useContext(DefaultContext);
-	const { remoteUsers } = useAgora();
-
-	console.log(remoteUsers);
+	const { tracks } = useAgora();
 
 	return (
 		<RoomMemberListViewStyled>
 			{members.map(member => (
-				<MemberWrapper key={member.userId} audio={remoteUsers[member.userId]}>
+				<MemberWrapper key={member.userId} audio={tracks[member.userId]}>
 					<MemberWrapper.Left>
-						<ProfileImageWrapper>
+						<ProfileImageWrapper audio={tracks[member.userId]}>
 							<ProfileImage size="medium" url={member.imageUrl} />
 						</ProfileImageWrapper>
 					</MemberWrapper.Left>
 					<MemberWrapper.Right>
-						<MemberName>{member.nickname}</MemberName>
+						<MemberName audio={tracks[member.userId]}>
+							{member.nickname}
+						</MemberName>
 						<MemberJob>{jobsMapping[member.job]}</MemberJob>
-						{remoteUsers[member.userId] === 'unmute' ? (
+						{tracks[member.userId] === 'unmute' ? (
 							<MikeIcon />
 						) : (
 							<MikeOffIcon />

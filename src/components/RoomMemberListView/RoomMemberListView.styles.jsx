@@ -37,7 +37,7 @@ export const MemberName = styled.div`
 	font-size: 16px;
 	font-weight: 500;
 	line-height: 23px;
-	color: #3e217e;
+	color: ${({ audio }) => (audio === 'unmute' ? '#3e217e' : '#4B4B4B')};
 `;
 
 export const MemberJob = styled.div`
@@ -47,4 +47,14 @@ export const MemberJob = styled.div`
 	margin-bottom: 14px;
 `;
 
-export const ProfileImageWrapper = styled.div``;
+export const ProfileImageWrapper = styled.div`
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 98px;
+	height: 98px;
+	border-radius: 100%;
+	border: 5px solid
+		${({ audio }) => (audio === 'unmute' ? '#d0d4ff' : '#C8C9CE')};
+	box-sizing: border-box;
+`;
