@@ -1,20 +1,31 @@
 /* eslint-disable no-underscore-dangle */
-import { useState } from 'react';
 import AgoraRTC from 'agora-rtc-sdk-ng';
+import useSWR from 'swr';
 import api from '../api';
+
+let users = {};
+const useRemoteUsers = () => {
+	const { data, mutate } = useSWR('remoteUsers', () => users);
+	return {
+		data,
+		mutate: (id, audioState) => {
+			const newUsers = { ...users, [id]: audioState };
+			users = newUsers;
+			return mutate();
+		},
+	};
+};
 
 const useAgora = () => {
 	AgoraRTC.setLogLevel(3);
 	const rtc = {
 		client: AgoraRTC.createClient({ mode: 'rtc', codec: 'h264' }),
 	};
-
 	const options = {
 		appId: process.env.REACT_APP_AGORA_APP_ID,
 		channel: '',
 	};
-
-	const [remoteUsers, setRemoteUsers] = useState({});
+	const { data, mutate } = useRemoteUsers();
 
 	const getAgoraToken = async (userId, roomId) => {
 		const token = localStorage.getItem('token');
@@ -42,18 +53,12 @@ const useAgora = () => {
 	const handleUserPublished = async (user, mediaType) => {
 		await rtc.client.subscribe(user, mediaType);
 		await user.audioTrack.play();
-		setRemoteUsers(prevState => {
-			const newState = { ...prevState, [user.uid]: 'unmute' };
-			return newState;
-		});
+		mutate(user.uid, 'unmute');
 	};
 
 	const handleUserUnpublished = async user => {
 		await rtc.client.unsubscribe(user);
-		setRemoteUsers(prevState => {
-			const newState = { ...prevState, [user.uid]: 'mute' };
-			return newState;
-		});
+		mutate(user.uid, 'mute');
 	};
 
 	const joinChannel = async (userId, roomId) => {
@@ -68,10 +73,7 @@ const useAgora = () => {
 					.catch(err => console.log(err));
 				const localAudioTrack = await AgoraRTC.createMicrophoneAudioTrack();
 				await rtc.client.publish([localAudioTrack]);
-				setRemoteUsers(prevState => {
-					const newState = { ...prevState, [userId]: 'unmute' };
-					return newState;
-				});
+				mutate(userId, 'unmute');
 				console.log('publish success!');
 				return localAudioTrack;
 			}
@@ -88,27 +90,26 @@ const useAgora = () => {
 		await localAudioTrack?.stop();
 		await localAudioTrack?.close();
 		await rtc?.client?.leave();
-		setRemoteUsers({});
 		console.log('leave success !');
 	};
 
 	const muteTrack = (userId, localAudioTrack) => {
 		localAudioTrack?.setMuted(true);
-		setRemoteUsers(prevState => {
-			const newState = { ...prevState, [userId]: 'mute' };
-			return newState;
-		});
+		mutate(userId, 'mute');
 	};
 
 	const unmuteTrack = (userId, localAudioTrack) => {
 		localAudioTrack?.setMuted(false);
-		setRemoteUsers(prevState => {
-			const newState = { ...prevState, [userId]: 'unmute' };
-			return newState;
-		});
+		mutate(userId, 'unmute');
 	};
 
-	return { joinChannel, leaveChannel, muteTrack, unmuteTrack, remoteUsers };
+	return {
+		joinChannel,
+		leaveChannel,
+		muteTrack,
+		unmuteTrack,
+		tracks: data,
+	};
 };
 
 export default useAgora;
