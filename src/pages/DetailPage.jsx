@@ -11,7 +11,7 @@ import { useRoomData } from '../hooks/useRoomData';
 import RoomCloseModal from '../components/RoomCloseModal/RoomCloseModal';
 import { RoomCloseButtonStyled } from '../components/RoomCloseButton/RoomCloseButton.styles';
 
-const DetailPage = ({ match }) => {
+const DetailPage = ({ match, history }) => {
 	const { getRoomData } = useRoomData(match.params.roomId);
 	const { getTime, leaveRoom } = useContext(RoomContext);
 	const [clicked, setClicked] = useState(false);
@@ -28,15 +28,19 @@ const DetailPage = ({ match }) => {
 		setIsOpen(prev => !prev);
 	};
 
+	const handleReturn = () => {
+		history.replace('/');
+	};
+
+	// 서버 에러인지 사용자 에러인지 명시해주면 좋을 것 같음
 	if (getRoomData.error) {
 		return (
 			<>
 				<Header />
-				<DetailContainer>
-					<ErrorMessage>
-						앗! 에러가 발생했어요. 잠시 후 다시 시도해주세요.
-					</ErrorMessage>
-				</DetailContainer>
+				<ErrorMessage>
+					앗! 에러가 발생했어요. 잠시 후 다시 시도해주세요.
+					<button type="button" onClick={handleReturn}>{`< 돌아가기`}</button>
+				</ErrorMessage>
 			</>
 		);
 	}
@@ -45,9 +49,7 @@ const DetailPage = ({ match }) => {
 		return (
 			<>
 				<Header />
-				<DetailContainer>
-					<ErrorMessage>로딩 중입니다...</ErrorMessage>
-				</DetailContainer>
+				<ErrorMessage>로딩 중입니다...</ErrorMessage>
 			</>
 		);
 	}
@@ -112,11 +114,26 @@ DetailContainer.Right = styled.div`
 export const ErrorMessage = styled.div`
 	width: 100%;
 	display: flex;
+	flex-direction: column;
 	justify-content: center;
 	align-items: center;
 	margin-top: 100px;
-	margin-left: -53px;
 	font-size: 18px;
 	color: #111862;
 	letter-spacing: -0.05em;
+
+	button {
+		font-size: inherit;
+		background: none;
+		margin-top: 50px;
+		cursor: pointer;
+		text-decoration: underline;
+		color: #666;
+
+		:hover {
+			color: #111862;
+		}
+	}
 `;
+
+ErrorMessage.Button = styled.button``;
