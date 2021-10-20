@@ -1,4 +1,4 @@
-import React, { useContext, useLayoutEffect, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import styled from 'styled-components';
 import Header from '../components/Header/Header';
 import RoomProfileView from '../components/RoomProfileView/RoomProfileView';
@@ -8,27 +8,15 @@ import MuteButton from '../components/MuteButton/MuteButton';
 import CustomPrompt from '../components/Prompt/CustomPrompt';
 import RoomContext from '../store/room';
 import { useRoomData } from '../hooks/useRoomData';
-import useAgora from '../hooks/useAgora';
 import RoomCloseModal from '../components/RoomCloseModal/RoomCloseModal';
 import { RoomCloseButtonStyled } from '../components/RoomCloseButton/RoomCloseButton.styles';
 
 const DetailPage = ({ match }) => {
 	const { getRoomData } = useRoomData(match.params.roomId);
-	const { getTime, leaveRoom, setLocalAudioTrack } = useContext(RoomContext);
-	const { joinChannel } = useAgora();
+	const { getTime, leaveRoom } = useContext(RoomContext);
 	const [clicked, setClicked] = useState(false);
 	const [isOpen, setIsOpen] = useState(false);
-	const [shouldConfirm, setShoudConfirm] = useState(true);
-
-	useLayoutEffect(() => {
-		const roomId = Number(match.params.roomId);
-		const userId = localStorage.getItem('user');
-		const agora = async () => {
-			const track = await joinChannel(userId, roomId);
-			setLocalAudioTrack(track);
-		};
-		agora();
-	}, []);
+	const [shouldConfirm, setShouldConfirm] = useState(true);
 
 	const handleLeaveRoom = () => {
 		leaveRoom(match.params.roomId);
@@ -36,7 +24,7 @@ const DetailPage = ({ match }) => {
 
 	const handleClick = () => {
 		setClicked(prev => !prev);
-		setShoudConfirm(prev => !prev);
+		setShouldConfirm(prev => !prev);
 		setIsOpen(prev => !prev);
 	};
 
@@ -45,7 +33,9 @@ const DetailPage = ({ match }) => {
 			<>
 				<Header />
 				<DetailContainer>
-					앗! 에러가 발생했어요. 잠시 후 다시 시도해주세요.
+					<ErrorMessage>
+						앗! 에러가 발생했어요. 잠시 후 다시 시도해주세요.
+					</ErrorMessage>
 				</DetailContainer>
 			</>
 		);
@@ -55,7 +45,9 @@ const DetailPage = ({ match }) => {
 		return (
 			<>
 				<Header />
-				<DetailContainer>로딩 중입니다..</DetailContainer>
+				<DetailContainer>
+					<ErrorMessage>로딩 중입니다...</ErrorMessage>
+				</DetailContainer>
 			</>
 		);
 	}
@@ -115,4 +107,16 @@ DetailContainer.Right = styled.div`
 	margin: 40px 0 0 30px;
 	width: 15%;
 	position: relative;
+`;
+
+export const ErrorMessage = styled.div`
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin-top: 100px;
+	margin-left: -53px;
+	font-size: 18px;
+	color: #111862;
+	letter-spacing: -0.05em;
 `;
