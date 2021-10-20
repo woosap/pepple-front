@@ -13,7 +13,10 @@ export const useRoomData = roomId => {
 					},
 				})
 				.then(res => res.data)
-				.catch(err => console.log(err)),
+				.catch(err => {
+					console.log(err);
+					throw err;
+				}),
 		{
 			refreshInterval: 2000,
 		},
