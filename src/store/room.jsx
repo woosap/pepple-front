@@ -124,7 +124,7 @@ const RoomProvider = ({ children }) => {
 			.then(res => {
 				console.log(res);
 				leaveChannel(localAudioTrack);
-				history.push('/');
+				history.replace('/');
 				getRoomListData.mutate();
 			})
 			.catch(err => console.log(err));
