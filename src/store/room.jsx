@@ -2,6 +2,7 @@ import React, { createContext, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import api from '../api';
 import useAgora from '../hooks/useAgora';
+import { useRoomListData } from '../hooks/useRoomData';
 
 const RoomContext = createContext({
 	rooms: [],
@@ -18,37 +19,13 @@ const RoomContext = createContext({
 
 const RoomProvider = ({ children }) => {
 	const history = useHistory();
-	const [rooms, setRooms] = useState([]);
 	const [users, setUsers] = useState(null);
 	const [roomInfo, setRoomInfo] = useState(null);
 	const [error, setError] = useState(false);
 	const [mute, setMute] = useState(false);
 	const [localAudioTrack, setLocalAudioTrack] = useState(null);
 	const { joinChannel, leaveChannel, muteTrack, unmuteTrack } = useAgora();
-
-	const getRooms = () => {
-		api
-			.get(`/room?pageNumber=${0}&pageSize=${10}`)
-			.then(res => {
-				setRooms([...res.data]);
-			})
-			.catch(err => console.log(err));
-	};
-
-	const getRoomDetail = roomId => {
-		const token = localStorage.getItem('token');
-		api
-			.get(`/room/${roomId}`, {
-				headers: {
-					Authorization: `Bearer ${token}`,
-				},
-			})
-			.then(res => {
-				setRoomInfo(res.data.roomInfo);
-				setUsers(res.data.users);
-			})
-			.catch(err => console.log(err));
-	};
+	const { getRoomListData } = useRoomListData();
 
 	const checkRoomUsers = async (roomId, userId) => {
 		const token = localStorage.getItem('token');
@@ -71,7 +48,6 @@ const RoomProvider = ({ children }) => {
 		const result = await checkRoomUsers(roomId, userId);
 		if (!result) {
 			history.push(`/room/${roomId}`);
-			getRoomDetail(roomId);
 			return;
 		}
 		await api
@@ -89,8 +65,8 @@ const RoomProvider = ({ children }) => {
 			)
 			.then(res => {
 				console.log(res);
+				// getRoomData.mutate();
 				history.push(`/room/${roomId}`);
-				getRoomDetail(roomId);
 				const agora = async () => {
 					const track = await joinChannel(userId, roomId);
 					setLocalAudioTrack(track);
@@ -122,7 +98,7 @@ const RoomProvider = ({ children }) => {
 			)
 			.then(res => {
 				console.log(res);
-				getRooms();
+				getRoomListData.mutate();
 				enterRoom(res.data.roomId);
 				history.push(`/room/${res.data.roomId}`);
 			})
@@ -148,7 +124,8 @@ const RoomProvider = ({ children }) => {
 			.then(res => {
 				console.log(res);
 				leaveChannel(localAudioTrack);
-				history.push('/');
+				history.replace('/');
+				getRoomListData.mutate();
 			})
 			.catch(err => console.log(err));
 	};
@@ -171,13 +148,13 @@ const RoomProvider = ({ children }) => {
 	};
 
 	const handleMute = () => {
-		if (mute) unmuteTrack(localAudioTrack);
-		else muteTrack(localAudioTrack);
+		const userId = localStorage.getItem('user');
+		if (mute) unmuteTrack(userId, localAudioTrack);
+		else muteTrack(userId, localAudioTrack);
 		setMute(!mute);
 	};
 
 	const value = {
-		rooms,
 		roomInfo,
 		users,
 		error,
@@ -190,8 +167,6 @@ const RoomProvider = ({ children }) => {
 		enterRoom,
 		leaveRoom,
 		getTime,
-		getRooms,
-		getRoomDetail,
 		handleMute,
 	};
 

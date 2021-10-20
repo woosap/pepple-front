@@ -1,24 +1,32 @@
-import { useState, useEffect } from 'react';
+/* eslint-disable no-underscore-dangle */
 import AgoraRTC from 'agora-rtc-sdk-ng';
+import useSWR from 'swr';
 import api from '../api';
 
+let users = {};
+const useRemoteUsers = () => {
+	const { data, mutate } = useSWR('remoteUsers', () => users);
+	return {
+		data,
+		mutate: (id, audioState) => {
+			const newUsers = { ...users, [id]: audioState };
+			users = newUsers;
+			return mutate();
+		},
+	};
+};
+
 const useAgora = () => {
+	AgoraRTC.setLogLevel(3);
 	const rtc = {
 		client: AgoraRTC.createClient({ mode: 'rtc', codec: 'h264' }),
 	};
-
 	const options = {
 		appId: process.env.REACT_APP_AGORA_APP_ID,
 		channel: '',
 	};
+	const { data, mutate } = useRemoteUsers();
 
-	const [remoteUsers, setRemoteUsers] = useState([]);
-
-	useEffect(() => {
-		console.log(remoteUsers);
-	}, [remoteUsers]);
-
-	// get agora token
 	const getAgoraToken = async (userId, roomId) => {
 		const token = localStorage.getItem('token');
 		options.channel = String(roomId);
@@ -42,22 +50,17 @@ const useAgora = () => {
 		}
 	};
 
-	// remote user published
 	const handleUserPublished = async (user, mediaType) => {
 		await rtc.client.subscribe(user, mediaType);
-		if (mediaType === 'audio') {
-			user.audioTrack.play();
-		}
-		setRemoteUsers(rtc.client.remoteUsers);
+		await user.audioTrack.play();
+		mutate(user.uid, 'unmute');
 	};
 
-	// remote user unpublished
 	const handleUserUnpublished = async user => {
 		await rtc.client.unsubscribe(user);
-		setRemoteUsers(rtc.client.remoteUsers);
+		mutate(user.uid, 'mute');
 	};
 
-	// enter room
 	const joinChannel = async (userId, roomId) => {
 		try {
 			const agoraToken = await getAgoraToken(userId, roomId);
@@ -70,7 +73,7 @@ const useAgora = () => {
 					.catch(err => console.log(err));
 				const localAudioTrack = await AgoraRTC.createMicrophoneAudioTrack();
 				await rtc.client.publish([localAudioTrack]);
-				setRemoteUsers(rtc.client.remoteUsers);
+				mutate(userId, 'unmute');
 				console.log('publish success!');
 				return localAudioTrack;
 			}
@@ -82,24 +85,31 @@ const useAgora = () => {
 		}
 	};
 
-	// leave room
 	const leaveChannel = async localAudioTrack => {
-		localAudioTrack?.stop();
-		localAudioTrack?.close();
+		await localAudioTrack?.setEnabled(true);
+		await localAudioTrack?.stop();
+		await localAudioTrack?.close();
 		await rtc?.client?.leave();
-		setRemoteUsers([]);
 		console.log('leave success !');
 	};
 
-	const muteTrack = localAudioTrack => {
+	const muteTrack = (userId, localAudioTrack) => {
 		localAudioTrack?.setMuted(true);
+		mutate(userId, 'mute');
 	};
 
-	const unmuteTrack = localAudioTrack => {
+	const unmuteTrack = (userId, localAudioTrack) => {
 		localAudioTrack?.setMuted(false);
+		mutate(userId, 'unmute');
 	};
 
-	return { joinChannel, leaveChannel, muteTrack, unmuteTrack, remoteUsers };
+	return {
+		joinChannel,
+		leaveChannel,
+		muteTrack,
+		unmuteTrack,
+		tracks: data,
+	};
 };
 
 export default useAgora;

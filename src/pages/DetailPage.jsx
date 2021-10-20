@@ -1,52 +1,55 @@
-import React, { useState, useContext, useEffect, useLayoutEffect } from 'react';
+import React, { useContext, useState } from 'react';
 import styled from 'styled-components';
 import Header from '../components/Header/Header';
 import RoomProfileView from '../components/RoomProfileView/RoomProfileView';
 import RoomMemberListView from '../components/RoomMemberListView/RoomMemberListView';
 import RoomCloudView from '../components/RoomCloudView/RoomCloudView';
 import MuteButton from '../components/MuteButton/MuteButton';
-import RoomCloseButton from '../components/RoomCloseButton/RoomCloseButton';
+import CustomPrompt from '../components/Prompt/CustomPrompt';
 import RoomContext from '../store/room';
-import useAgora from '../hooks/useAgora';
+import { useRoomData } from '../hooks/useRoomData';
+import RoomCloseModal from '../components/RoomCloseModal/RoomCloseModal';
+import { RoomCloseButtonStyled } from '../components/RoomCloseButton/RoomCloseButton.styles';
 
-const DetailPage = ({ match }) => {
-	const {
-		roomInfo,
-		users,
-		getTime,
-		getRoomDetail,
-		leaveRoom,
-		setLocalAudioTrack,
-	} = useContext(RoomContext);
-	const [time, setTime] = useState('');
-	const { joinChannel } = useAgora();
-
-	useLayoutEffect(() => {
-		const roomId = Number(match.params.roomId);
-		const userId = localStorage.getItem('user');
-		getRoomDetail(roomId);
-		const agora = async () => {
-			const track = await joinChannel(userId, roomId);
-			setLocalAudioTrack(track);
-		};
-		agora();
-	}, []);
-
-	useEffect(() => {
-		if (roomInfo) {
-			setTime(getTime(roomInfo));
-		}
-	}, [roomInfo]);
+const DetailPage = ({ match, history }) => {
+	const { getRoomData } = useRoomData(match.params.roomId);
+	const { getTime, leaveRoom } = useContext(RoomContext);
+	const [clicked, setClicked] = useState(false);
+	const [isOpen, setIsOpen] = useState(false);
+	const [shouldConfirm, setShouldConfirm] = useState(true);
 
 	const handleLeaveRoom = () => {
-		if (roomInfo) leaveRoom(roomInfo.roomId);
+		leaveRoom(match.params.roomId);
 	};
 
-	if (!roomInfo || !users || time === '') {
+	const handleClick = () => {
+		setClicked(prev => !prev);
+		setShouldConfirm(prev => !prev);
+		setIsOpen(prev => !prev);
+	};
+
+	const handleReturn = () => {
+		history.replace('/');
+	};
+
+	// 서버 에러인지 사용자 에러인지 명시해주면 좋을 것 같음
+	if (getRoomData.error) {
 		return (
 			<>
 				<Header />
-				<DetailContainer>로딩 중입니다..</DetailContainer>
+				<ErrorMessage>
+					앗! 에러가 발생했어요. 잠시 후 다시 시도해주세요.
+					<button type="button" onClick={handleReturn}>{`< 돌아가기`}</button>
+				</ErrorMessage>
+			</>
+		);
+	}
+
+	if (!getRoomData.data && !getRoomData.error) {
+		return (
+			<>
+				<Header />
+				<ErrorMessage>로딩 중입니다...</ErrorMessage>
 			</>
 		);
 	}
@@ -56,15 +59,31 @@ const DetailPage = ({ match }) => {
 			<Header />
 			<DetailContainer>
 				<DetailContainer.Left>
-					<RoomProfileView title={roomInfo.title} date={time} />
-					<RoomMemberListView members={users} />
+					<RoomProfileView
+						title={getRoomData.data.roomInfo.title}
+						date={getTime(getRoomData.data.roomInfo)}
+					/>
+					<RoomMemberListView members={getRoomData.data.users} />
 					<MuteButton />
 				</DetailContainer.Left>
 				<DetailContainer.Right>
 					<RoomCloudView />
-					<RoomCloseButton handleLeaveRoom={handleLeaveRoom} />
+					<RoomCloseButtonStyled clicked={clicked} onClick={handleClick}>
+						종료
+					</RoomCloseButtonStyled>
+					{isOpen && (
+						<RoomCloseModal
+							handleLeave={handleLeaveRoom}
+							handleCancle={handleClick}
+						/>
+					)}
 				</DetailContainer.Right>
 			</DetailContainer>
+			<CustomPrompt
+				match={match}
+				shouldConfirm={shouldConfirm}
+				handleLeaveRoom={handleLeaveRoom}
+			/>
 		</>
 	);
 };
@@ -91,3 +110,30 @@ DetailContainer.Right = styled.div`
 	width: 15%;
 	position: relative;
 `;
+
+export const ErrorMessage = styled.div`
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	margin-top: 100px;
+	font-size: 18px;
+	color: #111862;
+	letter-spacing: -0.05em;
+
+	button {
+		font-size: inherit;
+		background: none;
+		margin-top: 50px;
+		cursor: pointer;
+		text-decoration: underline;
+		color: #666;
+
+		:hover {
+			color: #111862;
+		}
+	}
+`;
+
+ErrorMessage.Button = styled.button``;
