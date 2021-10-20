@@ -6,6 +6,7 @@ import RoomMemberListView from '../components/RoomMemberListView/RoomMemberListV
 import RoomCloudView from '../components/RoomCloudView/RoomCloudView';
 import MuteButton from '../components/MuteButton/MuteButton';
 import RoomCloseButton from '../components/RoomCloseButton/RoomCloseButton';
+import CustomPrompt from '../components/Prompt/CustomPrompt';
 import RoomContext from '../store/room';
 import { useRoomData } from '../hooks/useRoomData';
 import useAgora from '../hooks/useAgora';
@@ -66,6 +67,7 @@ const DetailPage = ({ match }) => {
 					<RoomCloseButton handleLeaveRoom={handleLeaveRoom} />
 				</DetailContainer.Right>
 			</DetailContainer>
+			<CustomPrompt shouldConfirm handleLeaveRoom={handleLeaveRoom} />
 		</>
 	);
 };
