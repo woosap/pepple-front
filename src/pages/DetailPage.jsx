@@ -67,7 +67,11 @@ const DetailPage = ({ match }) => {
 					<RoomCloseButton handleLeaveRoom={handleLeaveRoom} />
 				</DetailContainer.Right>
 			</DetailContainer>
-			<CustomPrompt shouldConfirm handleLeaveRoom={handleLeaveRoom} />
+			<CustomPrompt
+				match={match}
+				shouldConfirm
+				handleLeaveRoom={handleLeaveRoom}
+			/>
 		</>
 	);
 };

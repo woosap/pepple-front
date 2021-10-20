@@ -5,13 +5,13 @@ import CustomModalStyled from './CustomPrompt.styles';
 import Dialog from '../Dialog/Dialog';
 import { ReactComponent as CloseIcon } from '../../assets/icon/icon-close-mini.svg';
 
-const CustomPrompt = ({ shouldConfirm, handleLeaveRoom }) => {
+const CustomPrompt = ({ match, shouldConfirm, handleLeaveRoom }) => {
 	const [modalOpen, setModalOpen] = useState(false);
 	const [isConfirmed, setIsConfirmed] = useState(false);
 	const [location, setLocation] = useState(null);
 
 	const handleNavigation = nextLocation => {
-		console.log(nextLocation);
+		if (nextLocation.pathname === match.url) return true;
 		if (shouldConfirm && !isConfirmed) {
 			setModalOpen(true);
 			setLocation(nextLocation);
