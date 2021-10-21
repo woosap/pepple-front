@@ -65,11 +65,11 @@ UploadForm.TextInput = styled.input`
 
 export const SearchFileButton = styled.label`
 	position: absolute;
-	top: 54px;
+	top: 53px;
 	right: 26px;
 	font-size: 8px;
 	font-weight: 500;
-	line-height: 18px;
+	line-height: 19px;
 	letter-spacing: -0.05em;
 	color: #9ea6fe;
 	cursor: pointer;
