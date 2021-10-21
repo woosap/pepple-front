@@ -69,7 +69,7 @@ const useAgora = () => {
 			if (agoraToken) {
 				await rtc.client
 					.join(options.appId, options.channel, agoraToken, userId)
-					.then(res => console.log('join success !', res))
+					.then(() => console.log('join success !'))
 					.catch(err => console.log(err));
 				const localAudioTrack = await AgoraRTC.createMicrophoneAudioTrack();
 				await rtc.client.publish([localAudioTrack]);

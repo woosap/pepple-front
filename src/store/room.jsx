@@ -46,8 +46,13 @@ const RoomProvider = ({ children }) => {
 		const token = localStorage.getItem('token');
 		const userId = localStorage.getItem('user');
 		const result = await checkRoomUsers(roomId, userId);
+		const agora = async () => {
+			const track = await joinChannel(userId, roomId);
+			setLocalAudioTrack(track);
+		};
 		if (!result) {
 			history.push(`/room/${roomId}`);
+			agora();
 			return;
 		}
 		await api
@@ -65,12 +70,7 @@ const RoomProvider = ({ children }) => {
 			)
 			.then(res => {
 				console.log(res);
-				// getRoomData.mutate();
 				history.push(`/room/${roomId}`);
-				const agora = async () => {
-					const track = await joinChannel(userId, roomId);
-					setLocalAudioTrack(track);
-				};
 				agora();
 			})
 			.catch(err => {
@@ -124,8 +124,8 @@ const RoomProvider = ({ children }) => {
 			.then(res => {
 				console.log(res);
 				leaveChannel(localAudioTrack);
-				history.replace('/');
 				getRoomListData.mutate();
+				history.replace('/');
 			})
 			.catch(err => console.log(err));
 	};
