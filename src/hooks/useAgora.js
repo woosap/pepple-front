@@ -86,10 +86,14 @@ const useAgora = () => {
 	};
 
 	const leaveChannel = async localAudioTrack => {
-		await localAudioTrack?.setEnabled(true);
-		await localAudioTrack?.stop();
-		await localAudioTrack?.close();
-		await rtc?.client?.leave();
+		if (localAudioTrack) {
+			await localAudioTrack.setEnabled(true);
+			await localAudioTrack.stop();
+			await localAudioTrack.close();
+		} else {
+			window.location.replace('/');
+		}
+		await rtc.client.leave();
 		console.log('leave success !');
 	};
 
