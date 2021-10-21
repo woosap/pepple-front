@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useLayoutEffect } from 'react';
 import styled from 'styled-components';
 import Header from '../components/Header/Header';
 import RoomProfileView from '../components/RoomProfileView/RoomProfileView';
@@ -10,13 +10,24 @@ import RoomContext from '../store/room';
 import { useRoomData } from '../hooks/useRoomData';
 import RoomCloseModal from '../components/RoomCloseModal/RoomCloseModal';
 import { RoomCloseButtonStyled } from '../components/RoomCloseButton/RoomCloseButton.styles';
+import useAgora from '../hooks/useAgora';
 
 const DetailPage = ({ match, history }) => {
 	const { getRoomData } = useRoomData(match.params.roomId);
 	const { getTime, leaveRoom } = useContext(RoomContext);
+	const { tracks, joinChannel } = useAgora();
 	const [clicked, setClicked] = useState(false);
 	const [isOpen, setIsOpen] = useState(false);
 	const [shouldConfirm, setShouldConfirm] = useState(true);
+
+	useLayoutEffect(() => {
+		getRoomData.mutate();
+		if (!tracks || Object.keys(tracks).length === 0) {
+			const userId = localStorage.getItem('user');
+			const { roomId } = match.params;
+			joinChannel(userId, roomId);
+		}
+	}, []);
 
 	const handleLeaveRoom = () => {
 		leaveRoom(match.params.roomId);
