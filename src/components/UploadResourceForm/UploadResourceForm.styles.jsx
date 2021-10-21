@@ -69,7 +69,7 @@ export const SearchFileButton = styled.label`
 	right: 26px;
 	font-size: 8px;
 	font-weight: 500;
-	line-height: 19px;
+	line-height: 18px;
 	letter-spacing: -0.05em;
 	color: #9ea6fe;
 	cursor: pointer;
