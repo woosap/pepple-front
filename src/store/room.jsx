@@ -70,7 +70,6 @@ const RoomProvider = ({ children }) => {
 			)
 			.then(res => {
 				console.log(res);
-				// getRoomData.mutate();
 				history.push(`/room/${roomId}`);
 				agora();
 			})
