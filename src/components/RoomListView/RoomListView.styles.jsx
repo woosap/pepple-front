@@ -47,10 +47,13 @@ export const Loading = styled.div`
 	justify-content: center;
 	align-items: center;
 	margin-top: 100px;
-	margin-left: -53px;
 	font-size: 18px;
 	color: #111862;
 	letter-spacing: -0.05em;
+
+	p {
+		margin: 0 40px 0 0;
+	}
 `;
 
 export const AlertModal = styled.div`

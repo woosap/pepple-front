@@ -45,7 +45,6 @@ export default MainPage;
 
 export const MainContainer = styled.div`
 	display: flex;
-	overflow: auto;
 	margin: 44px 0 0 0;
 `;
 

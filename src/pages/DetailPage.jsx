@@ -79,7 +79,11 @@ const DetailPage = ({ match, history }) => {
 				</DetailContainer.Left>
 				<DetailContainer.Right>
 					<RoomCloudView />
-					<RoomCloseButtonStyled clicked={clicked} onClick={handleClick}>
+					<RoomCloseButtonStyled
+						className="closeButton"
+						clicked={clicked}
+						onClick={handleClick}
+					>
 						종료
 					</RoomCloseButtonStyled>
 					{isOpen && (
@@ -106,11 +110,23 @@ export const DetailContainer = styled.div`
 	justify-content: center;
 	overflow: auto;
 	margin: 0 auto;
+	position: relative;
+	min-height: 700px;
+
+	@media all and (max-width: 1023px) {
+		flex-direction: column;
+		align-items: center;
+	}
 `;
 
 DetailContainer.Left = styled.div`
-	width: 60%;
+	width: calc(80vw - 160px);
+	max-width: 1000px;
 	position: relative;
+
+	@media all and (max-width: 1023px) {
+		width: 80vw;
+	}
 `;
 
 DetailContainer.Right = styled.div`
@@ -120,6 +136,20 @@ DetailContainer.Right = styled.div`
 	margin: 40px 0 0 30px;
 	width: 15%;
 	position: relative;
+	height: 70vh;
+	max-height: 750px;
+	min-height: 630px;
+	@media all and (max-width: 1023px) {
+		width: 80vw;
+		margin: 24px 0 0 0;
+		height: 150px;
+		min-height: 150px;
+		.closeButton {
+			margin-top: -220px;
+			width: 121px;
+			height: 40px;
+		}
+	}
 `;
 
 export const ErrorMessage = styled.div`

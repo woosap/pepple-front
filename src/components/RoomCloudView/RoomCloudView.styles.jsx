@@ -2,7 +2,8 @@ import styled from 'styled-components';
 
 export const RoomCloudViewStyled = styled.div`
 	width: 100%;
-	height: 70vh;
+	min-width: 140px;
+	height: 100%;
 	background-color: #fff;
 	border: 1px solid #dadcf3;
 	box-sizing: border-box;
@@ -17,6 +18,7 @@ export const RoomCloudViewHeader = styled.div`
 
 RoomCloudViewHeader.Title = styled.div`
 	font-size: 15px;
+	line-height: 16px;
 	font-weight: 500;
 	color: #3e217e;
 	float: left;

@@ -2,6 +2,7 @@ import styled from 'styled-components';
 
 export const RoomProfileViewStyled = styled.div`
 	width: 100%;
+	min-width: 180px;
 	height: 120px;
 	background-color: #fff;
 	border: 1px solid #dadcf3;

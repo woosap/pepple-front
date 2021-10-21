@@ -38,6 +38,10 @@ const RoomMemberListView = ({ members }) => {
 					</MemberWrapper.Right>
 				</MemberWrapper>
 			))}
+			<MemberWrapper />
+			<MemberWrapper />
+			<MemberWrapper />
+			<MemberWrapper />
 		</RoomMemberListViewStyled>
 	);
 };

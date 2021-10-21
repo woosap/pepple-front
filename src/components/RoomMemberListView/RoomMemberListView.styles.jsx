@@ -2,18 +2,19 @@ import styled from 'styled-components';
 
 export const RoomMemberListViewStyled = styled.div`
 	display: grid;
-	grid-template-columns: repeat(3, 1fr);
+	grid-template-columns: repeat(auto-fill, minmax(30%, 1fr));
 	gap: 24px;
-	height: calc(70vh - 205px);
+	height: fit-content;
 `;
 
 export const MemberWrapper = styled.div`
 	display: flex;
-	min-width: 230px;
+	width: 100%;
+	min-width: 180px;
+	max-width: 350px;
 	min-height: 180px;
-	max-width: 400px;
-	max-height: 250px;
-	justify-content: center;
+	max-height: 240px;
+	justify-content: space-around;
 	background-color: #fff;
 	border: 1px solid #d0d4ff;
 	box-sizing: border-box;
@@ -24,7 +25,7 @@ export const MemberWrapper = styled.div`
 MemberWrapper.Left = styled.div`
 	display: flex;
 	align-items: center;
-	margin-right: 15%;
+	margin-right: 10px;
 `;
 
 MemberWrapper.Right = styled.div`
