@@ -116,6 +116,7 @@ export const DetailContainer = styled.div`
 	@media all and (max-width: 1023px) {
 		flex-direction: column;
 		align-items: center;
+		justify-content: flex-start;
 	}
 `;
 
