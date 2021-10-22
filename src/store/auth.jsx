@@ -32,13 +32,13 @@ const AuthContext = createContext({
 });
 
 const AuthProvider = ({ children }) => {
-	const { defaultUser, snsIcons } = useContext(DefaultContext);
+	const { snsIcons } = useContext(DefaultContext);
 	const [token, setToken] = useState(localStorage.getItem('token'));
 	const [userId, setUserId] = useState(localStorage.getItem('user'));
 	const [userImg, setUserImg] = useState(DefaultImage);
 	const [logined, setLogined] = useState(false);
 	const [joined, setJoined] = useState(true);
-	const [userData, setUserData] = useState(defaultUser);
+	const [userData, setUserData] = useState(null);
 	const [userSns, setUserSns] = useState({});
 
 	AWS.config.update({
@@ -194,7 +194,7 @@ const AuthProvider = ({ children }) => {
 	const getIcons = () => {
 		const snsNames = Object.keys(snsIcons);
 		const newObj = {};
-		userData.snsList.forEach(url => {
+		userData?.snsList.forEach(url => {
 			for (let i = 0; i < snsNames.length; i += 1) {
 				if (url.indexOf(snsNames[i]) > -1) {
 					newObj[snsNames[i]] = { url, icon: snsIcons[snsNames[i]] };

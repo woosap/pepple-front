@@ -16,7 +16,7 @@ import DefaultContext from '../../store/default';
 import DefaultImage from '../../assets/img-default.svg';
 
 const ProfileView = () => {
-	const { userData, userSns } = useContext(AuthContext).state;
+	const { userData, userSns, joined, logined } = useContext(AuthContext).state;
 	const { defaultUser, jobsMapping } = useContext(DefaultContext);
 	const { state, openButtonProps, openButtonRef } = useToggleDialog();
 	const [clicked, setClicked] = useState(false);
@@ -33,17 +33,19 @@ const ProfileView = () => {
 	return (
 		<>
 			<ProfileViewStyled>
-				<ProfileImage url={userData.imageUrl || DefaultImage} size="big" />
+				<ProfileImage url={userData?.imageUrl || DefaultImage} size="big" />
 				<UserInfo>
-					<UserInfo.Name>{userData.nickname}</UserInfo.Name>
+					<UserInfo.Name>
+						{userData?.nickname || defaultUser.nickname}
+					</UserInfo.Name>
 					<UserInfo.Job>
-						{jobsMapping[userData.job ? userData.job : 'none']}
+						{jobsMapping[userData?.job ? userData.job : 'none']}
 					</UserInfo.Job>
 					<UserInfo.Description>
-						{userData.profile ? userData.profile : defaultUser.profile}
+						{userData?.profile ? userData?.profile : defaultUser.profile}
 					</UserInfo.Description>
 				</UserInfo>
-				{userData === defaultUser ? (
+				{!logined || !joined ? (
 					<ModifyProfileButton disabled>개인정보 수정</ModifyProfileButton>
 				) : (
 					<ModifyProfileButton
