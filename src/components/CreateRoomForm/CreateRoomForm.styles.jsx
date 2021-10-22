@@ -96,12 +96,21 @@ FormItem.Input = styled.input`
 FormItem.Select = styled.div``;
 
 FormItem.Description = styled.div`
+	display: ${({ hidden }) => (hidden ? 'none' : 'block')};
 	color: #8f8f8f;
 	font-size: 8px;
 	font-weight: 300;
 	position: absolute;
 	top: 34px;
 	left: 108px;
+`;
+
+FormItem.Error = styled.div`
+	font-size: 0.7em;
+	color: #6138b9;
+	margin-left: 100px;
+	margin-top: -18px;
+	margin-bottom: 15px;
 `;
 
 export const DropdownButton = styled.div`

@@ -28,10 +28,17 @@ const CreateRoomForm = ({ onClose }) => {
 	const title = useInput('');
 	const subtitle = useInput('');
 	const categories = Object.keys(categoriesObj);
+	const [isEmpty, setIsEmpty] = useState(false);
 
 	const handleSubmitButtonClick = e => {
 		e.preventDefault();
 		setClicked(prev => !prev);
+		if (title.value === '') title.ref.current.focus();
+		else if (subtitle.value === '') subtitle.ref.current.focus();
+		if (!title.isFilled || !subtitle.isFilled || !capacity) {
+			setIsEmpty(true);
+			return;
+		}
 		createRoom(title.value, subtitle.value, capacity, selectedCategory);
 		onClose();
 	};
@@ -65,6 +72,9 @@ const CreateRoomForm = ({ onClose }) => {
 							{...title}
 						/>
 					</FormItem>
+					{(!title.isFilled || (title.value === '' && isEmpty)) && (
+						<FormItem.Error>대제목을 입력해주세요. </FormItem.Error>
+					)}
 					<FormItem>
 						<FormItem.Title>소제목</FormItem.Title>
 						<FormItem.Input
@@ -72,6 +82,9 @@ const CreateRoomForm = ({ onClose }) => {
 							{...subtitle}
 						/>
 					</FormItem>
+					{(!subtitle.isFilled || (subtitle.value === '' && isEmpty)) && (
+						<FormItem.Error>소제목을 입력해주세요.</FormItem.Error>
+					)}
 					<FormItem>
 						<FormItem.Title>참여 인원</FormItem.Title>
 						<FormItem.Select>
@@ -85,7 +98,7 @@ const CreateRoomForm = ({ onClose }) => {
 								</span>
 							</DropdownButton>
 						</FormItem.Select>
-						<FormItem.Description>
+						<FormItem.Description hidden={!capacity && isEmpty}>
 							최대 다섯명까지 함께할 수 있습니다.
 						</FormItem.Description>
 						<DropdownBox isActive={isActive}>
@@ -101,6 +114,9 @@ const CreateRoomForm = ({ onClose }) => {
 							))}
 						</DropdownBox>
 					</FormItem>
+					{!capacity && isEmpty && (
+						<FormItem.Error>참여 인원을 선택해 주세요.</FormItem.Error>
+					)}
 				</FormItem.Box>
 				<SubmitButton clicked={clicked} onClick={handleSubmitButtonClick}>
 					완료
