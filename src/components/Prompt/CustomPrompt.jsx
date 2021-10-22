@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Prompt } from 'react-router-dom';
-import RoomCloseModal from '../RoomCloseModal/RoomCloseModal';
+import RoomCloseModal from '../AlertModal/RoomCloseModal';
 
 const CustomPrompt = ({ match, shouldConfirm, handleLeaveRoom }) => {
 	const [modalOpen, setModalOpen] = useState(false);

@@ -8,9 +8,16 @@ import Dialog from '../components/Dialog/Dialog';
 import LoginForm from '../components/LoginForm/LoginForm';
 import ProfileForm from '../components/ProfileForm/ProfileForm';
 import AuthContext from '../store/auth';
+import RoomContext from '../store/room';
+import AlertModal from '../components/AlertModal/AlertModal';
 
 const MainPage = () => {
 	const { joined, logined } = useContext(AuthContext).state;
+	const { error, setError } = useContext(RoomContext);
+
+	const handleErrorClick = () => {
+		setError(null);
+	};
 
 	return (
 		<>
@@ -34,6 +41,13 @@ const MainPage = () => {
 				<OverlayContainer>
 					<Dialog type="profile_join">
 						<ProfileForm type="join" />
+					</Dialog>
+				</OverlayContainer>
+			)}
+			{error && (
+				<OverlayContainer>
+					<Dialog type="alert">
+						<AlertModal error={error} handleClick={handleErrorClick} />
 					</Dialog>
 				</OverlayContainer>
 			)}

@@ -21,7 +21,7 @@ const RoomProvider = ({ children }) => {
 	const history = useHistory();
 	const [users, setUsers] = useState(null);
 	const [roomInfo, setRoomInfo] = useState(null);
-	const [error, setError] = useState(false);
+	const [error, setError] = useState(null);
 	const [mute, setMute] = useState(false);
 	const [localAudioTrack, setLocalAudioTrack] = useState(null);
 	const { joinChannel, leaveChannel, muteTrack, unmuteTrack } = useAgora();
@@ -75,7 +75,11 @@ const RoomProvider = ({ children }) => {
 			})
 			.catch(err => {
 				console.log(err);
-				setError(true);
+				if (err.response.status === 409)
+					setError(
+						'방이 가득 찼어요! 다른 방에 입장하거나 새로운 방을 만들어주세요. ',
+					);
+				else setError('잠시 후 다시 시도해주세요. ');
 			});
 	};
 
@@ -96,13 +100,17 @@ const RoomProvider = ({ children }) => {
 					},
 				},
 			)
-			.then(res => {
+			.then(async res => {
 				console.log(res);
 				getRoomListData.mutate();
 				enterRoom(res.data.roomId);
-				history.push(`/room/${res.data.roomId}`);
 			})
-			.catch(err => console.log(err));
+			.catch(err => {
+				console.log(err.response);
+				if (err.response.status === 409)
+					setError('이미 사용 중이거나 사용할 수 없는 방 제목이에요');
+				else setError('잠시 후 다시 시도해주세요. ');
+			});
 	};
 
 	const leaveRoom = roomId => {

@@ -8,7 +8,7 @@ import MuteButton from '../components/MuteButton/MuteButton';
 import CustomPrompt from '../components/Prompt/CustomPrompt';
 import RoomContext from '../store/room';
 import { useRoomData } from '../hooks/useRoomData';
-import RoomCloseModal from '../components/RoomCloseModal/RoomCloseModal';
+import RoomCloseModal from '../components/AlertModal/RoomCloseModal';
 import { RoomCloseButtonStyled } from '../components/RoomCloseButton/RoomCloseButton.styles';
 import useAgora from '../hooks/useAgora';
 
